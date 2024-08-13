@@ -2,28 +2,30 @@ name: glowify
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment:
-  sdk: ">=3.2.6 <4.0.0"
+environment: 
+  sdk: '>=3.2.6 <4.0.0'
 
-dependencies:
+dependencies: 
   cupertino_icons: ^1.0.2
   get: 4.6.6
-  flutter:
+  google_fonts: 6.2.1
+  flutter: 
     sdk: flutter
 
-dev_dependencies:
+dev_dependencies: 
   flutter_lints: ^2.0.0
-  flutter_test:
+  flutter_test: 
     sdk: flutter
 
-flutter:
-  assets:
+flutter: 
+  assets: 
     - assets/images/
-  fonts:
+  fonts: 
     - family: Poppins
-      fonts:
+      fonts: 
         - asset: fonts/Poppins-Light.ttf
         - asset: fonts/Poppins-Medium.ttf
         - asset: fonts/Poppins-Regular.ttf
         - asset: fonts/Poppins-SemiBold.ttf
   uses-material-design: true
+
