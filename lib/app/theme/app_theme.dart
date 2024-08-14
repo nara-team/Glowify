@@ -16,6 +16,11 @@ class AppTheme {
   }
 }
 
+// img path
+String imgPath(String fileName) {
+  return 'assets/images/$fileName';
+}
+
 const double tinySize = 10;
 const double smallSize = 12;
 const double regularSize = 14;

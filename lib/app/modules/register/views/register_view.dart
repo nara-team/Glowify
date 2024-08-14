@@ -84,6 +84,7 @@ class RegisterView extends GetView<RegisterController> {
                               fontSize: smallSize, color: primaryColor),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
+                              Get.offNamed('/login');
                               print('klik masuk');
                             })
                     ])),

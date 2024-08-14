@@ -12,6 +12,7 @@ class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(LoginController());
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -81,6 +82,7 @@ class LoginView extends GetView<LoginController> {
                               fontSize: smallSize, color: primaryColor),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
+                              Get.offNamed('/register');
                               print('klik daftar');
                             })
                     ])),
