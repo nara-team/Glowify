@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:ionicons/ionicons.dart';
 
 class NameTf extends StatelessWidget {
   final TextEditingController controller;
@@ -216,7 +217,9 @@ class _PassTfState extends State<PassTf> {
               hintText: 'Masukkan Kata Sandimu',
               suffixIcon: IconButton(
                 icon: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  _obscureText
+                      ? Ionicons.eye_off_outline
+                      : Ionicons.eye_outline,
                   color: abuMedColor,
                 ),
                 onPressed: _togglePasswordVisibility,
