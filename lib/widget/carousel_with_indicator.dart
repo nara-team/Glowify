@@ -12,28 +12,47 @@ class CarouselWithIndicator extends StatefulWidget {
 class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   int _current = 0;
   final List<Widget> _imageSliders = [
-    Container(
-      height: 150,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/banner_home.png"),
+    InkWell(
+      child: Container(
+        height: 150,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/banner_home.png"),
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
+      onTap: () {
+        debugPrint("route test");
+      },
     ),
-    Container(
-      height: 150,
-      decoration: const BoxDecoration(
-        color: primaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+    InkWell(
+      child: Container(
+        height: 150,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/banner_home.png"),
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
       ),
+      onTap: () {
+        debugPrint("route test");
+      },
     ),
-    Container(
-      height: 150,
-      decoration: const BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+    InkWell(
+      child: Container(
+        height: 150,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/banner_home.png"),
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
       ),
+      onTap: () {
+        debugPrint("route test");
+      },
     ),
   ];
 
