@@ -33,6 +33,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  card_slider:
+    dependency: "direct main"
+    description:
+      name: card_slider
+      sha256: "3d8db347a7cb3ac3f30f4169d74282d0976f42de2615d4ca4c0038dd3e56646b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
+  carousel_slider:
+    dependency: "direct main"
+    description:
+      name: carousel_slider
+      sha256: "7b006ec356205054af5beaef62e2221160ea36b90fb70a35e4deacd49d0349ae"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   characters:
     dependency: transitive
     description:
