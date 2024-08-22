@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 
 class CarouselWithIndicator extends StatefulWidget {
-  const CarouselWithIndicator({super.key});
+  final List<Map<String, dynamic>> images;
+
+  const CarouselWithIndicator({super.key, required this.images});
 
   @override
   _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
@@ -11,53 +14,31 @@ class CarouselWithIndicator extends StatefulWidget {
 
 class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   int _current = 0;
-  final List<Widget> _imageSliders = [
-    InkWell(
-      child: Container(
-        height: 150,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/banner_home.png"),
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-      ),
-      onTap: () {
-        debugPrint("route test");
-      },
-    ),
-    InkWell(
-      child: Container(
-        height: 150,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/banner_home.png"),
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-      ),
-      onTap: () {
-        debugPrint("route test");
-      },
-    ),
-    InkWell(
-      child: Container(
-        height: 150,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/banner_home.png"),
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-      ),
-      onTap: () {
-        debugPrint("route test");
-      },
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _imageSliders = widget.images.map((imageData) {
+      return InkWell(
+        child: Container(
+          height: 150,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(imageData["iconPath"]),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+          ),
+        ),
+        onTap: () {
+          if (imageData["route"].isNotEmpty) {
+            Get.toNamed(imageData["route"]);
+          } else {
+            debugPrint("route test");
+          }
+        },
+      );
+    }).toList();
+
     return Column(
       children: [
         CarouselSlider(
@@ -85,9 +66,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: (Theme.of(context).brightness == Brightness.dark
-                          ? whiteBackground1Color
+                          ? primaryColor
                           : primaryColor)
-                      .withOpacity(_current == entry.key ? 0.8 : 0.2),
+                      .withOpacity(_current == entry.key ? 0.9 : 0.2),
                 ),
               ),
             );
