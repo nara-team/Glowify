@@ -12,6 +12,9 @@ abstract class Routes {
   static const RIWAYAT = _Paths.RIWAYAT;
   static const BERITA = _Paths.BERITA;
   static const PROFIL = _Paths.PROFIL;
+  static const CHAT = _Paths.CHAT;
+  static const TUTORIAL = _Paths.TUTORIAL;
+  static const FACE_DETECTION = _Paths.FACE_DETECTION;
 }
 
 abstract class _Paths {
@@ -25,4 +28,7 @@ abstract class _Paths {
   static const RIWAYAT = '/riwayat';
   static const BERITA = '/berita';
   static const PROFIL = '/profil';
+  static const CHAT = '/chat';
+  static const TUTORIAL = '/tutorial';
+  static const FACE_DETECTION = '/face-detection';
 }

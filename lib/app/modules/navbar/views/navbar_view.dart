@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/views/beranda_view.dart';
 import 'package:glowify/app/modules/berita/views/berita_view.dart';
+import 'package:glowify/app/modules/chat/views/chat_view.dart';
 import 'package:glowify/app/modules/profil/views/profil_view.dart';
 import 'package:glowify/app/modules/riwayat/views/riwayat_view.dart';
+import 'package:glowify/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:ionicons/ionicons.dart';
@@ -21,8 +23,8 @@ class NavbarView extends GetView<NavbarController> {
               index: controller.tabIndex.value,
               children: const [
                 BerandaView(),
-                RiwayatView(),
-                BeritaView(),
+                ChatView(),
+                TutorialView(),
                 ProfilView(),
               ],
             )),
@@ -44,14 +46,14 @@ class NavbarView extends GetView<NavbarController> {
                 label: 'Beranda',
               ),
               _bottomNavigationBarItem(
-                activeIcon: Ionicons.clipboard,
-                icon: Ionicons.clipboard_outline,
-                label: 'Riwayat',
+                activeIcon: Ionicons.chatbox_ellipses,
+                icon: Ionicons.chatbox_ellipses_outline,
+                label: 'Pesan',
               ),
               _bottomNavigationBarItem(
                 activeIcon: Ionicons.newspaper,
                 icon: Ionicons.newspaper_outline,
-                label: 'Berita',
+                label: 'Tutorial',
               ),
               _bottomNavigationBarItem(
                 activeIcon: Ionicons.person,

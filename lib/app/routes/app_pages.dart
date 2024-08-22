@@ -4,6 +4,10 @@ import '../modules/beranda/bindings/beranda_binding.dart';
 import '../modules/beranda/views/beranda_view.dart';
 import '../modules/berita/bindings/berita_binding.dart';
 import '../modules/berita/views/berita_view.dart';
+import '../modules/chat/bindings/chat_binding.dart';
+import '../modules/chat/views/chat_view.dart';
+import '../modules/face_detection/bindings/face_detection_binding.dart';
+import '../modules/face_detection/views/face_detection_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -18,6 +22,8 @@ import '../modules/riwayat/bindings/riwayat_binding.dart';
 import '../modules/riwayat/views/riwayat_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
+import '../modules/tutorial/bindings/tutorial_binding.dart';
+import '../modules/tutorial/views/tutorial_view.dart';
 
 part 'app_routes.dart';
 
@@ -71,6 +77,21 @@ class AppPages {
       name: _Paths.PROFIL,
       page: () => const ProfilView(),
       binding: ProfilBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT,
+      page: () => const ChatView(),
+      binding: ChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.TUTORIAL,
+      page: () => const TutorialView(),
+      binding: TutorialBinding(),
+    ),
+    GetPage(
+      name: _Paths.FACE_DETECTION,
+      page: () => const FaceDetectionView(),
+      binding: FaceDetectionBinding(),
     ),
   ];
 }
