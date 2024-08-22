@@ -8,29 +8,12 @@ import 'package:glowify/widget/card_image_information.dart';
 import 'package:glowify/widget/carousel_with_indicator.dart';
 import 'package:glowify/widget/featurebutton.dart';
 
-final List<Map<String, dynamic>> fetureDraft = [
-  {
-    "route": "",
-    "iconPath": "assets/images/stethoscope.png",
-    "caption": "Konsultasi\nDoctor",
-  },
-  {
-    "route": "",
-    "iconPath": "assets/images/face-recognition.png",
-    "caption": "Deteksi\nKesehatan Wajah",
-  },
-  {
-    "route": "",
-    "iconPath": "assets/images/klinik.png",
-    "caption": "Booking Klinik\nKecantikan",
-  }
-].obs;
-
 class BerandaView extends GetView<BerandaController> {
   const BerandaView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut<BerandaController>(() => BerandaController());
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -50,19 +33,16 @@ class BerandaView extends GetView<BerandaController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         "Nama Pengguna",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          color: whiteBackground2Color,
-                        ),
+                        style: medium.copyWith(
+                            fontSize: largeSize, color: Colors.white),
                       ),
                       IconButton(
                         onPressed: () {},
                         icon: const Icon(
                           Icons.notifications_none_outlined,
-                          size: 34,
+                          size: 30,
                           color: whiteBackground2Color,
                         ),
                       ),
@@ -78,15 +58,18 @@ class BerandaView extends GetView<BerandaController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Feature"),
-                    const SizedBox(height: 20),
+                    Text(
+                      "Feature",
+                      style: semiBold.copyWith(fontSize: mediumSize),
+                    ),
+                    const SizedBox(height: 10),
                     Obx(() {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: fetureDraft.map((feature) {
+                        children: controller.fetureDraft.map((feature) {
                           return FeatureButton(
                             pathIcon: feature["iconPath"],
-                            featureColor: primaryColor,
+                            featureColor: const Color(0xFFf6d5d8),
                             titleBtn: feature["caption"],
                             tekan: () {
                               if (feature["route"].isNotEmpty) {
@@ -103,16 +86,20 @@ class BerandaView extends GetView<BerandaController> {
                       );
                     }),
                     const SizedBox(height: 30),
-                    const Text("Trending Tutorial"),
-                    const SizedBox(height: 30),
+                    Text(
+                      "Trending Tutorial",
+                      style: semiBold.copyWith(fontSize: mediumSize),
+                    ),
+                    const SizedBox(height: 10),
                     SizedBox(
                       height: 180,
-                      child: ListView(
+                      child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        clipBehavior: Clip.none,
-                        children: List.generate(
-                          10,
-                          (index) => CardImageInformation(index: index),
+                        child: Row(
+                          children: List.generate(
+                            10,
+                            (index) => CardImageInformation(index: index),
+                          ),
                         ),
                       ),
                     ),

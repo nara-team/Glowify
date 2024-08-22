@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 
 class FeatureButton extends StatelessWidget {
   final String pathIcon;
@@ -37,6 +38,7 @@ class FeatureButton extends StatelessWidget {
         Text(
           titleBtn,
           textAlign: TextAlign.center,
+          style: regular.copyWith(fontSize: regularSize),
         ),
       ],
     );

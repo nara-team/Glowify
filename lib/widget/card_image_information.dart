@@ -40,13 +40,9 @@ class CardImageInformation extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8.0),
-          const Text(
+          Text(
             'Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit',
-            style: TextStyle(
-              color: blackColor,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
+            style: regular.copyWith(fontSize: regularSize),
             textAlign: TextAlign.justify,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
