@@ -12,18 +12,18 @@ class ChatView extends GetView<ChatController> {
 
   @override
   Widget build(BuildContext context) {
-    return const SearchView();
+    return const ChatPage();
   }
 }
 
-class SearchView extends StatefulWidget {
-  const SearchView({super.key});
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
 
   @override
-  State<SearchView> createState() => _SearchViewState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _SearchViewState extends State<SearchView> {
+class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     final ChatController controller = Get.put(ChatController());
