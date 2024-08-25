@@ -14,6 +14,8 @@ dependencies:
   ionicons: 0.2.2
   card_slider: 1.0.5
   carousel_slider: 5.0.0
+  image_picker: ^0.8.7
+  tflite: ^1.1.2
   flutter: 
     sdk: flutter
 
@@ -25,6 +27,8 @@ dev_dependencies:
 flutter: 
   assets: 
     - assets/images/
+    - assets/face_health_detection/model.tflite
+    - assets/face_health_detection/labels.txt
   fonts: 
     - family: Poppins
       fonts: 
