@@ -1,23 +1,25 @@
 import 'package:get/get.dart';
+import 'package:faker/faker.dart';
 
 class ProfilController extends GetxController {
-  //TODO: Implement ProfilController
+  final faker = Faker();
 
-  final count = 0.obs;
+  final RxString name = ''.obs;
+  final RxString email = ''.obs;
+  final RxString imageUrl = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
+    generateFakeData();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void generateFakeData() {
+    name.value = faker.person.name();
+    email.value = faker.internet.email();
+    imageUrl.value = faker.image.loremPicsum(
+      width: 100,
+      height: 100,
+    );
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:glowify/app/modules/profil/controllers/profil_controller.dart';
 import 'package:glowify/app/modules/tutorial/controllers/tutorial_controller.dart';
 
 class NavbarController extends GetxController {
@@ -8,6 +9,7 @@ class NavbarController extends GetxController {
   void onInit() {
     super.onInit();
     Get.lazyPut<TutorialController>(() => TutorialController());
+    Get.lazyPut<ProfilController>(() => ProfilController());
   }
 
   void changeTabIndex(int index) {
