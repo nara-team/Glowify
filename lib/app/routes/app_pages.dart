@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 
 import '../modules/beranda/bindings/beranda_binding.dart';
 import '../modules/beranda/views/beranda_view.dart';
-import '../modules/berita/bindings/berita_binding.dart';
-import '../modules/berita/views/berita_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
 import '../modules/face_detection/bindings/face_detection_binding.dart';
@@ -67,12 +65,7 @@ class AppPages {
       name: _Paths.RIWAYAT,
       page: () => const RiwayatView(),
       binding: RiwayatBinding(),
-    ),
-    GetPage(
-      name: _Paths.BERITA,
-      page: () => const BeritaView(),
-      binding: BeritaBinding(),
-    ),
+    ),    
     GetPage(
       name: _Paths.PROFIL,
       page: () => const ProfilView(),
