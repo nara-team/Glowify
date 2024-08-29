@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +12,6 @@ class RegisterController extends GetxController {
   final RxString passwordError = ''.obs;
   final RxString fullNameError = ''.obs;
 
-  var isRegistering = false.obs;
   RxBool isLoading = false.obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -58,7 +58,14 @@ class RegisterController extends GetxController {
           password: passwordController.text,
         );
 
-        // After successful registration, navigate to the login page
+        // Simpan data user ke Firestore
+        await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+          'fullName': fullNameController.text,
+          'email': emailController.text,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
+        // Setelah pendaftaran sukses, arahkan ke halaman login
         Get.offAllNamed('/login');
       } on FirebaseAuthException catch (e) {
         Get.snackbar('Register Failed', e.message ?? 'Unknown error');

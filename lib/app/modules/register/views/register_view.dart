@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import '../controllers/register_controller.dart';
-import '../../../../widget/EmailTf.dart';  // Ensure these imports are correct
-import '../../../../widget/passTf.dart';    // Ensure these imports are correct
-import '../../../../widget/BtnLogin.dart';  // Ensure these imports are correct
+import '../../../../widget/EmailTf.dart';
+import '../../../../widget/passTf.dart';
+import '../../../../widget/BtnLogin.dart';
 
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(RegisterController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -22,15 +23,15 @@ class RegisterView extends GetView<RegisterController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Silahkan mengisi informasi berikut untuk mendaftar.',
+              'Silahkan mengisi data diri Anda untuk mendaftar.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
-            TextField(
+            TextFormField(
               controller: controller.fullNameController,
               decoration: InputDecoration(
                 labelText: 'Nama Lengkap',
-                errorText: controller.fullNameError.value.isNotEmpty ? controller.fullNameError.value : null,
+                errorText: controller.fullNameError.value.isEmpty ? null : controller.fullNameError.value,
               ),
             ),
             const SizedBox(height: 18),
@@ -43,7 +44,7 @@ class RegisterView extends GetView<RegisterController> {
               controller: controller.passwordController,
               error: controller.passwordError,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             BtnLogin(
               btnText: 'Register',
               onPressed: () => controller.register(),

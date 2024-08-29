@@ -43,9 +43,8 @@ class BtnLogin extends StatelessWidget {
                     )
                   : Text(
                       btnText,
-                      style: const TextStyle(
+                      style: medium.copyWith(
                         color: Colors.white,
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
             ),

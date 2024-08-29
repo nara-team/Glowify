@@ -51,8 +51,8 @@ class LoginController extends GetxController {
           password: passwordController.text,
         );
 
-        // Setelah login sukses, arahkan ke halaman home
-        Get.offAllNamed('/home');
+        // Setelah login sukses, arahkan ke halaman beranda
+        Get.offAllNamed('/navbar');
       } on FirebaseAuthException catch (e) {
         Get.snackbar('Login Failed', e.message ?? 'Unknown error');
       } finally {
@@ -81,7 +81,8 @@ class LoginController extends GetxController {
         'createdAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
 
-      Get.offAllNamed('/home');
+      // Setelah login sukses, arahkan ke halaman beranda
+      Get.offAllNamed('/navbar');
     } catch (e) {
       Get.snackbar('Google Sign-In Failed', e.toString());
     } finally {
