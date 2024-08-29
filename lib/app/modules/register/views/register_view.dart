@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
-import '../controllers/login_controller.dart';
-import '../../../../widget/EmailTf.dart';
-import '../../../../widget/passTf.dart';
-import '../../../../widget/BtnLogin.dart';
+import '../controllers/register_controller.dart';
+import '../../../../widget/EmailTf.dart';  // Ensure these imports are correct
+import '../../../../widget/passTf.dart';    // Ensure these imports are correct
+import '../../../../widget/BtnLogin.dart';  // Ensure these imports are correct
 
-class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+class RegisterView extends GetView<RegisterController> {
+  const RegisterView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Register', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Padding(
@@ -22,10 +22,18 @@ class LoginView extends GetView<LoginController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Silahkan mengisi email dan password yang sudah terdaftar.',
+              'Silahkan mengisi informasi berikut untuk mendaftar.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
+            TextField(
+              controller: controller.fullNameController,
+              decoration: InputDecoration(
+                labelText: 'Nama Lengkap',
+                errorText: controller.fullNameError.value.isNotEmpty ? controller.fullNameError.value : null,
+              ),
+            ),
+            const SizedBox(height: 18),
             EmailTf(
               controller: controller.emailController,
               error: controller.emailError,
@@ -35,38 +43,23 @@ class LoginView extends GetView<LoginController> {
               controller: controller.passwordController,
               error: controller.passwordError,
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 1, bottom: 30),
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () => print('Lupa kata sandi'),
-                child: Text('Lupa kata sandi?', style: TextStyle(fontSize: 14)),
-              ),
-            ),
+            const SizedBox(height: 20),
             BtnLogin(
-              btnText: 'Login',
-              onPressed: () => controller.login(),
+              btnText: 'Register',
+              onPressed: () => controller.register(),
               isLoading: controller.isLoading,
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.login),
-                label: const Text('Login with Google'),
-                onPressed: () => controller.loginWithGoogle(),
-              ),
             ),
             const SizedBox(height: 10),
             Center(
               child: RichText(
                 text: TextSpan(
-                  text: 'Belum punya akun?',
+                  text: 'Sudah punya akun?',
                   style: TextStyle(fontSize: 14, color: Colors.black),
                   children: [
                     TextSpan(
-                      text: ' Daftar Sekarang',
+                      text: ' Login Sekarang',
                       style: TextStyle(fontSize: 14, color: Colors.blue),
-                      recognizer: TapGestureRecognizer()..onTap = () => Get.toNamed('/register'),
+                      recognizer: TapGestureRecognizer()..onTap = () => Get.toNamed('/login'),
                     ),
                   ],
                 ),
