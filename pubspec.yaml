@@ -16,6 +16,11 @@ dependencies:
   faker: ^2.2.0
   flutter: 
     sdk: flutter
+  flutter_dotenv: ^5.1.0
+  gap: ^3.0.1
+  get: 4.6.6
+  google_fonts: 6.2.1
+  ionicons: 0.2.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -33,6 +38,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - core/.env.dev
     - assets/face_health_detection/model.tflite
     - assets/face_health_detection/labels.txt
   fonts: 
