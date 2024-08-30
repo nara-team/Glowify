@@ -1,6 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class BerandaController extends GetxController {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  var userName = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserName();
+  }
+
+  void fetchUserName() async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      userName.value = userDoc['fullName'] ?? 'No Name';
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load user data');
+    }
+  }
+
+  void logout() async {
+    try {
+      await _auth.signOut();
+      Get.offAllNamed('/login');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to logout');
+    }
+  }
+
   final List<Map<String, dynamic>> fetureDraftModel = [
     {
       "route": "",
