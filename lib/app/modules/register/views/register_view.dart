@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import '../controllers/register_controller.dart';
-import '../../../../widget/EmailTf.dart';  // Ensure these imports are correct
-import '../../../../widget/passTf.dart';    // Ensure these imports are correct
-import '../../../../widget/BtnLogin.dart';  // Ensure these imports are correct
+import '../../../../widget/EmailTf.dart'; // Ensure these imports are correct
+import '../../../../widget/passTf.dart'; // Ensure these imports are correct
+import '../../../../widget/BtnLogin.dart'; // Ensure these imports are correct
 
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({Key? key}) : super(key: key);
@@ -13,7 +13,8 @@ class RegisterView extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Register',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Padding(
@@ -21,7 +22,7 @@ class RegisterView extends GetView<RegisterController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Silahkan mengisi informasi berikut untuk mendaftar.',
               style: TextStyle(fontSize: 16),
             ),
@@ -30,7 +31,9 @@ class RegisterView extends GetView<RegisterController> {
               controller: controller.fullNameController,
               decoration: InputDecoration(
                 labelText: 'Nama Lengkap',
-                errorText: controller.fullNameError.value.isNotEmpty ? controller.fullNameError.value : null,
+                errorText: controller.fullNameError.value.isNotEmpty
+                    ? controller.fullNameError.value
+                    : null,
               ),
             ),
             const SizedBox(height: 18),
@@ -54,12 +57,13 @@ class RegisterView extends GetView<RegisterController> {
               child: RichText(
                 text: TextSpan(
                   text: 'Sudah punya akun?',
-                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  style: const TextStyle(fontSize: 14, color: Colors.black),
                   children: [
                     TextSpan(
                       text: ' Login Sekarang',
-                      style: TextStyle(fontSize: 14, color: Colors.blue),
-                      recognizer: TapGestureRecognizer()..onTap = () => Get.toNamed('/login'),
+                      style: const TextStyle(fontSize: 14, color: Colors.blue),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => Get.offNamed('/login'),
                     ),
                   ],
                 ),

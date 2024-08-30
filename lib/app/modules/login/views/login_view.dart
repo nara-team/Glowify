@@ -13,7 +13,8 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: const Text('Login',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Padding(
@@ -21,7 +22,7 @@ class LoginView extends GetView<LoginController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Silahkan mengisi email dan password yang sudah terdaftar.',
               style: TextStyle(fontSize: 16),
             ),
@@ -40,7 +41,8 @@ class LoginView extends GetView<LoginController> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () => print('Lupa kata sandi'),
-                child: Text('Lupa kata sandi?', style: TextStyle(fontSize: 14)),
+                child: const Text('Lupa kata sandi?',
+                    style: TextStyle(fontSize: 14)),
               ),
             ),
             BtnLogin(
@@ -61,13 +63,14 @@ class LoginView extends GetView<LoginController> {
               child: RichText(
                 text: TextSpan(
                   text: 'Belum punya akun?',
-                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  style: const TextStyle(fontSize: 14, color: Colors.black),
                   children: [
                     TextSpan(
-                      text: ' Daftar Sekarang',
-                      style: TextStyle(fontSize: 14, color: Colors.blue),
-                      recognizer: TapGestureRecognizer()..onTap = () => Get.toNamed('/register'),
-                    ),
+                        text: ' Daftar Sekarang',
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.offNamed('/register')),
                   ],
                 ),
               ),
