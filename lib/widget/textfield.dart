@@ -1,7 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:ionicons/ionicons.dart';
+
+class NameTf extends StatelessWidget {
+  final TextEditingController controller;
+  final RxString error;
+
+  const NameTf({super.key, required this.controller, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Nama',
+          style: medium.copyWith(fontSize: 14, color: abuDarkColor),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Container(
+          height: 45,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: abuLightColor),
+          ),
+          child: TextField(
+            controller: controller,
+            autocorrect: false,
+            style: regular.copyWith(
+              fontSize: 14,
+              color: abuDarkColor,
+            ),
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+                hintText: 'Masukkan Nama'),
+          ),
+        ),
+        Obx(() => error.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  error.value,
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
+            : const SizedBox.shrink()),
+      ],
+    );
+  }
+}
+
+class NotelpTf extends StatelessWidget {
+  final TextEditingController controller;
+  final RxString error;
+
+  const NotelpTf({super.key, required this.controller, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Nomor Telepon',
+          style: medium.copyWith(fontSize: 14, color: abuDarkColor),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Container(
+          height: 45,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: abuLightColor),
+          ),
+          child: TextField(
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            maxLength: 12,
+            controller: controller,
+            autocorrect: false,
+            style: regular.copyWith(
+              fontSize: 14,
+              color: abuDarkColor,
+            ),
+            decoration: const InputDecoration(
+                counterText: '',
+                border: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+                hintText: 'Masukkan Nomor Telepon'),
+          ),
+        ),
+        Obx(() => error.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  error.value,
+                  style: const TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              )
+            : const SizedBox.shrink()),
+      ],
+    );
+  }
+}
 
 class EmailTf extends StatelessWidget {
   final TextEditingController controller;
@@ -107,7 +217,9 @@ class _PassTfState extends State<PassTf> {
               hintText: 'Masukkan Kata Sandimu',
               suffixIcon: IconButton(
                 icon: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  _obscureText
+                      ? Ionicons.eye_off_outline
+                      : Ionicons.eye_outline,
                   color: abuMedColor,
                 ),
                 onPressed: _togglePasswordVisibility,

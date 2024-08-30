@@ -11,7 +11,7 @@ void main() async {
 
   // Cek apakah user sudah login
   User? user = FirebaseAuth.instance.currentUser;
-  String initialRoute = user == null ? AppPages.INITIAL : '/home';
+  String initialRoute = user == null ? Routes.LOGIN : Routes.NAVBAR;
 
   runApp(
     GetMaterialApp(

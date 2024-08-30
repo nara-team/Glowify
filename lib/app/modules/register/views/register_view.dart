@@ -6,11 +6,13 @@ import '../../../../widget/EmailTf.dart'; // Ensure these imports are correct
 import '../../../../widget/passTf.dart'; // Ensure these imports are correct
 import '../../../../widget/BtnLogin.dart'; // Ensure these imports are correct
 
+
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(RegisterController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register',
@@ -24,10 +26,11 @@ class RegisterView extends GetView<RegisterController> {
           children: [
             const Text(
               'Silahkan mengisi informasi berikut untuk mendaftar.',
+
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
-            TextField(
+            TextFormField(
               controller: controller.fullNameController,
               decoration: InputDecoration(
                 labelText: 'Nama Lengkap',
@@ -46,7 +49,7 @@ class RegisterView extends GetView<RegisterController> {
               controller: controller.passwordController,
               error: controller.passwordError,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             BtnLogin(
               btnText: 'Register',
               onPressed: () => controller.register(),

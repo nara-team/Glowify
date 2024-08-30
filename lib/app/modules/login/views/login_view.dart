@@ -11,6 +11,7 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(LoginController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login',
