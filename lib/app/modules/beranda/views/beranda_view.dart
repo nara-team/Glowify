@@ -33,15 +33,19 @@ class BerandaView extends GetView<BerandaController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Nama Pengguna",
-                      style: medium.copyWith(
-                          fontSize: largeSize, color: whiteBackground1Color),
-                    ),
+                    Obx(() => Text(
+                          controller.userName.value.isNotEmpty
+                              ? controller.userName.value
+                              : "Nama Pengguna",
+                          style: medium.copyWith(
+                              fontSize: largeSize, color: whiteBackground1Color),
+                        )),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.logout();
+                      },
                       icon: const Icon(
-                        Icons.notifications_none_outlined,
+                        Icons.logout,
                         size: 30,
                         color: whiteBackground2Color,
                       ),

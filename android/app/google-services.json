@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "180686202590",
+    "project_id": "glowifyapp-9bf8d",
+    "storage_bucket": "glowifyapp-9bf8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180686202590:android:0de2b32251855c61abc44f",
+        "android_client_info": {
+          "package_name": "com.example.glowify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180686202590-t0802rf6qptu4817kfuca37rg457rbd3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.glowify",
+            "certificate_hash": "9c02472be8baaea6197d1a311aec87b8c56ca12b"
+          }
+        },
+        {
+          "client_id": "180686202590-tsnusgsejpbk8nobp71v4ahn67joql2k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZGTmFzVbTj2JtfACRUR40n9UY6uKgY5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180686202590-tsnusgsejpbk8nobp71v4ahn67joql2k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
