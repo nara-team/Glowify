@@ -8,6 +8,110 @@ import '../controllers/profil_controller.dart';
 class ProfilView extends GetView<ProfilController> {
   const ProfilView({Key? key}) : super(key: key);
 
+  void _openEditDialog(BuildContext context) {
+    final nameController = TextEditingController(text: controller.name.value);
+    final emailController = TextEditingController(text: controller.email.value);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Edit Profile',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    controller.pickImageAndEditProfile(nameController.text, emailController.text);
+                  },
+                  child: Obx(
+                    () => CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(controller.imageUrl.value),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Change Profile Image',
+                  style: TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: const Icon(Icons.person),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: const Icon(Icons.email),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.redAccent,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                controller.updateProfile(newName: nameController.text, newEmail: emailController.text);
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'Save',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +128,7 @@ class ProfilView extends GetView<ProfilController> {
                     size: 33,
                     color: blackColor,
                   ),
-                  onPressed: () {},
+                  onPressed: () => _openEditDialog(context),
                 ),
               ),
               const SizedBox(height: 20),
@@ -32,8 +136,7 @@ class ProfilView extends GetView<ProfilController> {
                 children: [
                   Obx(() => CircleAvatar(
                         radius: 50,
-                        backgroundImage:
-                            NetworkImage(controller.imageUrl.value),
+                        backgroundImage: NetworkImage(controller.imageUrl.value),
                       )),
                   const SizedBox(height: 16),
                   Obx(() => Text(
