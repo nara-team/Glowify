@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:faker/faker.dart';
 
 class ProfilController extends GetxController {
-  final faker = Faker();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final RxString name = ''.obs;
   final RxString email = ''.obs;
@@ -11,15 +12,28 @@ class ProfilController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    generateFakeData();
+    fetchUserData();
   }
 
-  void generateFakeData() {
-    name.value = faker.person.name();
-    email.value = faker.internet.email();
-    imageUrl.value = faker.image.loremPicsum(
-      width: 100,
-      height: 100,
-    );
+  void fetchUserData() async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      name.value = userDoc['fullName'] ?? 'No Name';
+      email.value = userDoc['email'] ?? 'No Email';
+      // Assuming user photo URL is stored in Firestore
+      imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load user data');
+    }
+  }
+
+  void logout() async {
+    try {
+      await _auth.signOut();
+      Get.offAllNamed('/login');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to logout');
+    }
   }
 }

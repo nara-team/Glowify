@@ -1,48 +1,46 @@
 import 'package:get/get.dart';
-import 'package:glowify/data/models/news_article.dart';
-import 'package:glowify/data/provider/news_provider.dart';
 
 class TutorialController extends GetxController {
-  final NewsProvider newsProvider = NewsProvider();
+  // Example categories
+  final categories = <String>[
+    'Skincare',
+    'Makeup',
+    'Hair Care',
+    'Body Care',
+    'Nail Art'
+  ].obs;
 
-  var allNewsArticles =
-      <NewsArticle>[]; // To store all articles loaded from API
-  var newsArticles = <NewsArticle>[].obs; // To store filtered articles
-  var isLoading = true.obs;
-  var errorMessage = ''.obs;
+  // Currently selected category
+  final selectedCategory = ''.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchNewsArticles(); // Load initial news articles
-  }
+  // Dummy loading state
+  final isLoading = false.obs;
 
-  Future<void> fetchNewsArticles() async {
-    try {
-      isLoading(true);
-      errorMessage(''); // Clear any previous error messages
-      final articles = await newsProvider.fetchNewsArticles();
-      allNewsArticles = articles; // Store all articles
-      newsArticles.assignAll(articles); // Initially, all articles are shown
-    } catch (e) {
-      errorMessage('Failed to load news: $e');
-    } finally {
-      isLoading(false);
-    }
-  }
+  // Dummy error message
+  final errorMessage = ''.obs;
 
+  // Dummy data for news articles
+  final newsArticles = <Article>[
+    Article(title: 'Cara Memutihkan Kulit dengan Aman'),
+    Article(title: 'Teknik Makeup untuk Pemula'),
+    Article(title: 'Tips Merawat Rambut Agar Tidak Rontok'),
+    Article(title: 'Panduan Skincare untuk Kulit Berminyak'),
+    Article(title: 'Cara Membuat Nail Art yang Sederhana'),
+    Article(title: 'Produk Skincare yang Wajib Dimiliki'),
+    Article(title: 'Teknik Membentuk Alis yang Tepat'),
+    Article(title: 'Cara Mencegah Jerawat dengan Skincare'),
+    Article(title: 'Tips Memilih Foundation Sesuai Warna Kulit'),
+    Article(title: 'Perawatan Tubuh untuk Kulit Lebih Cerah'),
+  ].obs;
+
+  // Function to search for news
   void searchNews(String query) {
-    if (query.isEmpty) {
-      newsArticles.assignAll(
-          allNewsArticles); // Reset to all articles if query is empty
-    } else {
-      newsArticles.assignAll(allNewsArticles
-          .where((article) =>
-              article.title.toLowerCase().contains(query.toLowerCase()))
-          .toList());
-    }
+    // Implement search logic here
   }
 }
 
-final List<String> categories = ['Komedo', 'Jerawat', 'Kulit', 'Kutil', '10 +'];
-final RxString selectedCategory = 'Komedo'.obs;
+class Article {
+  final String title;
+
+  Article({required this.title});
+}

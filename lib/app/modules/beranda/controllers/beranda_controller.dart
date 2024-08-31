@@ -23,15 +23,6 @@ class BerandaController extends GetxController {
     }
   }
 
-  void logout() async {
-    try {
-      await _auth.signOut();
-      Get.offAllNamed('/login');
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to logout');
-    }
-  }
-
   final List<Map<String, dynamic>> fetureDraftModel = [
     {
       "route": "",
@@ -68,28 +59,18 @@ class BerandaController extends GetxController {
   final List<Map<String, dynamic>> trendingTutorialModel = [
     {
       "route": "",
-      "iconPath": "assets/images/banner_home.png",
+      "iconPath": "assets/images/card_information_tutorial_sample.png",
       "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
     },
     {
       "route": "",
-      "iconPath": "assets/images/banner_home.png",
+      "iconPath": "assets/images/card_information_tutorial_sample.png",
       "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
     },
     {
       "route": "",
-      "iconPath": "assets/images/banner_home.png",
+      "iconPath": "assets/images/card_information_tutorial_sample.png",
       "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
-    {
-      "route": "",
-      "iconPath": "assets/images/banner_home.png",
-      "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
-    {
-      "route": "",
-      "iconPath": "assets/images/banner_home.png",
-      "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
+    }
   ].obs;
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/views/beranda_view.dart';
 import 'package:glowify/app/modules/chat/views/chat_view.dart';

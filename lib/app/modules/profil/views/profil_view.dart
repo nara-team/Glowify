@@ -89,25 +89,28 @@ class ProfilView extends GetView<ProfilController> {
               const SizedBox(height: 30),
               Expanded(
                 child: ListView(
-                  children: const [
-                    SettingList(
+                  children: [
+                    const SettingList(
                       icon: Icons.history,
                       title: 'Riwayat',
                     ),
                     Divider(),
-                    SettingList(
+                    const SettingList(
                       icon: Icons.security,
                       title: 'Keamanan',
                     ),
                     Divider(),
-                    SettingList(
+                    const SettingList(
                       icon: Icons.help_center,
                       title: 'Pusat bantuan',
                     ),
                     Divider(),
-                    SettingList(
-                      icon: Icons.exit_to_app,
-                      title: 'Keluar',
+                    ListTile(
+                      leading: const Icon(Icons.exit_to_app),
+                      title: const Text('Keluar'),
+                      onTap: () {
+                        controller.logout();
+                      },
                     ),
                   ],
                 ),
