@@ -13,6 +13,8 @@ abstract class Routes {
   static const CHAT = _Paths.CHAT;
   static const TUTORIAL = _Paths.TUTORIAL;
   static const FACE_DETECTION = _Paths.FACE_DETECTION;
+  static const BOOKING = _Paths.BOOKING;
+  static const BOOKINGDETAIL = _Paths.BOOKINGDETAIL;
 }
 
 abstract class _Paths {
@@ -28,4 +30,6 @@ abstract class _Paths {
   static const CHAT = '/chat';
   static const TUTORIAL = '/tutorial';
   static const FACE_DETECTION = '/face-detection';
+  static const BOOKING = '/booking';
+  static const BOOKINGDETAIL = '/bookingdetail';
 }

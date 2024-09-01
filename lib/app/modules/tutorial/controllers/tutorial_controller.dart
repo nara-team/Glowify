@@ -1,46 +1,52 @@
 import 'package:get/get.dart';
+import 'package:glowify/data/models/news_article.dart';
+import 'package:glowify/data/provider/news_provider.dart';
 
 class TutorialController extends GetxController {
-  // Example categories
-  final categories = <String>[
-    'Skincare',
-    'Makeup',
-    'Hair Care',
-    'Body Care',
-    'Nail Art'
-  ].obs;
+  final NewsProvider newsProvider = NewsProvider();
 
-  // Currently selected category
-  final selectedCategory = ''.obs;
+  var allNewsArticles = <NewsArticle>[];
+  var newsArticles = <NewsArticle>[].obs;
+  var isLoading = true.obs;
+  var errorMessage = ''.obs;
 
-  // Dummy loading state
-  final isLoading = false.obs;
+  @override
+  void onInit() {
+    super.onInit();
+    fetchNewsArticles();
+  }
 
-  // Dummy error message
-  final errorMessage = ''.obs;
+  Future<void> fetchNewsArticles() async {
+    try {
+      isLoading(true);
+      errorMessage('');
+      final articles = await newsProvider.fetchNewsArticles();
+      allNewsArticles = articles;
+      newsArticles.assignAll(articles);
+    } catch (e) {
+      errorMessage('Failed to load news: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
 
-  // Dummy data for news articles
-  final newsArticles = <Article>[
-    Article(title: 'Cara Memutihkan Kulit dengan Aman'),
-    Article(title: 'Teknik Makeup untuk Pemula'),
-    Article(title: 'Tips Merawat Rambut Agar Tidak Rontok'),
-    Article(title: 'Panduan Skincare untuk Kulit Berminyak'),
-    Article(title: 'Cara Membuat Nail Art yang Sederhana'),
-    Article(title: 'Produk Skincare yang Wajib Dimiliki'),
-    Article(title: 'Teknik Membentuk Alis yang Tepat'),
-    Article(title: 'Cara Mencegah Jerawat dengan Skincare'),
-    Article(title: 'Tips Memilih Foundation Sesuai Warna Kulit'),
-    Article(title: 'Perawatan Tubuh untuk Kulit Lebih Cerah'),
-  ].obs;
-
-  // Function to search for news
   void searchNews(String query) {
-    // Implement search logic here
+    if (query.isEmpty) {
+      newsArticles.assignAll(allNewsArticles);
+    } else {
+      newsArticles.assignAll(allNewsArticles
+          .where((article) =>
+              article.title.toLowerCase().contains(query.toLowerCase()))
+          .toList());
+    }
   }
 }
 
-class Article {
-  final String title;
-
-  Article({required this.title});
-}
+final List<String> categories = [
+  'Skincare',
+  'Makeup',
+  'Hair Care',
+  'Body Care',
+  'Nail Art'
+];
+final RxString selectedCategory = 'Skincare'.obs;

@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "core/.env.dev");
   await Firebase.initializeApp();
 
   // Cek apakah user sudah login

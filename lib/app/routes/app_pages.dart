@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:glowify/app/modules/booking/bindings/booking_binding.dart';
+import 'package:glowify/app/modules/booking/views/booking_view.dart';
+import 'package:glowify/app/modules/booking/views/bookingdetail_view.dart';
 
 import '../modules/beranda/bindings/beranda_binding.dart';
 import '../modules/beranda/views/beranda_view.dart';
@@ -10,8 +13,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/register/bindings/register_binding.dart';  // Add this import
-import '../modules/register/views/register_view.dart';        // Add this import
+import '../modules/register/bindings/register_binding.dart';  
+import '../modules/register/views/register_view.dart';        
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
 import '../modules/profil/bindings/profil_binding.dart';
@@ -85,6 +88,16 @@ class AppPages {
       name: _Paths.FACE_DETECTION,
       page: () => const FaceDetectionView(),
       binding: FaceDetectionBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING,
+      page: () => const BookingView(),
+      binding: BookingBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKINGDETAIL,
+      page: () => const BookingDetailView(),
+      binding: BookingBinding(),
     ),
   ];
 }
