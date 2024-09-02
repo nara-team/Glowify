@@ -60,6 +60,7 @@ class RegisterController extends GetxController {
 
         // Simpan data user ke Firestore
         await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+          'id': userCredential.user!.uid, // Tambahkan ID pengguna
           'fullName': fullNameController.text,
           'email': emailController.text,
           'createdAt': FieldValue.serverTimestamp(),

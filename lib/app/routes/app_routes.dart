@@ -13,6 +13,7 @@ abstract class Routes {
   static const CHAT = _Paths.CHAT;
   static const TUTORIAL = _Paths.TUTORIAL;
   static const FACE_DETECTION = _Paths.FACE_DETECTION;
+  static const KONSULTASI = _Paths.KONSULTASI;
 }
 
 abstract class _Paths {
@@ -28,4 +29,5 @@ abstract class _Paths {
   static const CHAT = '/chat';
   static const TUTORIAL = '/tutorial';
   static const FACE_DETECTION = '/face-detection';
+   static const KONSULTASI = '/konsultasi'; 
 }

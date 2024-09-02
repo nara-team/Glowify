@@ -22,6 +22,8 @@ import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/tutorial/bindings/tutorial_binding.dart';
 import '../modules/tutorial/views/tutorial_view.dart';
+import '../modules/konsultasi/bindings/konsultasi_binding.dart';
+import '../modules/konsultasi/views/konsultasi_view.dart';
 
 part 'app_routes.dart';
 
@@ -85,6 +87,11 @@ class AppPages {
       name: _Paths.FACE_DETECTION,
       page: () => const FaceDetectionView(),
       binding: FaceDetectionBinding(),
+    ),
+    GetPage(
+    name: _Paths.KONSULTASI,
+    page: () => KonsultasiView(),
+    binding: KonsultasiBinding(),
     ),
   ];
 }
