@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/controllers/beranda_controller.dart';
+import 'package:glowify/app/modules/tutorial/controllers/tutorial_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 
@@ -15,6 +16,7 @@ class BerandaView extends GetView<BerandaController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<BerandaController>(() => BerandaController());
+    final TutorialController controllerTutorial = Get.put(TutorialController());
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -104,39 +106,42 @@ class BerandaView extends GetView<BerandaController> {
                               ),
                               const SizedBox(height: 20),
                               Obx(() {
-                                return SizedBox(
-                                  height: 400,
-                                  child: GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 1,
-                                      mainAxisSpacing: 10,
-                                      childAspectRatio: 1,
+                                if (controllerTutorial.isLoading.value) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (controllerTutorial
+                                    .filteredArticles.isEmpty) {
+                                  return const Center(
+                                      child: Text('No articles found.'));
+                                } else {
+                                  return SizedBox(
+                                    height: 400,
+                                    child: GridView.builder(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 8,
+                                        mainAxisSpacing: 15,
+                                        childAspectRatio: 0.9,
+                                      ),
+                                      itemCount: controllerTutorial
+                                          .filteredArticles.length,
+                                      itemBuilder: (context, index) {
+                                        final article = controllerTutorial
+                                            .filteredArticles[index];
+                                        return TrendingTutorialItem(
+                                          iconPath:
+                                              'assets/images/card_information_tutorial_sample.png',
+                                          contentText: article.title,
+                                          onTap: () {
+                                            debugPrint(
+                                                'Artikel diklik: ${article.title}');
+                                          },
+                                        );
+                                      },
                                     ),
-                                    itemCount:
-                                        controller.trendingTutorialModel.length,
-                                    itemBuilder: (context, index) {
-                                      final item = controller
-                                          .trendingTutorialModel[index];
-                                      return TrendingTutorialItem(
-                                        iconPath: item["iconPath"],
-                                        contentText: item["contentText"],
-                                        onTap: () {
-                                          if (item["route"].isNotEmpty) {
-                                            Get.toNamed(item["route"]);
-                                          } else {
-                                            const SnackBarCustom(
-                                              judul: "fitur belum tersedia",
-                                              pesan:
-                                                  "Fitur sedang dalam pengembangan!",
-                                            );
-                                          }
-                                        },
-                                      );
-                                    },
-                                  ),
-                                );
+                                  );
+                                }
                               }),
                               const SizedBox(
                                 height: 30,
