@@ -1,36 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
 import 'package:get/get.dart';
-import 'package:glowify/app/modules/booking/controllers/bookingdetail_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
+import 'package:glowify/data/models/klinik_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
-import 'package:glowify/widget/cliniccard.dart' as klinikwidget;
+import '../controllers/bookingdetail_controller.dart';
 
 class BookingDetailView extends GetView<BookingdetailController> {
   const BookingDetailView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final clinicData = Get.arguments as Map<String, dynamic>?;
+    final KlinikModel klinik = Get.arguments;
 
-    if (clinicData == null) {
-      return const Center(
-        child: Text(
-          'Data klinik tidak ditemukan',
-          style: TextStyle(fontSize: 18, color: primaryColor),
-        ),
-      );
-    }
-    final List<dynamic> doctorList = clinicData['avaible_doctor'] ?? [];
+    controller.fetchDoctorsForKlinik(klinik.idDoktor ?? []);
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: whiteBackground1Color,
         appBar: CustomAppBar(
-          judul: clinicData['title'],
+          judul: klinik.namaKlinik ?? 'Detail Klinik',
         ),
         body: Padding(
           padding: PaddingCustom().paddingOnly(20, 20, 20, 4),
@@ -38,33 +29,30 @@ class BookingDetailView extends GetView<BookingdetailController> {
             children: [
               Stack(
                 children: [
-                  // Gambar klinik
                   ClipRRect(
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
                     child: Image.asset(
-                      'assets/images/klinik_1.png',
+                      klinik.photoKlinik!,
                       width: double.infinity,
                       height: 200,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  // Shadow di dalam gambar, bagian bawah
                   Positioned.fill(
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: 60, // Tinggi shadow
+                        height: 60,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
                             colors: [
-                              blackColor.withOpacity(
-                                  0.9), // Shadow warna gelap di bawah
-                              Colors.transparent, // Transparan di atas
+                              blackColor.withOpacity(0.9),
+                              Colors.transparent,
                             ],
                           ),
                         ),
@@ -75,7 +63,7 @@ class BookingDetailView extends GetView<BookingdetailController> {
                     bottom: 10,
                     left: 12,
                     child: Text(
-                      clinicData['title'],
+                      klinik.namaKlinik!,
                       style: const TextStyle(
                         color: whiteBackground1Color,
                         fontSize: 20,
@@ -86,8 +74,8 @@ class BookingDetailView extends GetView<BookingdetailController> {
                   Positioned(
                     bottom: 10,
                     right: 12,
-                    child: klinikwidget.LocationInfo(
-                      distance: "${clinicData['distance']} km",
+                    child: LocationInfo(
+                      distance: "16 km",
                     ),
                   ),
                 ],
@@ -105,33 +93,42 @@ class BookingDetailView extends GetView<BookingdetailController> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    doctorList.isNotEmpty
-                        ? ListView.builder(
-                            itemCount: doctorList.length,
-                            itemBuilder: (context, index) {
-                              final doctor = doctorList[index];
-                              return DoctorCard(
-                                name: doctor['doctorname'],
-                                specialty: doctor['spesialis'],
-                                hospital: clinicData['title'],
-                                imagePath: doctor['photo_doctor'],
-                              );
-                            },
-                          )
-                        : Center(
-                            child: Text(
-                              'Dokter belum tersedia untuk layanan ini',
-                              style: medium.copyWith(
-                                fontSize: regularSize,
-                              ),
+                    Obx(() {
+                      if (controller.doctorList.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'Dokter belum tersedia untuk layanan ini',
+                            style: medium.copyWith(
+                              fontSize: regularSize,
                             ),
                           ),
+                        );
+                      } else {
+                        return ListView.builder(
+                          itemCount: controller.doctorList.length,
+                          itemBuilder: (context, index) {
+                            final doctor = controller.doctorList[index];
+                            return DoctorCard(
+                              name: doctor.name ?? 'Nama Tidak Diketahui',
+                              specialty: doctor.specialization ??
+                                  'Spesialisasi Tidak Diketahui',
+                              hospital:
+                                  klinik.namaKlinik ?? 'Klinik Tidak Diketahui',
+                              imagePath: doctor.photoDoctor ??
+                                  'assets/images/default_doctor.png',
+                            );
+                          },
+                        );
+                      }
+                    }),
                     Center(
                       child: Text(
-                        'Detail Klinik',
+                        'Alamat: ${klinik.alamatKlinik?['desa']}, ${klinik.alamatKlinik?['kecamatan']}, ${klinik.alamatKlinik?['kabupaten']}, ${klinik.alamatKlinik?['provinsi']}\n'
+                        'Jam Operasional: ${klinik.operasional?['start']} - ${klinik.operasional?['end']}',
                         style: medium.copyWith(
                           fontSize: regularSize,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],
@@ -139,6 +136,44 @@ class BookingDetailView extends GetView<BookingdetailController> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class LocationInfo extends StatelessWidget {
+  final String distance;
+
+  const LocationInfo({Key? key, required this.distance}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        padding: PaddingCustom().paddingHorizontalVertical(4, 4),
+        decoration: BoxDecoration(
+          color: primaryColor,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.location_on,
+              color: whiteBackground1Color,
+              size: 20,
+            ),
+            const SizedBox(width: 2),
+            Text(
+              distance,
+              style: const TextStyle(
+                fontSize: regularSize,
+                color: whiteBackground1Color,
+              ),
+            ),
+          ],
         ),
       ),
     );
