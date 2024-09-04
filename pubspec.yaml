@@ -37,6 +37,7 @@ dev_dependencies:
   faker: ^2.2.0
   firebase_database: ^11.1.0
   firebase_storage: ^12.2.0 
+  timeago: ^3.0.0
    
 
 flutter:

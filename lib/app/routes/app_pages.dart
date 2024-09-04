@@ -10,8 +10,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/register/bindings/register_binding.dart';  // Add this import
-import '../modules/register/views/register_view.dart';        // Add this import
+import '../modules/register/bindings/register_binding.dart';  
+import '../modules/register/views/register_view.dart';       
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
 import '../modules/profil/bindings/profil_binding.dart';
@@ -22,6 +22,8 @@ import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/tutorial/bindings/tutorial_binding.dart';
 import '../modules/tutorial/views/tutorial_view.dart';
+import '../modules/notification/bindings/notification_binding.dart';
+import '../modules/notification/views/notification_view.dart';
 
 part 'app_routes.dart';
 
@@ -85,6 +87,10 @@ class AppPages {
       name: _Paths.FACE_DETECTION,
       page: () => const FaceDetectionView(),
       binding: FaceDetectionBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATIONS,
+      page: () => const NotificationView(),
     ),
   ];
 }

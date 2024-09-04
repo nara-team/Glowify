@@ -206,6 +206,7 @@ class ProfilView extends GetView<ProfilController> {
                     const SettingList(
                       icon: Icons.help_center,
                       title: 'Pusat bantuan',
+                      
                     ),
                     Divider(),
                     ListTile(
