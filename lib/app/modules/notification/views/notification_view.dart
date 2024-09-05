@@ -55,11 +55,7 @@ class NotificationView extends GetView<NotificationController> {
                       ),
                     ],
                   ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
+              
                   onTap: () {
                     // Aksi ketika notifikasi di klik, bisa diarahkan ke halaman terkait
                     Get.snackbar(

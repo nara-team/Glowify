@@ -24,6 +24,11 @@ import '../modules/tutorial/bindings/tutorial_binding.dart';
 import '../modules/tutorial/views/tutorial_view.dart';
 import '../modules/notification/bindings/notification_binding.dart';
 import '../modules/notification/views/notification_view.dart';
+import '../modules/keamanan/views/keamanan_view.dart';
+import '../modules/pusat_bantuan/views/pusat_bantuan_view.dart';
+import '../modules/keamanan/bindings/keamanan_binding.dart';
+import '../modules/pusat_bantuan/bindings/pusat_bantuan_binding.dart';
+
 
 part 'app_routes.dart';
 
@@ -91,6 +96,16 @@ class AppPages {
     GetPage(
       name: _Paths.NOTIFICATIONS,
       page: () => const NotificationView(),
+    ),
+    GetPage(
+      name: _Paths.KEAMANAN,
+      page: () => const KeamananView(),
+      binding: KeamananBinding(),
+    ),
+    GetPage(
+      name: _Paths.PUSAT_BANTUAN,
+      page: () => const PusatBantuanView(),
+      binding: PusatBantuanBinding(),
     ),
   ];
 }

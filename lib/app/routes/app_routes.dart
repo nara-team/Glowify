@@ -14,6 +14,8 @@ abstract class Routes {
   static const TUTORIAL = _Paths.TUTORIAL;
   static const FACE_DETECTION = _Paths.FACE_DETECTION;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const KEAMANAN = _Paths.KEAMANAN;
+  static const PUSAT_BANTUAN = _Paths.PUSAT_BANTUAN;
 }
 
 abstract class _Paths {
@@ -30,4 +32,6 @@ abstract class _Paths {
   static const TUTORIAL = '/tutorial';
   static const FACE_DETECTION = '/face-detection';
   static const NOTIFICATIONS = '/notifications';
+  static const KEAMANAN = '/keamanan';
+  static const PUSAT_BANTUAN = '/pusat-bantuan';
 }
