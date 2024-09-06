@@ -1,7 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:glowify/app/theme/app_theme.dart';
-// ignore: depend_on_referenced_packages
 import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,15 +13,51 @@ class SplashScreenView extends GetView<SplashScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    // Logika untuk pengecekan login status setelah splash selesai
     return AnimatedSplashScreen(
-      splash: Image.asset(
-        imgPath('logotext3x.png'),
-      ),
-      backgroundColor: Colors.white,
       duration: 1500,
+      splash: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 6,
+            child: Center(
+              child: Image.asset(
+                'assets/images/GLOWIFY.png',
+                height: 150,
+              ),
+            ),
+          ),
+          const Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Made With',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  'Nara team',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 30),
+        ],
+      ),
+      backgroundColor: const Color(0xFFF06363),
+      splashIconSize: double.infinity,
+      nextScreen: const SplashRedirectView(),
+      splashTransition: SplashTransition.fadeTransition,
       pageTransitionType: PageTransitionType.fade,
-      nextScreen: const SplashRedirectView(), // Ganti dengan widget yang melakukan pengecekan login
     );
   }
 }
@@ -33,11 +67,9 @@ class SplashRedirectView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Pengecekan login status
-    return FutureBuilder(
+    return FutureBuilder<bool>(
       future: _checkUserLoginStatus(),
       builder: (context, snapshot) {
-        // Sementara menunggu pengecekan status
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(
@@ -45,18 +77,18 @@ class SplashRedirectView extends StatelessWidget {
             ),
           );
         } else {
-          // Jika pengecekan selesai, arahkan pengguna sesuai status login
-          return snapshot.data == true
-              ? const NavbarView() // Jika sudah login, arahkan ke halaman Navbar/Beranda
-              : const LoginView(); // Jika belum login, arahkan ke halaman login
+          if (snapshot.data == true) {
+            return const NavbarView();
+          } else {
+            return const LoginView();
+          }
         }
       },
     );
   }
 
-  // Fungsi untuk memeriksa apakah pengguna sudah login
   Future<bool> _checkUserLoginStatus() async {
     User? user = FirebaseAuth.instance.currentUser;
-    return user != null; // Mengembalikan true jika pengguna sudah login
+    return user != null;
   }
 }
