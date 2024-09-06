@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/views/beranda_view.dart';
-import 'package:glowify/app/modules/berita/views/berita_view.dart';
 import 'package:glowify/app/modules/chat/views/chat_view.dart';
 import 'package:glowify/app/modules/profil/views/profil_view.dart';
 import 'package:glowify/app/modules/riwayat/views/riwayat_view.dart';

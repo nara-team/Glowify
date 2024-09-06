@@ -1,23 +1,36 @@
 import 'package:get/get.dart';
 
 class RiwayatController extends GetxController {
-  //TODO: Implement RiwayatController
+  // Observable list for booking history with clinic and doctor details
+  var bookingHistory = <Map<String, String>>[].obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
+    // Initialize booking history with more detailed data
+    bookingHistory.assignAll([
+      {
+        'date': '2024-09-01',
+        'service': 'Facial Treatment',
+        'status': 'Completed',
+        'clinic': 'Glowify Beauty Clinic',
+        'doctor': 'Dr. Amanda Putri',
+      },
+      {
+        'date': '2024-08-28',
+        'service': 'Skincare Consultation',
+        'status': 'Canceled',
+        'clinic': 'Dermacare Clinic',
+        'doctor': 'Dr. Budi Santoso',
+      },
+      {
+        'date': '2024-08-20',
+        'service': 'Acne Treatment',
+        'status': 'Completed',
+        'clinic': 'Glowify Beauty Clinic',
+        'doctor': 'Dr. Amanda Putri',
+      },
+    ]);
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
