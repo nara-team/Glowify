@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/appbarcustom.dart';
 import '../controllers/face_detection_controller.dart';
 import '../../../../widget/face_area_widget.dart';
 // import 'result_page.dart';
@@ -10,18 +11,7 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Deteksi Kesehatan Wajah'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 2,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: const CustomAppBar(judul: "Deteksi Kesehatan Wajah"),
       body: Obx(() {
         bool allImagesSelected = controller.imageForehead.value != null &&
             controller.imageCheek.value != null &&

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/appbarcustom.dart';
 import '../controllers/konsultasi_controller.dart';
 import 'doctor_chat_page.dart';
 
@@ -9,9 +10,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Konsultasi Dokter'),
-      ),
+      appBar: const CustomAppBar(judul: "Konsultasi Dokter"),
       body: Obx(() {
         return ListView.builder(
           itemCount: controller.doctors.length,
@@ -19,7 +18,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
             final doctor = controller.doctors[index];
             return Card(
               elevation: 3,
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -30,7 +29,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
                 ),
                 title: Text(
                   doctor.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
@@ -56,15 +55,13 @@ class KonsultasiView extends GetView<KonsultasiController> {
           onPressed: () {
             Get.to(() => DoctorChatPage(doctor: doctor));
           },
-          icon: Icon(Icons.chat),
+          icon: const Icon(Icons.chat),
           color: Colors.pink,
           tooltip: 'Chat',
         ),
         IconButton(
-          onPressed: () {
-            // Implement call functionality here if needed
-          },
-          icon: Icon(Icons.videocam),
+          onPressed: () {},
+          icon: const Icon(Icons.videocam),
           color: Colors.pink,
           tooltip: 'Call',
         ),

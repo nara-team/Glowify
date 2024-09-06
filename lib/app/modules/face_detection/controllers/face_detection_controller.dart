@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:glowify/app/theme/app_theme.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
-import '../views/result_page.dart'; // Import ResultPage correctly
+import '../views/result_page.dart';
 
 class FaceDetectionController extends GetxController {
   var imageForehead = Rx<File?>(null);
@@ -29,28 +31,69 @@ class FaceDetectionController extends GetxController {
 
   Future<void> pickImage(String area) async {
     final picker = ImagePicker();
+
     final pickedFile = await Get.bottomSheet<File?>(
       SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.photo_camera),
-              title: Text('Ambil dari Kamera'),
-              onTap: () async {
-                final pickedFile = await picker.pickImage(source: ImageSource.camera);
-                Get.back(result: pickedFile != null ? File(pickedFile.path) : null);
-              },
+        child: Container(
+          decoration: const BoxDecoration(
+            color: whiteBackground1Color,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Pilih dari Galeri'),
-              onTap: () async {
-                final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-                Get.back(result: pickedFile != null ? File(pickedFile.path) : null);
-              },
-            ),
-          ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  'Pilih Gambar',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Divider(thickness: 1),
+              ListTile(
+                leading: const Icon(Iconsax.camera, color: Colors.black),
+                title: const Text(
+                  'Kamera',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                onTap: () async {
+                  final pickedFile =
+                      await picker.pickImage(source: ImageSource.camera);
+                  Get.back(
+                      result:
+                          pickedFile != null ? File(pickedFile.path) : null);
+                },
+              ),
+              const Divider(thickness: 1),
+              ListTile(
+                leading: const Icon(Iconsax.gallery, color: Colors.black),
+                title: const Text(
+                  'Pilih dari Galeri',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                onTap: () async {
+                  final pickedFile =
+                      await picker.pickImage(source: ImageSource.gallery);
+                  Get.back(
+                      result:
+                          pickedFile != null ? File(pickedFile.path) : null);
+                },
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
@@ -119,12 +162,12 @@ class FaceDetectionController extends GetxController {
     ];
 
     Get.to(() => ResultPage(
-      results: results,
-      confidences: confidences,
-      imageForehead: imageForehead.value,
-      imageCheek: imageCheek.value,
-      imageNose: imageNose.value,
-    ));
+          results: results,
+          confidences: confidences,
+          imageForehead: imageForehead.value,
+          imageCheek: imageCheek.value,
+          imageNose: imageNose.value,
+        ));
   }
 
   @override
