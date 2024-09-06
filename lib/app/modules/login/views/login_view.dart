@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -115,7 +116,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                   child: const Text(
                     'Masuk',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: whiteBackground1Color),
                   ),
                 ),
               ),

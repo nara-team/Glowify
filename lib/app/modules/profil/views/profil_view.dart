@@ -221,7 +221,7 @@ class ProfilView extends GetView<ProfilController> {
                       leading: const Icon(Icons.exit_to_app),
                       title: const Text('Keluar'),
                       onTap: () {
-                        controller.logout();
+                        controller.showLogoutModal();
                       },
                     ),
                   ],
