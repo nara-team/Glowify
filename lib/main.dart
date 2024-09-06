@@ -15,7 +15,7 @@ void main() async {
       debugShowCheckedModeBanner: false,
       title: "Application",
       theme: AppTheme.getAppTheme(),
-      initialRoute: AppPages.INITIAL,  // Selalu mulai dari splash screen
+      initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),
   );

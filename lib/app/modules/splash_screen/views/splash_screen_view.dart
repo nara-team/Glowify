@@ -1,11 +1,11 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+// ignore: depend_on_referenced_packages
 import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:glowify/app/modules/login/views/login_view.dart';
-import 'package:glowify/app/routes/app_pages.dart';
 import 'package:glowify/app/modules/navbar/views/navbar_view.dart';
 
 import '../controllers/splash_screen_controller.dart';
@@ -23,7 +23,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
       backgroundColor: Colors.white,
       duration: 1500,
       pageTransitionType: PageTransitionType.fade,
-      nextScreen: SplashRedirectView(), // Ganti dengan widget yang melakukan pengecekan login
+      nextScreen: const SplashRedirectView(), // Ganti dengan widget yang melakukan pengecekan login
     );
   }
 }
@@ -39,7 +39,7 @@ class SplashRedirectView extends StatelessWidget {
       builder: (context, snapshot) {
         // Sementara menunggu pengecekan status
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

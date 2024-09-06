@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glowify/app/theme/app_theme.dart'; // Import your app theme
-import 'package:glowify/app/theme/sized_theme.dart'; // Import your size theme
+import 'package:glowify/app/theme/app_theme.dart'; 
+// import 'package:glowify/app/theme/sized_theme.dart'; 
 import '../controllers/pusat_bantuan_controller.dart';
 
 class PusatBantuanView extends GetView<PusatBantuanController> {

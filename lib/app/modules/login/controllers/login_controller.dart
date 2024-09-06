@@ -51,6 +51,7 @@ class LoginController extends GetxController {
     if (emailError.value.isEmpty && passwordError.value.isEmpty) {
       isLoading.value = true;
       try {
+        // ignore: unused_local_variable
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,

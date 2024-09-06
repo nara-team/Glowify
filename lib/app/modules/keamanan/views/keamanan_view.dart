@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/keamanan_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart'; // Import your app theme
-import 'package:glowify/app/theme/sized_theme.dart'; // Import your size theme
+// import 'package:glowify/app/theme/sized_theme.dart'; // Import your size theme
 
 class KeamananView extends GetView<KeamananController> {
   const KeamananView({Key? key}) : super(key: key);
