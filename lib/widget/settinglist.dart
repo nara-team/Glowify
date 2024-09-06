@@ -4,11 +4,13 @@ import 'package:glowify/app/theme/app_theme.dart';
 class SettingList extends StatelessWidget {
   final IconData icon;
   final String title;
+  final VoidCallback? onTap; // Add onTap as a parameter
 
   const SettingList({
     Key? key,
     required this.icon,
     required this.title,
+    this.onTap, // Optional parameter
   }) : super(key: key);
 
   @override
@@ -26,9 +28,9 @@ class SettingList extends StatelessWidget {
         Icons.arrow_forward_ios,
         color: blackColor.withOpacity(0.5),
       ),
-      onTap: () {
+      onTap: onTap ?? () {
         debugPrint("nantinya route ke $title");
-      },
+      }, // Use the custom onTap or a default debug print
     );
   }
 }
