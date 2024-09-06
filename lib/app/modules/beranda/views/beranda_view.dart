@@ -44,7 +44,9 @@ class BerandaView extends GetView<BerandaController> {
                                   fontSize: largeSize, color: Colors.white),
                             )),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed('/notifications');
+                      },
                       icon: const Icon(
                         Icons.notifications_none_outlined,
                         size: 30,
