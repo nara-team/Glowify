@@ -8,6 +8,7 @@ class LoginController extends GetxController {
   late TextEditingController emailController;
   late TextEditingController passwordController;
 
+  var isPasswordHidden = true.obs;
   final RxString emailError = ''.obs;
   final RxString passwordError = ''.obs;
 
@@ -20,6 +21,10 @@ class LoginController extends GetxController {
     super.onInit();
     emailController = TextEditingController();
     passwordController = TextEditingController();
+  }
+
+  void togglePasswordVisibility() {
+    isPasswordHidden.value = !isPasswordHidden.value;
   }
 
   void validateInputs() {
