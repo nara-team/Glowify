@@ -5,25 +5,24 @@ import 'package:glowify/data/provider/news_provider.dart';
 class TutorialController extends GetxController {
   final NewsProvider newsProvider = NewsProvider();
 
-  var allNewsArticles =
-      <NewsArticle>[]; // To store all articles loaded from API
-  var newsArticles = <NewsArticle>[].obs; // To store filtered articles
+  var allNewsArticles = <NewsArticle>[];
+  var newsArticles = <NewsArticle>[].obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchNewsArticles(); // Load initial news articles
+    fetchNewsArticles();
   }
 
   Future<void> fetchNewsArticles() async {
     try {
       isLoading(true);
-      errorMessage(''); // Clear any previous error messages
+      errorMessage('');
       final articles = await newsProvider.fetchNewsArticles();
-      allNewsArticles = articles; // Store all articles
-      newsArticles.assignAll(articles); // Initially, all articles are shown
+      allNewsArticles = articles;
+      newsArticles.assignAll(articles);
     } catch (e) {
       errorMessage('Failed to load news: $e');
     } finally {
@@ -33,8 +32,7 @@ class TutorialController extends GetxController {
 
   void searchNews(String query) {
     if (query.isEmpty) {
-      newsArticles.assignAll(
-          allNewsArticles); // Reset to all articles if query is empty
+      newsArticles.assignAll(allNewsArticles);
     } else {
       newsArticles.assignAll(allNewsArticles
           .where((article) =>
@@ -44,5 +42,11 @@ class TutorialController extends GetxController {
   }
 }
 
-final List<String> categories = ['Komedo', 'Jerawat', 'Kulit', 'Kutil', '10 +'];
-final RxString selectedCategory = 'Komedo'.obs;
+final List<String> categories = [
+  'Skincare',
+  'Makeup',
+  'Hair Care',
+  'Body Care',
+  'Nail Art'
+];
+final RxString selectedCategory = 'Skincare'.obs;

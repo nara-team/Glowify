@@ -10,24 +10,45 @@ dependencies:
   badges: 3.1.2
   card_slider: 1.0.5
   carousel_slider: 5.0.0
+  image_picker: ^0.8.7
+  tflite: ^1.1.2
   cupertino_icons: ^1.0.2
-  flutter:
+  faker: ^2.2.0
+  flutter: 
     sdk: flutter
+  firebase_core: ^3.4.0
+  firebase_auth: ^5.2.0
+  cloud_firestore: ^5.3.0
+  google_sign_in: ^6.2.1
+  firebase_database: ^11.1.0
+  firebase_storage: ^12.2.0 
   flutter_dotenv: ^5.1.0
+  gap: ^3.0.1
   get: 4.6.6
   google_fonts: 6.2.1
   ionicons: 0.2.2
+  iconsax: ^0.0.8
+  geolocator: ^12.0.0
+  permission_handler: ^11.3.1
+  geocoding: ^3.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  # firebase_core: ^3.4.0
+  # firebase_auth: ^5.2.0
+  # cloud_firestore: ^5.3.0
+  # google_sign_in: ^6.2.1
+  # firebase_database: ^11.1.0
+  # firebase_storage: ^12.2.0 
 
 flutter:
   assets:
     - assets/images/
     - core/.env.dev
-  fonts:
+    - assets/face_health_detection/
+  fonts: 
     - family: Poppins
       fonts:
         - asset: fonts/Poppins-Light.ttf

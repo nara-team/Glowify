@@ -11,8 +11,6 @@ class TutorialView extends GetView<TutorialController> {
 
   @override
   Widget build(BuildContext context) {
-    final TutorialController controller = Get.put(TutorialController());
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -33,34 +31,22 @@ class TutorialView extends GetView<TutorialController> {
                     ),
                   ],
                 ),
-                child: Obx(() => TextField(
-                      controller: controller.searchController,
-                      style: const TextStyle(fontSize: 16),
-                      onChanged: (query) {
-                        controller.searchNews(query);
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: whiteBackground1Color,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: "Search...",
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: controller.searchQuery.value.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(
-                                  Icons.clear,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () {
-                                  controller.clearSearch();
-                                },
-                              )
-                            : null,
-                      ),
-                    )),
+                child: TextField(
+                  style: const TextStyle(fontSize: 16),
+                  onChanged: (query) {
+                    controller.searchNews(query);
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: whiteBackground1Color,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    hintText: "Search...",
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                ),
               ),
               const Gap(20),
               Text(
@@ -71,20 +57,19 @@ class TutorialView extends GetView<TutorialController> {
               Obx(() => Wrap(
                     spacing: 20,
                     runSpacing: 10,
-                    children: controller.categories.map((category) {
-                      final isSelected =
-                          controller.selectedCategory.value == category;
+                    children: categories.map((category) {
+                      final isSelected = selectedCategory.value == category;
                       return GestureDetector(
                         onTap: () {
-                          controller.selectedCategory.value = category;
+                          selectedCategory.value = category;
                         },
                         child: Container(
                           padding:
                               PaddingCustom().paddingHorizontalVertical(12, 8),
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? primaryColor
-                                : whiteBackground1Color,
+                                ? whiteBackground1Color
+                                : primaryColor.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                               color: primaryColor.withOpacity(0.2),
@@ -103,7 +88,7 @@ class TutorialView extends GetView<TutorialController> {
                             category,
                             style: medium.copyWith(
                               color: isSelected
-                                  ? Colors.white
+                                  ? primaryColor
                                   : primaryColor.withOpacity(0.6),
                             ),
                           ),
@@ -121,8 +106,8 @@ class TutorialView extends GetView<TutorialController> {
                 child: Obx(() {
                   if (controller.isLoading.value) {
                     return const Center(child: CircularProgressIndicator());
-                  } else if (controller.filteredArticles.isEmpty) {
-                    return const Center(child: Text('No articles found.'));
+                  } else if (controller.errorMessage.isNotEmpty) {
+                    return Center(child: Text(controller.errorMessage.value));
                   } else {
                     return GridView.builder(
                       gridDelegate:
@@ -132,9 +117,9 @@ class TutorialView extends GetView<TutorialController> {
                         mainAxisSpacing: 15,
                         childAspectRatio: 0.9,
                       ),
-                      itemCount: controller.filteredArticles.length,
+                      itemCount: controller.newsArticles.length,
                       itemBuilder: (context, index) {
-                        final article = controller.filteredArticles[index];
+                        final article = controller.newsArticles[index];
                         return TrendingTutorialItem(
                           iconPath:
                               'assets/images/card_information_tutorial_sample.png',

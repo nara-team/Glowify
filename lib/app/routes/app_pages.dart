@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:glowify/app/modules/booking/bindings/booking_binding.dart';
+import 'package:glowify/app/modules/booking/views/booking_view.dart';
+import 'package:glowify/app/modules/booking/views/bookingdetail_view.dart';
 
 import '../modules/beranda/bindings/beranda_binding.dart';
 import '../modules/beranda/views/beranda_view.dart';
@@ -11,7 +14,7 @@ import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/register/bindings/register_binding.dart';  
-import '../modules/register/views/register_view.dart';       
+import '../modules/register/views/register_view.dart';        
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
 import '../modules/profil/bindings/profil_binding.dart';
@@ -22,13 +25,6 @@ import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/tutorial/bindings/tutorial_binding.dart';
 import '../modules/tutorial/views/tutorial_view.dart';
-import '../modules/notification/bindings/notification_binding.dart';
-import '../modules/notification/views/notification_view.dart';
-import '../modules/keamanan/views/keamanan_view.dart';
-import '../modules/pusat_bantuan/views/pusat_bantuan_view.dart';
-import '../modules/keamanan/bindings/keamanan_binding.dart';
-import '../modules/pusat_bantuan/bindings/pusat_bantuan_binding.dart';
-
 
 part 'app_routes.dart';
 
@@ -94,18 +90,14 @@ class AppPages {
       binding: FaceDetectionBinding(),
     ),
     GetPage(
-      name: _Paths.NOTIFICATIONS,
-      page: () => const NotificationView(),
+      name: _Paths.BOOKING,
+      page: () => const BookingView(),
+      binding: BookingBinding(),
     ),
     GetPage(
-      name: _Paths.KEAMANAN,
-      page: () => const KeamananView(),
-      binding: KeamananBinding(),
-    ),
-    GetPage(
-      name: _Paths.PUSAT_BANTUAN,
-      page: () => const PusatBantuanView(),
-      binding: PusatBantuanBinding(),
+      name: _Paths.BOOKINGDETAIL,
+      page: () => const BookingDetailView(),
+      binding: BookingBinding(),
     ),
   ];
 }

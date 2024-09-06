@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/controllers/beranda_controller.dart';
 import 'package:glowify/app/modules/tutorial/controllers/tutorial_controller.dart';
@@ -14,10 +15,9 @@ class BerandaView extends GetView<BerandaController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut<BerandaController>(() => BerandaController());
     final TutorialController tutorialcontroller =
         Get.find<TutorialController>();
-    Get.lazyPut<BerandaController>(() => BerandaController());
-    final TutorialController controllerTutorial = Get.put(TutorialController());
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -36,11 +36,13 @@ class BerandaView extends GetView<BerandaController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Nama Pengguna",
-                      style: medium.copyWith(
-                          fontSize: largeSize, color: whiteBackground1Color),
-                    ),
+                    Obx(() => Text(
+                              controller.userName.value.isNotEmpty
+                                  ? "Hi, ${controller.userName.value}"
+                                  : "Hi, Nama Pengguna",
+                              style: medium.copyWith(
+                                  fontSize: largeSize, color: Colors.white),
+                            )),
                     IconButton(
                       onPressed: () {},
                       icon: const Icon(
@@ -98,11 +100,27 @@ class BerandaView extends GetView<BerandaController> {
                             );
                           }),
                           const SizedBox(height: 30),
-                          Text(
-                            "Trending Tutorial",
-                            style: semiBold.copyWith(fontSize: mediumSize),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Trending Tutorial",
+                                style: semiBold.copyWith(fontSize: mediumSize),
+                              ),
+                              const SizedBox(height: 20),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed('/all-tutorials');
+                                },
+                                child: Text(
+                                  "See All",
+                                  style: medium.copyWith(
+                                      fontSize: smallSize, color: primaryColor),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 20),
+                          const Gap(20),
                           Obx(() {
                             if (tutorialcontroller.isLoading.value) {
                               return const Center(
@@ -120,7 +138,7 @@ class BerandaView extends GetView<BerandaController> {
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 8,
                                   mainAxisSpacing: 15,
-                                  childAspectRatio: 0.9,
+                                  childAspectRatio: 1,
                                 ),
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
