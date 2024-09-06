@@ -1,46 +1,67 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/data/models/news_article.dart';
+import 'package:glowify/data/provider/news_provider.dart';
 
 class TutorialController extends GetxController {
-  // Example categories
-  final categories = <String>[
-    'Skincare',
-    'Makeup',
-    'Hair Care',
-    'Body Care',
-    'Nail Art'
-  ].obs;
+  final NewsProvider newsProvider = NewsProvider();
+  var newsArticles = <NewsArticle>[].obs;
+  var filteredArticles = <NewsArticle>[].obs;
+  var isLoading = true.obs;
+  var errorMessage = ''.obs;
 
-  // Currently selected category
-  final selectedCategory = ''.obs;
+  final List<String> categories = [
+    'Komedo',
+    'Jerawat',
+    'Kulit',
+    'Kutil',
+    '10 +'
+  ];
+  final RxString selectedCategory = 'Komedo'.obs;
 
-  // Dummy loading state
-  final isLoading = false.obs;
+  final TextEditingController searchController = TextEditingController();
+  var searchQuery = ''.obs;
 
-  // Dummy error message
-  final errorMessage = ''.obs;
+  @override
+  void onInit() {
+    super.onInit();
+    fetchNews();
 
-  // Dummy data for news articles
-  final newsArticles = <Article>[
-    Article(title: 'Cara Memutihkan Kulit dengan Aman'),
-    Article(title: 'Teknik Makeup untuk Pemula'),
-    Article(title: 'Tips Merawat Rambut Agar Tidak Rontok'),
-    Article(title: 'Panduan Skincare untuk Kulit Berminyak'),
-    Article(title: 'Cara Membuat Nail Art yang Sederhana'),
-    Article(title: 'Produk Skincare yang Wajib Dimiliki'),
-    Article(title: 'Teknik Membentuk Alis yang Tepat'),
-    Article(title: 'Cara Mencegah Jerawat dengan Skincare'),
-    Article(title: 'Tips Memilih Foundation Sesuai Warna Kulit'),
-    Article(title: 'Perawatan Tubuh untuk Kulit Lebih Cerah'),
-  ].obs;
-
-  // Function to search for news
-  void searchNews(String query) {
-    // Implement search logic here
+    searchController.addListener(() {
+      searchQuery.value = searchController.text;
+    });
   }
-}
 
-class Article {
-  final String title;
+  void fetchNews() async {
+    try {
+      isLoading(true);
+      var articles = await newsProvider.fetchNewsArticles();
+      newsArticles.assignAll(articles);
+      filteredArticles.assignAll(articles);
+    } catch (e) {
+      errorMessage.value = 'Failed to load news';
+      print('Error fetching news: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
 
-  Article({required this.title});
+  void searchNews(String query) {
+    if (query.isEmpty) {
+      filteredArticles.assignAll(newsArticles);
+    } else {
+      filteredArticles.assignAll(
+        newsArticles
+            .where((article) =>
+                article.title.toLowerCase().contains(query.toLowerCase()))
+            .toList(),
+      );
+    }
+  }
+
+  void clearSearch() {
+    searchController.clear();
+    searchQuery.value = '';
+    searchNews('');
+  }
 }
