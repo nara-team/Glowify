@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/controllers/beranda_controller.dart';
@@ -37,12 +38,12 @@ class BerandaView extends GetView<BerandaController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Obx(() => Text(
-                              controller.userName.value.isNotEmpty
-                                  ? "Hi, ${controller.userName.value}"
-                                  : "Hi, Nama Pengguna",
-                              style: medium.copyWith(
-                                  fontSize: largeSize, color: Colors.white),
-                            )),
+                          controller.userName.value.isNotEmpty
+                              ? "Hi, ${controller.userName.value}"
+                              : "Hi, Nama Pengguna",
+                          style: medium.copyWith(
+                              fontSize: largeSize, color: Colors.white),
+                        )),
                     IconButton(
                       onPressed: () {
                         Get.toNamed('/notifications');

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/face_detection_controller.dart';
 import '../../../../widget/face_area_widget.dart';
-import 'result_page.dart';
+// import 'result_page.dart';
 
 class FaceDetectionView extends GetView<FaceDetectionController> {
   const FaceDetectionView({Key? key}) : super(key: key);
