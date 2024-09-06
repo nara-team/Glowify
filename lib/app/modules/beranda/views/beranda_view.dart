@@ -16,6 +16,8 @@ class BerandaView extends GetView<BerandaController> {
   Widget build(BuildContext context) {
     final TutorialController tutorialcontroller =
         Get.find<TutorialController>();
+    Get.lazyPut<BerandaController>(() => BerandaController());
+    final TutorialController controllerTutorial = Get.put(TutorialController());
     return Scaffold(
       body: SafeArea(
         child: Column(

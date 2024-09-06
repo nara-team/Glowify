@@ -1,6 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class BerandaController extends GetxController {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  var userName = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserName();
+  }
+
+  void fetchUserName() async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      userName.value = userDoc['fullName'] ?? 'No Name';
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load user data');
+    }
+  }
+
   final List<Map<String, dynamic>> fetureDraftModel = [
     {
       "route": "",
@@ -37,28 +59,18 @@ class BerandaController extends GetxController {
   final List<Map<String, dynamic>> trendingTutorialModel = [
     {
       "route": "",
-      "iconPath": "assets/images/banner_home.png",
+      "iconPath": "assets/images/card_information_tutorial_sample.png",
       "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
     },
     {
       "route": "",
-      "iconPath": "assets/images/banner_home.png",
+      "iconPath": "assets/images/card_information_tutorial_sample.png",
       "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
     },
     {
       "route": "",
-      "iconPath": "assets/images/banner_home.png",
+      "iconPath": "assets/images/card_information_tutorial_sample.png",
       "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
-    {
-      "route": "",
-      "iconPath": "assets/images/banner_home.png",
-      "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
-    {
-      "route": "",
-      "iconPath": "assets/images/banner_home.png",
-      "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
+    }
   ].obs;
 }

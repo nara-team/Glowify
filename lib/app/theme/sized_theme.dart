@@ -28,12 +28,12 @@ class PaddingCustom {
     return EdgeInsets.symmetric(vertical: vertical);
   }
 
-  paddingOnly({
-    double left = 0.0,
-    double top = 0.0,
-    double right = 0.0,
-    double bottom = 0.0,
-  }) {
+  paddingOnly(
+    double left,
+    double top,
+    double right,
+    double bottom,
+  ) {
     return EdgeInsets.only(left: left, top: top, right: right, bottom: bottom);
   }
 }

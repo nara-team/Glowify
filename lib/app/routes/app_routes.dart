@@ -1,5 +1,4 @@
 part of 'app_pages.dart';
-// DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
 abstract class Routes {
   Routes._();
@@ -10,11 +9,13 @@ abstract class Routes {
   static const NAVBAR = _Paths.NAVBAR;
   static const BERANDA = _Paths.BERANDA;
   static const RIWAYAT = _Paths.RIWAYAT;
-  static const BERITA = _Paths.BERITA;
   static const PROFIL = _Paths.PROFIL;
   static const CHAT = _Paths.CHAT;
   static const TUTORIAL = _Paths.TUTORIAL;
   static const FACE_DETECTION = _Paths.FACE_DETECTION;
+  static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const KEAMANAN = _Paths.KEAMANAN;
+  static const PUSAT_BANTUAN = _Paths.PUSAT_BANTUAN;
 }
 
 abstract class _Paths {
@@ -26,9 +27,11 @@ abstract class _Paths {
   static const NAVBAR = '/navbar';
   static const BERANDA = '/beranda';
   static const RIWAYAT = '/riwayat';
-  static const BERITA = '/berita';
   static const PROFIL = '/profil';
   static const CHAT = '/chat';
   static const TUTORIAL = '/tutorial';
   static const FACE_DETECTION = '/face-detection';
+  static const NOTIFICATIONS = '/notifications';
+  static const KEAMANAN = '/keamanan';
+  static const PUSAT_BANTUAN = '/pusat-bantuan';
 }
