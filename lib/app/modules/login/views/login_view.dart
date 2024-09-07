@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/widget/button.dart';
 import '../controllers/login_controller.dart';
 import '../../../../widget/EmailTf.dart';
 import '../../../../widget/passTf.dart';
-import '../../../../widget/BtnLogin.dart';
+import 'package:auth_buttons/auth_buttons.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
@@ -14,18 +16,17 @@ class LoginView extends GetView<LoginController> {
     Get.put(LoginController());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        centerTitle: true,
+        title:
+            Text('Selamat Datang Kembali!', style: bold.copyWith(fontSize: 24)),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Silahkan mengisi email dan password yang sudah terdaftar.',
-              style: TextStyle(fontSize: 16),
+              'Masuk kembali ke akunmu, dan nikmati fitur dari Glowify',
+              style: TextStyle(fontSize: 16, color: abuDarkColor),
             ),
             const SizedBox(height: 20),
             EmailTf(
@@ -38,7 +39,7 @@ class LoginView extends GetView<LoginController> {
               error: controller.passwordError,
             ),
             Container(
-              padding: const EdgeInsets.only(top: 1, bottom: 30),
+              padding: const EdgeInsets.only(top: 1, bottom: 20),
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () => print('Lupa kata sandi'),
@@ -46,17 +47,19 @@ class LoginView extends GetView<LoginController> {
                     style: TextStyle(fontSize: 14)),
               ),
             ),
-            BtnLogin(
-              btnText: 'Login',
-              onPressed: () => controller.login(),
-              isLoading: controller.isLoading,
-            ),
-            const SizedBox(height: 10),
+            BtnLoginPrimary(
+                btnText: 'Login',
+                onPressed: () => controller.login(),
+                isLoading: controller.isLoading),
+            const SizedBox(height: 20),
             Center(
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.login),
-                label: const Text('Login with Google'),
+              child: GoogleAuthButton(
                 onPressed: () => controller.loginWithGoogle(),
+                text: 'Login dengan Google',
+                style: AuthButtonStyle(
+                    textStyle:
+                        medium.copyWith(fontSize: 12, color: Colors.black),
+                    iconSize: 24),
               ),
             ),
             const SizedBox(height: 10),
@@ -69,7 +72,7 @@ class LoginView extends GetView<LoginController> {
                     TextSpan(
                         text: ' Daftar Sekarang',
                         style:
-                            const TextStyle(fontSize: 14, color: Colors.blue),
+                            const TextStyle(fontSize: 14, color: primaryColor),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => Get.offNamed('/register')),
                   ],

@@ -26,6 +26,7 @@ const double smallSize = 12;
 const double regularSize = 14;
 const double mediumSize = 16;
 const double largeSize = 18;
+const double veryLager = 20;
 
 const primaryColor = Color(0xFFed6672);
 const secondaryColor = Color(0xFFf18b94);
