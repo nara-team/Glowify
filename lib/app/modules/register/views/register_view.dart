@@ -8,7 +8,6 @@ import '../../../../widget/EmailTf.dart'; // Ensure these imports are correct
 import '../../../../widget/passTf.dart'; // Ensure these imports are correct
 import '../../../../widget/BtnLogin.dart'; // Ensure these imports are correct
 
-
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({Key? key}) : super(key: key);
 
@@ -17,19 +16,16 @@ class RegisterView extends GetView<RegisterController> {
     Get.put(RegisterController());
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        centerTitle: true,
+        title: Text('Buat Akun', style: bold.copyWith(fontSize: 24)),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Silahkan mengisi informasi berikut untuk mendaftar.',
-
-              style: TextStyle(fontSize: 16),
+              'Masukkan data diri dan daftarkan akunmu untuk menikmati fitur dari Glowify',
+              style: TextStyle(fontSize: 16, color: abuDarkColor),
             ),
             const SizedBox(height: 20),
             TextFormField(
