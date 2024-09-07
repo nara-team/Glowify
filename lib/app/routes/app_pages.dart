@@ -18,6 +18,8 @@ import '../modules/login/views/login_view.dart';
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
 import '../modules/notification/views/notification_view.dart';
+import '../modules/onboarding/bindings/onboarding_binding.dart';
+import '../modules/onboarding/views/onboarding_view.dart';
 import '../modules/profil/bindings/profil_binding.dart';
 import '../modules/profil/views/profil_view.dart';
 import '../modules/pusat_bantuan/bindings/pusat_bantuan_binding.dart';
@@ -117,6 +119,11 @@ class AppPages {
       name: _Paths.KONSULTASI,
       page: () => const KonsultasiView(),
       binding: KonsultasiBinding(),
+    ),
+    GetPage(
+      name: _Paths.ONBOARDING,
+      page: () => const OnboardingView(),
+      binding: OnboardingBinding(),
     ),
   ];
 }

@@ -1,10 +1,13 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:glowify/app/modules/login/views/login_view.dart';
+
 import 'package:glowify/app/modules/navbar/views/navbar_view.dart';
+import 'package:glowify/app/modules/onboarding/views/onboarding_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/splash_screen_controller.dart';
 
@@ -36,7 +39,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
                   'Made With',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: whiteBackground1Color,
                   ),
                 ),
                 Text(
@@ -44,7 +47,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: whiteBackground1Color,
                   ),
                 ),
               ],
@@ -53,7 +56,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
           const SizedBox(height: 30),
         ],
       ),
-      backgroundColor: const Color(0xFFF06363),
+      backgroundColor: primaryColor,
       splashIconSize: double.infinity,
       nextScreen: const SplashRedirectView(),
       splashTransition: SplashTransition.fadeTransition,
@@ -68,7 +71,7 @@ class SplashRedirectView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: _checkUserLoginStatus(),
+      future: _checkOnboardingStatus(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -80,14 +83,21 @@ class SplashRedirectView extends StatelessWidget {
           if (snapshot.data == true) {
             return const NavbarView();
           } else {
-            return const LoginView();
+            return const OnboardingView();
           }
         }
       },
     );
   }
 
-  Future<bool> _checkUserLoginStatus() async {
+  Future<bool> _checkOnboardingStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? hasCompletedOnboarding = prefs.getBool('hasCompletedOnboarding');
+
+    if (hasCompletedOnboarding == null || hasCompletedOnboarding == false) {
+      return false;
+    }
+
     User? user = FirebaseAuth.instance.currentUser;
     return user != null;
   }
