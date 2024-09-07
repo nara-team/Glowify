@@ -161,7 +161,7 @@ class FaceDetectionController extends GetxController {
           : '0.0'
     ];
 
-    Get.to(() => ResultPage(
+    Get.off(() => ResultPage(
           results: results,
           confidences: confidences,
           imageForehead: imageForehead.value,

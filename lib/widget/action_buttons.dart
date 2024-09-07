@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ActionButtons extends StatelessWidget {
   @override
@@ -35,7 +36,8 @@ class ActionButtons extends StatelessWidget {
           ),
           onPressed: () {
             // Action for "Kembali"
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            Get.offAllNamed('/beranda');
           },
           child: Text(
             'Kembali ke Beranda',
