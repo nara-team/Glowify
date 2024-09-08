@@ -193,26 +193,35 @@ class ProfilView extends GetView<ProfilController> {
               Expanded(
                 child: ListView(
                   children: [
-                    const SettingList(
+                    SettingList(
                       icon: Icons.history,
                       title: 'Riwayat',
+                      onTap: () {
+                        Get.toNamed('/riwayat');
+                      },
                     ),
-                    Divider(),
-                    const SettingList(
+                    const Divider(),
+                    SettingList(
                       icon: Icons.security,
                       title: 'Keamanan',
+                      onTap: () {
+                        Get.toNamed('/keamanan');
+                      },
                     ),
-                    Divider(),
-                    const SettingList(
+                    const Divider(),
+                    SettingList(
                       icon: Icons.help_center,
-                      title: 'Pusat bantuan',
+                      title: 'Pusat Bantuan',
+                      onTap: () {
+                        Get.toNamed('/pusat-bantuan');
+                      },
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
                       leading: const Icon(Icons.exit_to_app),
                       title: const Text('Keluar'),
                       onTap: () {
-                        controller.logout();
+                        controller.showLogoutModal();
                       },
                     ),
                   ],

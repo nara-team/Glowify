@@ -16,7 +16,8 @@ class BerandaController extends GetxController {
   void fetchUserName() async {
     try {
       String uid = _auth.currentUser!.uid;
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
       userName.value = userDoc['fullName'] ?? 'No Name';
     } catch (e) {
       Get.snackbar('Error', 'Failed to load user data');
@@ -35,7 +36,7 @@ class BerandaController extends GetxController {
       "caption": "Deteksi\nKesehatan Wajah",
     },
     {
-      "route": "",
+      "route": "/booking",
       "iconPath": "assets/images/klinik.png",
       "caption": "Booking Klinik\nkecantikan",
     },
