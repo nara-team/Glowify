@@ -111,19 +111,20 @@ class BerandaView extends GetView<BerandaController> {
                                 style: semiBold.copyWith(fontSize: mediumSize),
                               ),
                               const SizedBox(height: 20),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed('/all-tutorials');
-                                },
+                              TextButton(
+                                onPressed: () {},
                                 child: Text(
-                                  "See All",
+                                  "Lihat Semua",
                                   style: medium.copyWith(
-                                      fontSize: smallSize, color: primaryColor),
+                                    fontSize: smallSize,
+                                    color: primaryColor,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          const Gap(20),
+                          const Gap(5),
                           Obx(() {
                             if (tutorialcontroller.isLoading.value) {
                               return const Center(
@@ -135,31 +136,28 @@ class BerandaView extends GetView<BerandaController> {
                                     Text(tutorialcontroller.errorMessage.value),
                               );
                             } else {
-                              return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 15,
-                                  childAspectRatio: 1,
+                              return SizedBox(
+                                height: 200,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 4,
+                                  itemBuilder: (context, index) {
+                                    final article =
+                                        tutorialcontroller.newsArticles[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: TrendingTutorialItem(
+                                        iconPath: article.urlToImage!,
+                                        contentText: article.title,
+                                        onTap: () {
+                                          debugPrint(
+                                              'Artikel diklik: ${article.title}');
+                                        },
+                                      ),
+                                    );
+                                  },
                                 ),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    tutorialcontroller.newsArticles.length,
-                                itemBuilder: (context, index) {
-                                  final article =
-                                      tutorialcontroller.newsArticles[index];
-                                  return TrendingTutorialItem(
-                                    iconPath:
-                                        'assets/images/card_information_tutorial_sample.png',
-                                    contentText: article.title,
-                                    onTap: () {
-                                      debugPrint(
-                                          'Artikel diklik: ${article.title}');
-                                    },
-                                  );
-                                },
                               );
                             }
                           }),

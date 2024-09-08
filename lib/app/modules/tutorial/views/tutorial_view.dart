@@ -121,8 +121,8 @@ class TutorialView extends GetView<TutorialController> {
                       itemBuilder: (context, index) {
                         final article = controller.newsArticles[index];
                         return TrendingTutorialItem(
-                          // iconPath: '${article.urlToImage}',
-                          iconPath: 'assets/images/card_information_tutorial_sample.png',
+                          iconPath: '${article.urlToImage}',
+                          // iconPath: 'assets/images/card_information_tutorial_sample.png',
                           contentText: article.title,
                           onTap: () {
                             Get.toNamed('/tutorialdetail', arguments: article);

@@ -1,34 +1,55 @@
 class NewsArticle {
-  final String sourceName;
-  final String? author;
   final String title;
   final String description;
   final String url;
   final String? urlToImage;
   final DateTime publishedAt;
-  final String? content;
 
   NewsArticle({
-    required this.sourceName,
-    this.author,
     required this.title,
     required this.description,
     required this.url,
     this.urlToImage,
     required this.publishedAt,
-    this.content,
   });
 
   factory NewsArticle.fromJson(Map<String, dynamic> json) {
     return NewsArticle(
-      sourceName: json['source']['name'] as String,
-      author: json['author'] as String?,
       title: json['title'] as String,
       description: json['description'] as String,
-      url: json['url'] as String,
-      urlToImage: json['urlToImage'] as String?,
-      publishedAt: DateTime.parse(json['publishedAt'] as String),
-      content: json['content'] as String?,
+      url: json['link'] as String,
+      urlToImage: json['thumbnail'] as String?,
+      publishedAt: DateTime.parse(json['pubDate'] as String),
+    );
+  }
+}
+
+class NewsResponse {
+  final String link;
+  final String image;
+  final String description;
+  final String title;
+  final List<NewsArticle> posts;
+
+  NewsResponse({
+    required this.link,
+    required this.image,
+    required this.description,
+    required this.title,
+    required this.posts,
+  });
+
+  factory NewsResponse.fromJson(Map<String, dynamic> json) {
+    var list = json['data']['posts'] as List;
+    List<NewsArticle> postsList =
+        list.map((i) => NewsArticle.fromJson(i)).toList();
+
+    return NewsResponse(
+      link: json['data']['link'] as String,
+      image: json['data']['image'] as String,
+      description: json['data']['description'] as String,
+      title: json['data']['title'] as String,
+      posts: postsList,
     );
   }
 }

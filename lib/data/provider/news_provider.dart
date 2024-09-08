@@ -4,19 +4,14 @@ import '../models/news_article.dart';
 
 class NewsProvider extends GetConnect {
   final String apiUrl = dotenv.env['NEWS_API_URL']!;
-  final String apiKey = dotenv.env['NEWS_API_KEY']!;
 
-  Future<List<NewsArticle>> fetchNewsArticles({String query = ''}) async {
-    String url = '$apiUrl&apiKey=$apiKey';
-    if (query.isNotEmpty) {
-      url += '&q=$query';
-    }
-
-    final response = await get(url);
+  Future<List<NewsArticle>> fetchNewsArticles() async {
+    final response = await get(apiUrl);
 
     if (response.statusCode == 200) {
-      List<dynamic> articles = response.body['articles'];
-      return articles.map((article) => NewsArticle.fromJson(article)).toList();
+      List<dynamic> posts = response.body['data']['posts'];
+
+      return posts.map((article) => NewsArticle.fromJson(article)).toList();
     } else {
       throw Exception('Failed to load news');
     }
