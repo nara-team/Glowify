@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/views/beranda_view.dart';
 import 'package:glowify/app/modules/chat/views/chat_view.dart';
 import 'package:glowify/app/modules/profil/views/profil_view.dart';
-import 'package:glowify/app/modules/riwayat/views/riwayat_view.dart';
 import 'package:glowify/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:badges/badges.dart' as badges;

@@ -45,6 +45,19 @@ class TrendingTutorialItem extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
+              // ================= alternatif code =================
+              // child: Image.network(
+                //   iconPath,
+                //   height: 100,
+                //   width: double.infinity,
+                //   fit: BoxFit.cover,
+                //   errorBuilder: (context, error, stackTrace) {
+                //     return const Icon(
+                //       Icons.broken_image,
+                //       size: 100,
+                //     );
+                //   },
+                // ),
               const SizedBox(height: 8.0),
               Text(
                 contentText,

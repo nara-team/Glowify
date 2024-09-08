@@ -97,13 +97,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Krim Pelembap SPF',
           'Mengandung SPF 30 untuk melindungi kulit dari sinar UV.',
-          'assets/cream.jpg',
+          // 'assets/cream.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Krim Pelembap SPF tapped'),
         ),
         _buildProductCard(
           'Eksfoliasi Lembut',
           'Scrub lembut dengan bahan alami untuk mengangkat sel kulit mati.',
-          'assets/exfoliator.jpg',
+          // 'assets/exfoliator.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Eksfoliasi Lembut tapped'),
         ),
       ];
@@ -112,13 +114,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Akne',
           'Mengandung asam salisilat untuk mengurangi jerawat.',
-          'assets/acne_cleanser.jpg',
+          // 'assets/acne_cleanser.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pembersih Anti-Akne tapped'),
         ),
         _buildProductCard(
           'Serum Niacinamide',
           'Memperbaiki tekstur kulit dan mengurangi minyak berlebih.',
-          'assets/niacinamide_serum.jpg',
+          // 'assets/niacinamide_serum.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Serum Niacinamide tapped'),
         ),
       ];
@@ -127,13 +131,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Inflamasi',
           'Mengandung chamomile untuk menenangkan kulit.',
-          'assets/anti_inflammatory_cleanser.jpg',
+          // 'assets/anti_inflammatory_cleanser.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pembersih Anti-Inflamasi tapped'),
         ),
         _buildProductCard(
           'Pelembap Aloe Vera',
           'Menghidrasi dan menenangkan iritasi kulit.',
-          'assets/aloe_vera_moisturizer.jpg',
+          // 'assets/aloe_vera_moisturizer.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pelembap Aloe Vera tapped'),
         ),
       ];
@@ -142,13 +148,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Pori',
           'Mengandung charcoal untuk membersihkan pori-pori.',
-          'assets/charcoal_cleanser.jpg',
+          // 'assets/charcoal_cleanser.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pembersih Pori tapped'),
         ),
         _buildProductCard(
           'Eksfoliasi Komedo',
           'Scrub yang dirancang khusus untuk mengurangi komedo.',
-          'assets/comedo_exfoliator.jpg',
+          // 'assets/comedo_exfoliator.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Eksfoliasi Komedo tapped'),
         ),
       ];
@@ -157,13 +165,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Akne',
           'Diformulasikan untuk mengurangi jerawat di dahi dan pipi.',
-          'assets/acne_cleanser.jpg',
+          // 'assets/acne_cleanser.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pembersih Anti-Akne tapped'),
         ),
         _buildProductCard(
           'Serum Niacinamide',
           'Menyeimbangkan produksi minyak dan memperbaiki tekstur kulit.',
-          'assets/niacinamide_serum.jpg',
+          // 'assets/niacinamide_serum.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Serum Niacinamide tapped'),
         ),
       ];
@@ -172,13 +182,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Akne',
           'Mengatasi masalah jerawat di dahi dan pipi.',
-          'assets/acne_cleanser.jpg',
+          // 'assets/acne_cleanser.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pembersih Anti-Akne tapped'),
         ),
         _buildProductCard(
           'Pelembap Menenangkan',
           'Menjaga kelembapan kulit dan mengurangi iritasi.',
-          'assets/soothing_moisturizer.jpg',
+          // 'assets/soothing_moisturizer.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pelembap Menenangkan tapped'),
         ),
       ];
@@ -187,13 +199,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Inflamasi',
           'Mengatasi kemerahan dan iritasi di pipi.',
-          'assets/anti_inflammatory_cleanser.jpg',
+          // 'assets/anti_inflammatory_cleanser.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pembersih Anti-Inflamasi tapped'),
         ),
         _buildProductCard(
           'Eksfoliasi Lembut',
           'Menjaga kebersihan pori dan mencegah penumpukan sel kulit mati.',
-          'assets/exfoliator.jpg',
+          // 'assets/exfoliator.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Eksfoliasi Lembut tapped'),
         ),
       ];
@@ -202,13 +216,15 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Lengkap',
           'Mengatasi berbagai masalah kulit dengan formula lengkap.',
-          'assets/complete_cleanser.jpg',
+          // 'assets/complete_cleanser.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Pembersih Lengkap tapped'),
         ),
         _buildProductCard(
           'Serum Semua Masalah',
           'Diformulasikan untuk berbagai jenis masalah kulit.',
-          'assets/all_problem_serum.jpg',
+          // 'assets/all_problem_serum.jpg',
+          'assets/images/produk_kesehatan.jpg',
           () => print('Serum Semua Masalah tapped'),
         ),
       ];

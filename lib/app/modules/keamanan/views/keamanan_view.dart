@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/appbarcustom.dart';
 import '../controllers/keamanan_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart'; // Import your app theme
-import 'package:glowify/app/theme/sized_theme.dart'; // Import your size theme
+// import 'package:glowify/app/theme/sized_theme.dart'; // Import your size theme
 
 class KeamananView extends GetView<KeamananController> {
   const KeamananView({Key? key}) : super(key: key);
@@ -10,10 +11,7 @@ class KeamananView extends GetView<KeamananController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Keamanan'),
-        backgroundColor: primaryColor, // Consistent with the theme
-      ),
+      appBar: const CustomAppBar(judul: "Keamanan"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
@@ -61,7 +59,9 @@ class KeamananView extends GetView<KeamananController> {
                 labelText: 'Kata Sandi Baru',
                 border: OutlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor, width: 2.0), // Consistent with the theme
+                  borderSide: BorderSide(
+                      color: primaryColor,
+                      width: 2.0), // Consistent with the theme
                 ),
               ),
               onChanged: (password) {

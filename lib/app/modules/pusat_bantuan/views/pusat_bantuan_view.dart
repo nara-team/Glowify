@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glowify/app/theme/app_theme.dart'; // Import your app theme
-import 'package:glowify/app/theme/sized_theme.dart'; // Import your size theme
+import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/widget/appbarcustom.dart';
+// import 'package:glowify/app/theme/sized_theme.dart';
 import '../controllers/pusat_bantuan_controller.dart';
 
 class PusatBantuanView extends GetView<PusatBantuanController> {
@@ -12,11 +13,7 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
     Get.lazyPut<PusatBantuanController>(() => PusatBantuanController());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pusat Bantuan'),
-        centerTitle: true,
-        backgroundColor: primaryColor, // Consistent with the theme
-      ),
+      appBar: const CustomAppBar(judul: "Pusat Bantuan"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -57,7 +54,8 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
                 icon: const Icon(Icons.message),
                 label: const Text('Ajukan Pertanyaan'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor, // Replaced 'primary' with 'backgroundColor'
+                  backgroundColor:
+                      primaryColor, // Replaced 'primary' with 'backgroundColor'
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 12,

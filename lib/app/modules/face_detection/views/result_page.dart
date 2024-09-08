@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glowify/widget/appbarcustom.dart';
 import 'dart:io';
 import '../../../../widget/result_tile.dart';
 import '../../../../widget/treatment_recommendation.dart';
@@ -21,25 +22,11 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String finalResult = _determineFinalResult();
-    String finalConfidence = _calculateFinalConfidence();
+    // String finalResult = _determineFinalResult();
+    // String finalConfidence = _calculateFinalConfidence();
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Hasil Deteksi Wajah',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
+      appBar: CustomAppBar(judul: "Hasil Deteksi Wajah"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -108,7 +95,11 @@ class ResultPage extends StatelessWidget {
               itemCount: 3,
               itemBuilder: (context, index) {
                 return ResultTile(
-                  area: index == 0 ? "Dahi" : index == 1 ? "Pipi" : "Hidung",
+                  area: index == 0
+                      ? "Dahi"
+                      : index == 1
+                          ? "Pipi"
+                          : "Hidung",
                   result: results[index],
                   confidence: confidences[index],
                 );
@@ -166,7 +157,9 @@ class ResultPage extends StatelessWidget {
 
   String _calculateFinalConfidence() {
     if (confidences.isEmpty) return "0.0";
-    double average = confidences.map((s) => double.parse(s)).reduce((a, b) => a + b) / confidences.length;
+    double average =
+        confidences.map((s) => double.parse(s)).reduce((a, b) => a + b) /
+            confidences.length;
     return average.toStringAsFixed(2);
   }
 }

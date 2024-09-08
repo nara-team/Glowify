@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/appbarcustom.dart';
 import '../controllers/riwayat_controller.dart';
 
 class RiwayatView extends GetView<RiwayatController> {
@@ -8,10 +9,7 @@ class RiwayatView extends GetView<RiwayatController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Riwayat Booking'),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(judul: "Riwayat Booking"),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Obx(() {

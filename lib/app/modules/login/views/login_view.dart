@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 import '../controllers/login_controller.dart';
-import '../../../../widget/EmailTf.dart';
-import '../../../../widget/passTf.dart';
-import '../../../../widget/BtnLogin.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
@@ -12,71 +10,163 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     Get.put(LoginController());
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Silahkan mengisi email dan password yang sudah terdaftar.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-            EmailTf(
-              controller: controller.emailController,
-              error: controller.emailError,
-            ),
-            const SizedBox(height: 18),
-            PassTf(
-              controller: controller.passwordController,
-              error: controller.passwordError,
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 1, bottom: 30),
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () => print('Lupa kata sandi'),
-                child: const Text('Lupa kata sandi?',
-                    style: TextStyle(fontSize: 14)),
-              ),
-            ),
-            BtnLogin(
-              btnText: 'Login',
-              onPressed: () => controller.login(),
-              isLoading: controller.isLoading,
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.login),
-                label: const Text('Login with Google'),
-                onPressed: () => controller.loginWithGoogle(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: RichText(
-                text: TextSpan(
-                  text: 'Belum punya akun?',
-                  style: const TextStyle(fontSize: 14, color: Colors.black),
-                  children: [
-                    TextSpan(
-                        text: ' Daftar Sekarang',
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.blue),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Get.offNamed('/register')),
-                  ],
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 60),
+              Center(
+                child: Text(
+                  'Selamat Datang Kembali!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              Center(
+                child: Text(
+                  'Masuk kembali ke akunmu, dan nikmati fitur dari Glowify',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 40),
+              TextField(
+                controller: controller.emailController,
+                decoration: InputDecoration(
+                  hintText: 'Masukkan Email',
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Kata Sandi',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Obx(
+                () => TextField(
+                  controller: controller.passwordController,
+                  obscureText: controller.isPasswordHidden.value,
+                  decoration: InputDecoration(
+                    hintText: 'Masukkan Kata Sandi',
+                    prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Ubah ikon berdasarkan kondisi show/hide password
+                        controller.isPasswordHidden.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        controller.togglePasswordVisibility();
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    print('Lupa Kata Sandi');
+                  },
+                  child: Text(
+                    'Lupa Kata Sandi?',
+                    style: TextStyle(color: Colors.redAccent),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    controller.login();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text(
+                    'Masuk',
+                    style: TextStyle(fontSize: 16, color: whiteBackground1Color),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    controller.loginWithGoogle();
+                  },
+                  icon: Image.asset(
+                    'assets/images/google_logo.png',
+                    height: 24,
+                  ),
+                  label: Text(
+                    'Login dengan Google',
+                    style: TextStyle(color: Colors.redAccent),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    side: BorderSide(color: Colors.redAccent),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Belum punya akun? ',
+                    style: const TextStyle(color: Colors.black54, fontSize: 14),
+                    children: [
+                      TextSpan(
+                        text: 'Daftar',
+                        style: const TextStyle(
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.offNamed('/register');
+                          },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
