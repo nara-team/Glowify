@@ -8,6 +8,7 @@ class LoginController extends GetxController {
   late TextEditingController emailController;
   late TextEditingController passwordController;
 
+  var isPasswordHidden = true.obs;
   final RxString emailError = ''.obs;
   final RxString passwordError = ''.obs;
 
@@ -20,6 +21,10 @@ class LoginController extends GetxController {
     super.onInit();
     emailController = TextEditingController();
     passwordController = TextEditingController();
+  }
+
+  void togglePasswordVisibility() {
+    isPasswordHidden.value = !isPasswordHidden.value;
   }
 
   void validateInputs() {
@@ -46,6 +51,7 @@ class LoginController extends GetxController {
     if (emailError.value.isEmpty && passwordError.value.isEmpty) {
       isLoading.value = true;
       try {
+        // ignore: unused_local_variable
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,

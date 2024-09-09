@@ -14,11 +14,10 @@ class TutorialView extends GetView<TutorialController> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 30, 20, 4),
+          padding: PaddingCustom().paddingOnly(20, 30, 20, 4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Search Bar Section
               Container(
                 decoration: BoxDecoration(
                   color: whiteBackground1Color,
@@ -50,28 +49,30 @@ class TutorialView extends GetView<TutorialController> {
                 ),
               ),
               const Gap(20),
-              // Category Section
               Text(
                 "Kategori Tutorial",
                 style: semiBold.copyWith(fontSize: mediumSize),
               ),
               const Gap(20),
               Obx(() => Wrap(
-                    spacing: 10,
+                    spacing: 20,
                     runSpacing: 10,
-                    children: controller.categories.map((category) {
-                      final isSelected = controller.selectedCategory.value == category;
+                    children: categories.map((category) {
+                      final isSelected = selectedCategory.value == category;
                       return GestureDetector(
                         onTap: () {
-                          controller.selectedCategory.value = category;
+                          selectedCategory.value = category;
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding:
+                              PaddingCustom().paddingHorizontalVertical(12, 8),
                           decoration: BoxDecoration(
-                            color: isSelected ? primaryColor.withOpacity(0.2) : Colors.white,
+                            color: isSelected
+                                ? whiteBackground1Color
+                                : primaryColor.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: isSelected ? primaryColor : primaryColor.withOpacity(0.2),
+                              color: primaryColor.withOpacity(0.2),
                             ),
                             boxShadow: isSelected
                                 ? [
@@ -86,7 +87,9 @@ class TutorialView extends GetView<TutorialController> {
                           child: Text(
                             category,
                             style: medium.copyWith(
-                              color: isSelected ? primaryColor : primaryColor.withOpacity(0.6),
+                              color: isSelected
+                                  ? primaryColor
+                                  : primaryColor.withOpacity(0.6),
                             ),
                           ),
                         ),
@@ -94,7 +97,6 @@ class TutorialView extends GetView<TutorialController> {
                     }).toList(),
                   )),
               const Gap(20),
-              // Trending Tutorial Section
               Text(
                 "Trending Tutorial",
                 style: semiBold.copyWith(fontSize: mediumSize),
@@ -108,10 +110,10 @@ class TutorialView extends GetView<TutorialController> {
                     return Center(child: Text(controller.errorMessage.value));
                   } else {
                     return GridView.builder(
-                      padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing: 10,
+                        crossAxisSpacing: 8,
                         mainAxisSpacing: 15,
                         childAspectRatio: 0.9,
                       ),
@@ -119,7 +121,8 @@ class TutorialView extends GetView<TutorialController> {
                       itemBuilder: (context, index) {
                         final article = controller.newsArticles[index];
                         return TrendingTutorialItem(
-                          iconPath: 'assets/images/card_information_tutorial_sample.png',
+                          iconPath:
+                              'assets/images/card_information_tutorial_sample.png',
                           contentText: article.title,
                           onTap: () {
                             debugPrint('Artikel diklik: ${article.title}');
