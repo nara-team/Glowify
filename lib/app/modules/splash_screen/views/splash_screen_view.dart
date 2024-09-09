@@ -25,7 +25,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
             flex: 6,
             child: Center(
               child: Image.asset(
-                'assets/images/GLOWIFY.png',
+                'assets/images/Glowify.png',
                 height: 150,
               ),
             ),

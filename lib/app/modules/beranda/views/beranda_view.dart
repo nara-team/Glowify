@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/controllers/beranda_controller.dart';
-import 'package:glowify/app/modules/tutorial/controllers/tutorial_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/card_image_information.dart';
@@ -17,8 +16,6 @@ class BerandaView extends GetView<BerandaController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<BerandaController>(() => BerandaController());
-    final TutorialController tutorialcontroller =
-        Get.find<TutorialController>();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -46,7 +43,7 @@ class BerandaView extends GetView<BerandaController> {
                         )),
                     IconButton(
                       onPressed: () {
-                        Get.toNamed('/notifications');
+                        Get.toNamed('/notification');
                       },
                       icon: const Icon(
                         Icons.notifications_none_outlined,
@@ -102,70 +99,6 @@ class BerandaView extends GetView<BerandaController> {
                               }).toList(),
                             );
                           }),
-                          const SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Trending Tutorial",
-                                style: semiBold.copyWith(fontSize: mediumSize),
-                              ),
-                              const SizedBox(height: 20),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed('/all-tutorials');
-                                },
-                                child: Text(
-                                  "See All",
-                                  style: medium.copyWith(
-                                      fontSize: smallSize, color: primaryColor),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Gap(20),
-                          Obx(() {
-                            if (tutorialcontroller.isLoading.value) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            } else if (tutorialcontroller
-                                .errorMessage.isNotEmpty) {
-                              return Center(
-                                child:
-                                    Text(tutorialcontroller.errorMessage.value),
-                              );
-                            } else {
-                              return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 15,
-                                  childAspectRatio: 1,
-                                ),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    tutorialcontroller.newsArticles.length,
-                                itemBuilder: (context, index) {
-                                  final article =
-                                      tutorialcontroller.newsArticles[index];
-                                  return TrendingTutorialItem(
-                                    iconPath:
-                                        'assets/images/card_information_tutorial_sample.png',
-                                    contentText: article.title,
-                                    onTap: () {
-                                      debugPrint(
-                                          'Artikel diklik: ${article.title}');
-                                    },
-                                  );
-                                },
-                              );
-                            }
-                          }),
-                          const SizedBox(
-                            height: 30,
-                          ),
                         ],
                       ),
                     ),

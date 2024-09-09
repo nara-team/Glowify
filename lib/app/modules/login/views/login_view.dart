@@ -23,7 +23,7 @@ class LoginView extends GetView<LoginController> {
               const SizedBox(height: 60),
               Center(
                 child: Text(
-                  'Selamat Datang Kembali!',
+                  'Selamat Datang Dokter!',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -117,50 +117,6 @@ class LoginView extends GetView<LoginController> {
                   child: const Text(
                     'Masuk',
                     style: TextStyle(fontSize: 16, color: whiteBackground1Color),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    controller.loginWithGoogle();
-                  },
-                  icon: Image.asset(
-                    'assets/images/google_logo.png',
-                    height: 24,
-                  ),
-                  label: Text(
-                    'Login dengan Google',
-                    style: TextStyle(color: Colors.redAccent),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50),
-                    side: BorderSide(color: Colors.redAccent),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Belum punya akun? ',
-                    style: const TextStyle(color: Colors.black54, fontSize: 14),
-                    children: [
-                      TextSpan(
-                        text: 'Daftar',
-                        style: const TextStyle(
-                            color: Colors.redAccent,
-                            fontWeight: FontWeight.bold),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Get.offNamed('/register');
-                          },
-                      ),
-                    ],
                   ),
                 ),
               ),

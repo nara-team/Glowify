@@ -156,51 +156,11 @@ class ProfilView extends GetView<ProfilController> {
                       )),
                 ],
               ),
-              const SizedBox(height: 20),
-              Container(
-                padding: PaddingCustom().paddingAll(16),
-                decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.verified, color: primaryColor, size: 40),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Pengguna Premium',
-                          style: bold.copyWith(
-                            fontSize: 18,
-                            color: primaryColor,
-                          ),
-                        ),
-                        Text(
-                          'Sejak Agustus 2024',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: blackColor.withOpacity(0.6),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
               const SizedBox(height: 30),
               Expanded(
                 child: ListView(
                   children: [
-                    SettingList(
-                      icon: Icons.history,
-                      title: 'Riwayat',
-                      onTap: () {
-                        Get.toNamed('/riwayat');
-                      },
-                    ),
-                    const Divider(),
+
                     SettingList(
                       icon: Icons.security,
                       title: 'Keamanan',

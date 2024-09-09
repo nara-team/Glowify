@@ -25,11 +25,7 @@ class BerandaController extends GetxController {
   }
 
   final List<Map<String, dynamic>> fetureDraftModel = [
-    {
-      "route": "/konsultasi",
-      "iconPath": "assets/images/stethoscope.png",
-      "caption": "Konsultasi\nDoctor",
-    },
+
     {
       "route": "/face-detection",
       "iconPath": "assets/images/face-recognition.png",
