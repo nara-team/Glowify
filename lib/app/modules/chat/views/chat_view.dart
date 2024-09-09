@@ -1,7 +1,8 @@
+// chat_view.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/chat_controller.dart';
-import 'chat_doctor_view.dart'; // Import halaman chat dokter
+import 'chat_user_view.dart'; // Halaman chat dengan pengguna
 
 class ChatView extends GetView<ChatController> {
   const ChatView({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class ChatView extends GetView<ChatController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daftar Dokter'),
+        title: const Text('Daftar Pengguna'),
       ),
       body: Column(
         children: [
@@ -20,7 +21,7 @@ class ChatView extends GetView<ChatController> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               decoration: const InputDecoration(
-                labelText: 'Cari Dokter',
+                labelText: 'Cari Pengguna',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(),
               ),
@@ -31,24 +32,23 @@ class ChatView extends GetView<ChatController> {
           ),
           Expanded(
             child: Obx(() {
-              if (controller.filteredDoctors.isEmpty) {
-                return const Center(child: Text("Tidak ada dokter ditemukan"));
+              if (controller.filteredUsers.isEmpty) {
+                return const Center(child: Text("Tidak ada pengguna ditemukan"));
               }
               return ListView.builder(
-                itemCount: controller.filteredDoctors.length,
+                itemCount: controller.filteredUsers.length,
                 itemBuilder: (context, index) {
-                  final doctor = controller.filteredDoctors[index];
+                  final user = controller.filteredUsers[index];
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage(doctor['photo_doctor'] ?? 'https://example.com/default.jpg'),
+                      backgroundImage: NetworkImage(user['photoURL'] ?? 'https://example.com/default.jpg'),
                     ),
-                    title: Text(doctor['name'] ?? 'No Name'),
-                    subtitle: Text(doctor['specialization'] ?? 'No Specialization'),
-                   onTap: () {
-                      // Navigasi ke halaman chat dengan dokter yang dipilih
-                      Get.to(() => ChatDoctorPageView(doctorId: doctor['id']));
+                    title: Text(user['fullName'] ?? 'No Name'),
+                    subtitle: Text(user['email'] ?? 'No Email'),
+                    onTap: () {
+                      // Navigasi ke halaman chat dengan pengguna yang dipilih
+                      Get.to(() => ChatUserPageView(userId: user['id']));
                     },
-
                   );
                 },
               );
