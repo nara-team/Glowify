@@ -10,63 +10,115 @@ class OnboardingView extends GetView<OnboardingController> {
 
   @override
   Widget build(BuildContext context) {
-    return IntroductionScreen(
-      pages: [
-        PageViewModel(
-          title: "judul",
-          body: "page 1",
-          image: Center(
-              child: Image.asset("assets/images/banner_onboarding_contoh.png",
-                  height: 175)),
-          decoration: const PageDecoration(
-            titleTextStyle:
-                TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            bodyTextStyle: TextStyle(fontSize: 16),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: IntroductionScreen(
+          pages: [
+            PageViewModel(
+              title: "Deteksi Kesehatan Kulit Wajah",
+              body:
+                  "Masalah kesehatan kulit wajah dapat dipengaruhi oleh polusi, gaya hidup, dan paparan sinar matahari. Glowify menggunakan teknologi AI untuk mendeteksi kondisi kulit wajah secara akurat.",
+              image: Center(
+                  child: Image.asset(
+                "assets/images/onboard_1.jpg",
+                height: MediaQuery.of(context).size.height * 0.3,
+                fit: BoxFit.cover,
+              )),
+              decoration: PageDecoration(
+                titleTextStyle: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                bodyTextStyle:
+                    const TextStyle(fontSize: 14, color: Colors.black54),
+                imagePadding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.1),
+                contentMargin: const EdgeInsets.symmetric(horizontal: 16),
+                pageColor: Colors.white, // Set background color for this page
+              ),
+            ),
+            PageViewModel(
+              title: "Konsultasi Profesional",
+              body:
+                  "Jika ada masalah terdeteksi, Anda dapat langsung berkonsultasi dengan dokter kulit profesional melalui platform kami. Glowify mempermudah akses ke perawatan kulit yang berkualitas.",
+              image: Center(
+                  child: Image.asset(
+                "assets/images/onboard_2.jpg",
+                height: MediaQuery.of(context).size.height * 0.3,
+                fit: BoxFit.cover,
+              )),
+              decoration: PageDecoration(
+                titleTextStyle: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                bodyTextStyle:
+                    const TextStyle(fontSize: 14, color: Colors.black54),
+                imagePadding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.1),
+                contentMargin: const EdgeInsets.symmetric(horizontal: 16),
+                pageColor: Colors.white, // Set background color for this page
+              ),
+            ),
+            PageViewModel(
+              title: "Teknologi Canggih",
+              body:
+                  "Glowify memanfaatkan algoritma deep learning untuk analisis citra kulit wajah. Dengan akurasi deteksi sebesar 90%, aplikasi ini menjamin hasil yang andal untuk perawatan kulit Anda.",
+              image: Center(
+                  child: Image.asset(
+                "assets/images/onboard_3.jpg",
+                height: MediaQuery.of(context).size.height * 0.3,
+                fit: BoxFit.cover,
+              )),
+              decoration: PageDecoration(
+                titleTextStyle: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                bodyTextStyle:
+                    const TextStyle(fontSize: 14, color: Colors.black54),
+                imagePadding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.1),
+                contentMargin: const EdgeInsets.symmetric(horizontal: 16),
+                pageColor: Colors.white, // Set background color for this page
+              ),
+            ),
+          ],
+          onDone: () {
+            debugPrint('Done button clicked');
+            _completeOnboarding();
+          },
+          onSkip: () {
+            _completeOnboarding();
+          },
+          showSkipButton: true,
+          skip: Text(
+            "Skip",
+            style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
           ),
-        ),
-        PageViewModel(
-          title: "judul",
-          body: "page 2",
-          image: Center(
-              child: Image.asset("assets/images/banner_onboarding_contoh.png",
-                  height: 175)),
-          decoration: const PageDecoration(
-            titleTextStyle:
-                TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            bodyTextStyle: TextStyle(fontSize: 16),
+          next: Icon(
+            Icons.arrow_forward,
+            color: Colors.black87,
           ),
-        ),
-        PageViewModel(
-          title: "judul",
-          body: "page 3",
-          image: Center(
-              child: Image.asset("assets/images/banner_onboarding_contoh.png",
-                  height: 175)),
-          decoration: const PageDecoration(
-            titleTextStyle:
-                TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            bodyTextStyle: TextStyle(fontSize: 16),
+          done: Text(
+            "Selesai",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+                fontSize: 16),
           ),
-        ),
-      ],
-      onDone: () {
-        debugPrint('Done button clicked');
-        _completeOnboarding();
-      },
-      onSkip: () {
-        _completeOnboarding();
-      },
-      showSkipButton: true,
-      skip: const Text("Skip"),
-      next: const Icon(Icons.arrow_forward),
-      done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
-      dotsDecorator: const DotsDecorator(
-        size: Size(10.0, 10.0),
-        color: Colors.grey,
-        activeSize: Size(22.0, 10.0),
-        activeColor: primaryColor,
-        activeShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          dotsDecorator: DotsDecorator(
+            size: const Size(12.0, 12.0),
+            color: Colors.grey.shade300,
+            activeSize: const Size(24.0, 12.0),
+            activeColor: primaryColor,
+            activeShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+          ),
         ),
       ),
     );
