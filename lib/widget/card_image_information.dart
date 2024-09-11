@@ -38,18 +38,31 @@ class TrendingTutorialItem extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(5),
                 ),
-                child: Image.asset(
+                // child: Image.asset(
+                //   iconPath,
+                //   height: 100,
+                //   width: double.infinity,
+                //   fit: BoxFit.cover,
+                // ),
+                // ================= alternatif code =================
+                child: Image.network(
                   iconPath,
                   height: 100,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.broken_image,
+                      size: 100,
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 8.0),
               Text(
                 contentText,
                 style: regular.copyWith(fontSize: regularSize),
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.left,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),

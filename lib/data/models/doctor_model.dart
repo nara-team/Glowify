@@ -1,26 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DoctorModel {
-  String? id;
-  String? name;
+class Doctor {
+  String? doctorId;
+  List<String>? alumnus;
+  String? doctorEmail;
+  String? doctorName;
+  String? profilePicture;
   String? specialization;
-  String? photoDoctor;
+  String? strDoctor;
+  String? userType;
 
-  DoctorModel({
-    this.id,
-    this.name,
+  Doctor({
+    this.doctorId,
+    this.alumnus,
+    this.doctorEmail,
+    this.doctorName,
+    this.profilePicture,
     this.specialization,
-    this.photoDoctor,
+    this.strDoctor,
+    this.userType,
   });
 
-  factory DoctorModel.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
-    return DoctorModel(
-      id: doc.id,
-      name: data['name'] ?? 'Nama tidak diketahui',
+  factory Doctor.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return Doctor(
+      doctorId: doc.id,
+      alumnus: List<String>.from(data['alumus'] ?? []),
+      doctorEmail: data['doctor_email'] ?? 'Email tidak diketahui',
+      doctorName: data['doctor_name'] ?? 'Nama tidak diketahui',
+      profilePicture:
+          data['profilePicture'] ?? 'assets/images/doktor_null.jpg',
       specialization: data['specialization'] ?? 'Spesialisasi tidak diketahui',
-      photoDoctor: data['photo_doctor'] ?? 'no image available',
+      strDoctor: data['str_doctor'] ?? 'Nomor STR tidak diketahui',
+      userType: data['user_type'] ?? 'Tipe pengguna tidak diketahui',
     );
   }
 }

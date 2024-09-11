@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/controllers/beranda_controller.dart';
+import 'package:glowify/app/modules/navbar/controllers/navbar_controller.dart';
 import 'package:glowify/app/modules/tutorial/controllers/tutorial_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
@@ -19,6 +20,7 @@ class BerandaView extends GetView<BerandaController> {
     Get.lazyPut<BerandaController>(() => BerandaController());
     final TutorialController tutorialcontroller =
         Get.find<TutorialController>();
+    final NavbarController navbarController = Get.find<NavbarController>();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -103,27 +105,12 @@ class BerandaView extends GetView<BerandaController> {
                             );
                           }),
                           const SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Trending Tutorial",
-                                style: semiBold.copyWith(fontSize: mediumSize),
-                              ),
-                              const SizedBox(height: 20),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed('/all-tutorials');
-                                },
-                                child: Text(
-                                  "See All",
-                                  style: medium.copyWith(
-                                      fontSize: smallSize, color: primaryColor),
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "Trending Tutorial",
+                            style: semiBold.copyWith(fontSize: mediumSize),
                           ),
-                          const Gap(20),
+                          const SizedBox(height: 20),
+                          const Gap(5),
                           Obx(() {
                             if (tutorialcontroller.isLoading.value) {
                               return const Center(
@@ -135,31 +122,65 @@ class BerandaView extends GetView<BerandaController> {
                                     Text(tutorialcontroller.errorMessage.value),
                               );
                             } else {
-                              return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 15,
-                                  childAspectRatio: 1,
+                              final itemCount =
+                                  tutorialcontroller.newsArticles.length > 4
+                                      ? 4
+                                      : tutorialcontroller.newsArticles.length;
+
+                              return SizedBox(
+                                height: 200,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: itemCount + 1,
+                                  itemBuilder: (context, index) {
+                                    if (index == itemCount) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            navbarController.changeTabIndex(2);
+                                          },
+                                          child: Container(
+                                            width: 150,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200],
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            child: const Center(
+                                              child: Text(
+                                                'Lihat Semua',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: primaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+
+                                    final article =
+                                        tutorialcontroller.newsArticles[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: TrendingTutorialItem(
+                                        iconPath: article.urlToImage!,
+                                        contentText: article.title,
+                                        onTap: () {
+                                          // debugPrint(
+                                          //     'Artikel diklik: ${article.title}');
+                                          Get.toNamed('/tutorialdetail',
+                                              arguments: article);
+                                        },
+                                      ),
+                                    );
+                                  },
                                 ),
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    tutorialcontroller.newsArticles.length,
-                                itemBuilder: (context, index) {
-                                  final article =
-                                      tutorialcontroller.newsArticles[index];
-                                  return TrendingTutorialItem(
-                                    iconPath:
-                                        'assets/images/card_information_tutorial_sample.png',
-                                    contentText: article.title,
-                                    onTap: () {
-                                      debugPrint(
-                                          'Artikel diklik: ${article.title}');
-                                    },
-                                  );
-                                },
                               );
                             }
                           }),

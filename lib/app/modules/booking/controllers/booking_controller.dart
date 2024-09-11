@@ -7,14 +7,10 @@ import 'package:glowify/data/models/klinik_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class BookingController extends GetxController {
-  final _firestore = FirebaseFirestore.instance;
-
-  var klinikList = <KlinikModel>[].obs;
-  var doctorList = <DoctorModel>[].obs;
   final _currentAddress = "Mencari Lokasi Anda...".obs;
-
-  var filteredKlinikList = <KlinikModel>[].obs;
-  var searchQuery = ''.obs;
+  var klinikList = <Klinik>[].obs;
+  var selectedKlinik = Klinik().obs;
+  var doctors = <Doctor>[].obs;
 
   @override
   void onInit() {
@@ -25,37 +21,60 @@ class BookingController extends GetxController {
 
   Future<void> fetchKlinikList() async {
     try {
-      QuerySnapshot snapshot = await _firestore.collection('klinik').get();
-      klinikList.value = snapshot.docs.map((doc) {
-        return KlinikModel.fromFirestore(doc);
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('klinik').get();
+
+      var klinikData = snapshot.docs.map((doc) {
+        return Klinik.fromFirestore(doc);
       }).toList();
+
+      klinikList.value = klinikData;
     } catch (e) {
-      print("Error fetching klinik: $e");
+      Get.snackbar('Error', 'Error fetching klinik data: $e');
+    }
+  }
+
+  Future<void> fetchKlinikDetail(String klinikId) async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('klinik')
+          .doc(klinikId)
+          .get();
+
+      if (snapshot.exists) {
+        selectedKlinik.value = Klinik.fromFirestore(snapshot);
+
+        if (selectedKlinik.value.idDoktor != null &&
+            selectedKlinik.value.idDoktor!.isNotEmpty) {
+          fetchDoctorsForKlinik(selectedKlinik.value.idDoktor!);
+        } else {
+          Get.snackbar(
+              'Info', 'Tidak ada dokter yang terdaftar di klinik ini.');
+        }
+      } else {
+        Get.snackbar('Error', 'Klinik tidak ditemukan.');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Error fetching klinik detail: $e');
     }
   }
 
   Future<void> fetchDoctorsForKlinik(List<String> doctorIds) async {
     try {
-      if (doctorIds.isNotEmpty) {
-        QuerySnapshot snapshot = await _firestore
-            .collection('doctor')
-            .where(FieldPath.documentId, whereIn: doctorIds)
+      List<Doctor> doctorList = [];
+      for (var doctorId in doctorIds) {
+        DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+            .collection('doctors')
+            .doc(doctorId)
             .get();
-
-        doctorList.value = snapshot.docs.map((doc) {
-          return DoctorModel.fromFirestore(doc);
-        }).toList();
-      } else {
-        doctorList.clear();
+        if (docSnapshot.exists) {
+          doctorList.add(Doctor.fromFirestore(docSnapshot));
+        }
       }
+      doctors.value = doctorList;
     } catch (e) {
-      print("Error fetching doctors: $e");
+      Get.snackbar('Error', 'Error fetching doctors: $e');
     }
-  }
-
-  void onKlinikClicked(KlinikModel klinik) {
-    fetchDoctorsForKlinik(klinik.idDoktor ?? []);
-    Get.toNamed('/bookingdetail', arguments: klinik);
   }
 
   Future<void> _getLocation() async {
@@ -64,7 +83,6 @@ class BookingController extends GetxController {
       try {
         Position position = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
-
         await _getAddressFromLatLng(position);
       } catch (e) {
         _currentAddress.value = "Failed to get location: $e";
@@ -76,7 +94,6 @@ class BookingController extends GetxController {
     } else {
       _currentAddress.value = "Unable to access location.";
     }
-    update();
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
@@ -88,7 +105,6 @@ class BookingController extends GetxController {
 
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
-
         _currentAddress.value =
             "${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}";
       } else {
@@ -97,7 +113,6 @@ class BookingController extends GetxController {
     } catch (e) {
       _currentAddress.value = "Error occurred while getting address: $e";
     }
-    update();
   }
 
   String get currentAddress => _currentAddress.value;

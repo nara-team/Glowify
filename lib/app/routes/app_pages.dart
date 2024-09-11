@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:glowify/app/modules/tutorial/views/detailtutorial_view.dart';
 
 import '../modules/beranda/bindings/beranda_binding.dart';
 import '../modules/beranda/views/beranda_view.dart';
@@ -84,6 +85,11 @@ class AppPages {
     GetPage(
       name: _Paths.TUTORIAL,
       page: () => const TutorialView(),
+      binding: TutorialBinding(),
+    ),
+    GetPage(
+      name: _Paths.TUTORIALDETAIL,
+      page: () => const TutorialDetailView(),
       binding: TutorialBinding(),
     ),
     GetPage(

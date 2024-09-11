@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
@@ -12,7 +11,7 @@ class BookingDetailView extends GetView<BookingdetailController> {
 
   @override
   Widget build(BuildContext context) {
-    final KlinikModel klinik = Get.arguments;
+    final Klinik klinik = Get.arguments;
 
     controller.fetchDoctorsForKlinik(klinik.idDoktor ?? []);
 
@@ -24,7 +23,7 @@ class BookingDetailView extends GetView<BookingdetailController> {
           judul: klinik.namaKlinik ?? 'Detail Klinik',
         ),
         body: Padding(
-          padding: PaddingCustom().paddingOnly(20, 20, 20, 4),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Stack(
@@ -34,11 +33,17 @@ class BookingDetailView extends GetView<BookingdetailController> {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
-                    child: Image.asset(
-                      klinik.photoKlinik!,
+                    child: Image.network(
+                      klinik.photoKlinik ?? '',
+                      height: 200.0,
                       width: double.infinity,
-                      height: 200,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(
+                          Icons.broken_image,
+                          size: 100,
+                        );
+                      },
                     ),
                   ),
                   Positioned.fill(
@@ -63,7 +68,7 @@ class BookingDetailView extends GetView<BookingdetailController> {
                     bottom: 10,
                     left: 12,
                     child: Text(
-                      klinik.namaKlinik!,
+                      klinik.namaKlinik ?? '',
                       style: const TextStyle(
                         color: whiteBackground1Color,
                         fontSize: 20,
@@ -72,9 +77,9 @@ class BookingDetailView extends GetView<BookingdetailController> {
                     ),
                   ),
                   Positioned(
-                    bottom: 10,
+                    top: 10,
                     right: 12,
-                    child: LocationInfo(
+                    child: const LocationInfo(
                       distance: "16 km",
                     ),
                   ),
@@ -89,12 +94,12 @@ class BookingDetailView extends GetView<BookingdetailController> {
                 labelColor: primaryColor,
                 unselectedLabelColor: blackColor,
               ),
-              const Gap(20),
+              const SizedBox(height: 20),
               Expanded(
                 child: TabBarView(
                   children: [
                     Obx(() {
-                      if (controller.doctorList.isEmpty) {
+                      if (controller.doctors.isEmpty) {
                         return Center(
                           child: Text(
                             'Dokter belum tersedia untuk layanan ini',
@@ -105,16 +110,16 @@ class BookingDetailView extends GetView<BookingdetailController> {
                         );
                       } else {
                         return ListView.builder(
-                          itemCount: controller.doctorList.length,
+                          itemCount: controller.doctors.length,
                           itemBuilder: (context, index) {
-                            final doctor = controller.doctorList[index];
+                            final doctor = controller.doctors[index];
                             return DoctorCard(
-                              name: doctor.name ?? 'Nama Tidak Diketahui',
+                              name: doctor.doctorName ?? 'Nama Tidak Diketahui',
                               specialty: doctor.specialization ??
                                   'Spesialisasi Tidak Diketahui',
                               hospital:
                                   klinik.namaKlinik ?? 'Klinik Tidak Diketahui',
-                              imagePath: doctor.photoDoctor ??
+                              imagePath: doctor.profilePicture ??
                                   'assets/images/default_doctor.png',
                             );
                           },
@@ -124,7 +129,7 @@ class BookingDetailView extends GetView<BookingdetailController> {
                     Center(
                       child: Text(
                         'Alamat: ${klinik.alamatKlinik?['desa']}, ${klinik.alamatKlinik?['kecamatan']}, ${klinik.alamatKlinik?['kabupaten']}, ${klinik.alamatKlinik?['provinsi']}\n'
-                        'Jam Operasional: ${klinik.operasional?['start']} - ${klinik.operasional?['end']}',
+                        'Jam Operasional: ${klinik.operationalStart} - ${klinik.operationalEnd}',
                         style: medium.copyWith(
                           fontSize: regularSize,
                         ),
@@ -152,7 +157,7 @@ class LocationInfo extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: PaddingCustom().paddingHorizontalVertical(4, 4),
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.circular(5),
@@ -198,7 +203,6 @@ class DoctorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: whiteBackground1Color,
-      surfaceTintColor: whiteBackground1Color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -209,11 +213,17 @@ class DoctorCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
+              child: Image.network(
                 imagePath,
-                width: 60,
                 height: 60,
+                width: 60,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.broken_image,
+                    size: 60,
+                  );
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -246,7 +256,7 @@ class DoctorCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                padding: PaddingCustom().paddingHorizontalVertical(10, 5),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 backgroundColor: primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

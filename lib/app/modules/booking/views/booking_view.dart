@@ -59,39 +59,52 @@ class BookingView extends GetView<BookingController> {
               const SizedBox(height: 20),
               CustomTextField(
                 onChanged: (value) {},
-                hintText: "cari klinik",
+                hintText: "Cari Klinik",
               ),
               const Gap(30),
               Expanded(
                 child: Obx(
-                  () => ListView.builder(
-                    itemCount: controller.klinikList.length,
-                    itemBuilder: (context, index) {
-                      final klinik = controller.klinikList[index];
+                  () => controller.klinikList.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Tidak ada klinik ditemukan',
+                            style: medium.copyWith(fontSize: regularSize),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: controller.klinikList.length,
+                          itemBuilder: (context, index) {
+                            final klinik = controller.klinikList[index];
 
-                      final address = klinik.alamatKlinik;
-                      String addressString = '';
+                            final address = klinik.alamatKlinik;
+                            String addressString = '';
 
-                      if (address != null) {
-                        addressString =
-                            '${klinik.alamatKlinik!['provinsi']}, ${klinik.alamatKlinik!['kabupaten']}, ${klinik.alamatKlinik!['kecamatan']}, ${klinik.alamatKlinik!['desa']}';
-                      } else {
-                        addressString = 'Alamat tidak tersedia';
-                      }
+                            if (address != null) {
+                              addressString =
+                                  '${klinik.alamatKlinik!['provinsi']}, ${klinik.alamatKlinik!['kabupaten']}, ${klinik.alamatKlinik!['kecamatan']}, ${klinik.alamatKlinik!['desa']}';
+                            } else {
+                              addressString = 'Alamat tidak tersedia';
+                            }
 
-                      return ClinicCard(
-                        onTap: () => controller.onKlinikClicked(klinik),
-                        imagePath: klinik.photoKlinik!,
-                        clinicName: klinik.namaKlinik ?? 'nama tidak diketahui',
-                        openHours: (klinik.operasional?['start'] != null &&
-                                klinik.operasional?['end'] != null)
-                            ? '${klinik.operasional!['start']} - ${klinik.operasional!['end']}'
-                            : 'tidak tersedia',
-                        address: addressString,
-                        distance: 'Jarak tidak tersedia',
-                      );
-                    },
-                  ),
+                            final operationalStart =
+                                klinik.operationalStart ?? 'tidak tersedia';
+                            final operationalEnd =
+                                klinik.operationalEnd ?? 'tidak tersedia';
+
+                            return ClinicCard(
+                              onTap: () {
+                                Get.toNamed('/bookingdetail',
+                                    arguments: klinik);
+                              },
+                              imagePath: klinik.photoKlinik ?? '',
+                              clinicName:
+                                  klinik.namaKlinik ?? 'Nama tidak diketahui',
+                              openHours: '$operationalStart - $operationalEnd',
+                              address: addressString,
+                              distance: 'Jarak tidak tersedia',
+                            );
+                          },
+                        ),
                 ),
               ),
             ],

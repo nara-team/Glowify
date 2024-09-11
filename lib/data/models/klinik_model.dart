@@ -1,32 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class KlinikModel {
-  String? id;
-  String? namaKlinik;
-  List<String>? idDoktor;
-  Map<String, String>? alamatKlinik;
-  Map<String, String>? operasional;
-  String? photoKlinik;
+class Klinik {
+  String? klinikId;
 
-  KlinikModel({
-    this.id,
-    this.namaKlinik,
-    this.idDoktor,
+  List<String>? idDoktor;
+  String? namaKlinik;
+  String? photoKlinik;
+  String? operationalStart;
+  String? operationalEnd;
+  Map<String, String>? alamatKlinik;
+
+  Klinik({
+    this.klinikId,
     this.alamatKlinik,
-    this.operasional,
+    this.idDoktor,
+    this.namaKlinik,
     this.photoKlinik,
+    this.operationalStart,
+    this.operationalEnd,
   });
 
-  factory KlinikModel.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  factory Klinik.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    final operationalData = data['operational'] ?? {};
 
-    return KlinikModel(
-      id: doc.id,
-      namaKlinik: data['nama_klinik'] ?? 'Nama tidak diketahui',
-      idDoktor: List<String>.from(data['id_doktor'] ?? []),
+    return Klinik(
+      klinikId: doc.id,
       alamatKlinik: Map<String, String>.from(data['alamat_klinik'] ?? {}),
-      operasional: Map<String, String>.from(data['operational'] ?? {}),
-      photoKlinik: data['photo_klinik'] ?? 'no image available',
+      idDoktor: List<String>.from(data['id_doktor'] ?? []),
+      namaKlinik: data['nama_klinik'] ?? 'Nama tidak diketahui',
+      photoKlinik: data['photo_klinik'] ?? 'assets/images/hospital_null.jpg',
+      operationalStart: operationalData['start'] ?? 'Tidak tersedia',
+      operationalEnd: operationalData['end'] ?? 'Tidak tersedia',
     );
   }
 }
