@@ -20,6 +20,7 @@ abstract class Routes {
   static const PUSAT_BANTUAN = _Paths.PUSAT_BANTUAN;
   static const KONSULTASI = _Paths.KONSULTASI;
   static const ONBOARDING = _Paths.ONBOARDING;
+  static const CHATROOM = _Paths.CHAT + _Paths.CHATROOM;
 }
 
 abstract class _Paths {
@@ -42,4 +43,5 @@ abstract class _Paths {
   static const PUSAT_BANTUAN = '/pusat-bantuan';
   static const KONSULTASI = '/konsultasi';
   static const ONBOARDING = '/onboarding';
+  static const CHATROOM = '/chatroom';
 }

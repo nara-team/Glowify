@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:glowify/app/modules/tutorial/views/detailtutorial_view.dart';
 
 import '../modules/beranda/bindings/beranda_binding.dart';
 import '../modules/beranda/views/beranda_view.dart';
@@ -32,6 +31,7 @@ import '../modules/riwayat/views/riwayat_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/tutorial/bindings/tutorial_binding.dart';
+import '../modules/tutorial/views/detailtutorial_view.dart';
 import '../modules/tutorial/views/tutorial_view.dart';
 
 part 'app_routes.dart';

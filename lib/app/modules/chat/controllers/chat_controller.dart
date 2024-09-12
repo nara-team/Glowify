@@ -1,58 +1,68 @@
-import 'package:faker/faker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:glowify/data/models/chat_model.dart';
 
 class ChatController extends GetxController {
-  final faker = Faker();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final RxString name = ''.obs;
+  final RxString email = ''.obs;
+  final RxString imageUrl = ''.obs;
 
-  var chats = <Map<String, dynamic>>[].obs;
-  var filteredChats = <Map<String, dynamic>>[].obs;
+  void fetchUserData() async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      name.value = userDoc['fullName'] ?? 'No Name';
+      email.value = userDoc['email'] ?? 'No Email';
+      imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load user data');
+    }
+  }
 
-  var profileName = ''.obs;
-  var profileEmail = ''.obs;
-  var profileImage = ''.obs;
+
+
+  var chats = <Chat>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    profileName.value = faker.person.name();
-    profileEmail.value = faker.internet.email();
-    profileImage.value = faker.image.loremPicsum(width: 200, height: 200);
-    _generateChats();
-    _sortChats();
-    filteredChats.value = chats;
+    fetchUserData();
+    fetchChats(); // Fetch chats when the controller is initialized
   }
 
-  void _generateChats() {
-    chats.value = List.generate(8, (index) {
-      return {
-        "profileImage": faker.image.loremPicsum(
-          width: 200 + index,
-          height: 200 + index,
-        ),
-        "username": faker.person.firstName(),
-        "lastMessage": faker.lorem.sentence(),
-        "date": faker.date.justTime(),
-        "isRead": faker.randomGenerator.boolean(),
-        "unreadCount": faker.randomGenerator.boolean()
-            ? faker.randomGenerator.integer(3, min: 1)
-            : 0,
-      };
-    });
-  }
+  void fetchChats() async {
+    try {
+      String uid = FirebaseAuth.instance.currentUser!.uid;
+      FirebaseFirestore.instance
+          .collection('chats')
+          .where('userId', isEqualTo: uid)
+          .orderBy('lastMessageTime', descending: true)
+          .snapshots()
+          .listen((snapshot) async {
+        chats.value = await Future.wait(snapshot.docs.map((doc) async { 
+          var chatData = Chat.fromFirestore(doc);
 
-  void _sortChats() {
-    chats.sort((a, b) {
-      final aUnread = a["unreadCount"] > 0 ? 1 : 0;
-      final bUnread = b["unreadCount"] > 0 ? 1 : 0;
-      return bUnread.compareTo(aUnread);
-    });
-  }
+          // Fetch doctor data
+          DocumentSnapshot doctorSnapshot = await FirebaseFirestore.instance
+              .collection('doctor')
+              .doc(chatData.doctorId)
+              .get();
 
-  void search(String query) {
-    filteredChats.value = chats.where((chat) {
-      final usernameLower = chat["username"].toString().toLowerCase();
-      final searchLower = query.toLowerCase();
-      return usernameLower.contains(searchLower);
-    }).toList();
+          if (doctorSnapshot.exists) {
+            var doctorData = doctorSnapshot.data() as Map<String, dynamic>;
+            chatData = chatData.copyWith(
+              doctorProfilePicture: doctorData['profilePicture'] ?? '',
+            );
+          }
+
+          return chatData;
+        }).toList());
+      });
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load chats');
+      print('Error fetching chats: $e');
+    }
   }
 }

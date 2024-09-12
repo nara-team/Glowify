@@ -1,195 +1,144 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:glowify/app/theme/app_theme.dart';
-import 'package:glowify/app/theme/sized_theme.dart';
-import 'package:gap/gap.dart';
-
-import '../controllers/chat_controller.dart';
+import 'package:glowify/app/modules/chat/controllers/chat_controller.dart';
+import 'package:glowify/app/modules/chat/controllers/chatroom_controller.dart';
+import 'package:glowify/app/modules/chat/views/chatroom_view.dart';
+import 'package:intl/intl.dart';
 
 class ChatView extends GetView<ChatController> {
   const ChatView({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return const ChatPage();
+  String formatTimestamp(Timestamp timestamp) {
+    DateTime dateTime = timestamp.toDate();
+    return DateFormat('hh:mm a').format(dateTime);
   }
-}
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
-
-  @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
-    final ChatController controller = Get.put(ChatController());
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: PaddingCustom().paddingOnly(20, 30, 20, 4),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Obx(() => CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                            NetworkImage(controller.profileImage.value),
-                      )),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Obx(
+              () {
+                return Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(controller.imageUrl.value),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Obx(() => Text(
-                              controller.profileName.value,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: primaryColor,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                        Obx(() => Text(
-                              controller.profileEmail.value,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: abuMedColor,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            )),
+                        Text(
+                          controller.name.value,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.pink,
+                          ),
+                        ),
+                        Text(
+                          controller.email.value,
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
                       ],
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.edit_outlined,
-                      color: abuMedColor,
-                      size: 32,
-                    ),
-                    onPressed: () {
-                      debugPrint("edit kah?");
-                    },
-                  ),
-                ],
-              ),
-              const Gap(20),
-              Container(
-                decoration: BoxDecoration(
-                  color: whiteBackground1Color,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                      offset: const Offset(1, 2),
-                    ),
                   ],
-                ),
-                child: TextField(
-                  style: const TextStyle(fontSize: 16),
-                  onChanged: (value) {
-                    controller.search(value);
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: whiteBackground1Color,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: "Search...",
-                    prefixIcon: const Icon(Icons.search),
-                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Cari disini..',
+                prefixIcon: Icon(Icons.search, color: Colors.pink),
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
                 ),
               ),
-              const Gap(20),
-              Expanded(
-                child: Obx(() {
-                  int itemCount = controller.filteredChats.isEmpty
-                      ? 0
-                      : controller.filteredChats.length + 1;
-                  return ListView.builder(
-                    itemCount: itemCount,
-                    itemBuilder: (context, index) {
-                      if (index == controller.filteredChats.length) {
-                        return const Gap(160);
-                      }
-                      final chat = controller.filteredChats[index];
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(chat["profileImage"]),
-                          radius: 25.0,
+            ),
+          ),
+          Expanded(
+            child: Obx(() {
+              if (controller.chats.isEmpty) {
+                return Center(child: Text('No chats available'));
+              }
+              return ListView.builder(
+                itemCount: controller.chats.length,
+                itemBuilder: (context, index) {
+                  final chat = controller.chats[index];
+                  return ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(chat.doctorProfilePicture),
+                      radius: 25,
+                      onBackgroundImageError: (error, stackTrace) {
+                        print('Error loading image: $error');
+                      },
+                      child: chat.doctorProfilePicture.isEmpty
+                          ? const Icon(Icons.person)
+                          : null,
+                    ),
+                    title: Text(
+                      chat.doctorName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    subtitle: Text(chat.lastMessage),
+                    trailing: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          formatTimestamp(chat.lastMessageTime),
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
-                        title: Text(
-                          chat["username"],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: Text(
-                          chat["lastMessage"],
-                          style: const TextStyle(
-                            color: abuMedColor,
-                          ),
-                        ),
-                        trailing: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              chat["date"],
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
+                        if (chat.unreadMessagesCount > 0)
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor: Colors.pink,
+                            child: Text(
+                              chat.unreadMessagesCount.toString(),
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.white),
                             ),
-                            if (chat["unreadCount"] > 0)
-                              Container(
-                                margin: const EdgeInsets.only(top: 4),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 16,
-                                  minHeight: 16,
-                                ),
-                                child: Text(
-                                  '${chat["unreadCount"]}',
-                                  style: const TextStyle(
-                                    color: whiteBackground1Color,
-                                    fontSize: 10,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                          ],
+                          ),
+                      ],
+                    ),
+                    onTap: () {
+                      // Get.to(() => ChatroomView(), arguments: chat.chatId);
+                      Get.to(
+                        () => ChatroomView(
+                          chatId: chat.chatId,
+                          doctorName: chat.doctorName,
+                          doctorProfilePicture: chat.doctorProfilePicture,
                         ),
-                        onTap: () {},
+                      );
+                      Get.lazyPut<ChatroomController>(
+                        () => ChatroomController(),
                       );
                     },
                   );
-                }),
-              ),
-            ],
+                },
+              );
+            }),
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint("Tambah Chat Baru");
-        },
-        backgroundColor: primaryColor,
-        child: const Icon(
-          Icons.chat,
-          color: whiteBackground1Color,
-        ),
+        ],
       ),
     );
   }

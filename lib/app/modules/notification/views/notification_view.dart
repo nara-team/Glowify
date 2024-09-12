@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/notification/controllers/notification_controller.dart';
-// import 'package:glowify/app/theme/app_theme.dart';
-// import 'package:glowify/app/theme/sized_theme.dart';
-import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({Key? key}) : super(key: key);
@@ -13,7 +12,10 @@ class NotificationView extends GetView<NotificationController> {
     Get.lazyPut<NotificationController>(() => NotificationController());
 
     return Scaffold(
-      appBar: CustomAppBar(judul: "Notifikasi"),
+      appBar: AppBar(
+        title: const Text('Notifikasi'),
+        backgroundColor: primaryColor,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() {
@@ -53,6 +55,7 @@ class NotificationView extends GetView<NotificationController> {
                       ),
                     ],
                   ),
+              
                   onTap: () {
                     // Aksi ketika notifikasi di klik, bisa diarahkan ke halaman terkait
                     Get.snackbar(
