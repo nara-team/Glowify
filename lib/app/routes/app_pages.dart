@@ -93,5 +93,10 @@ class AppPages {
       page: () => const FaceDetectionView(),
       binding: FaceDetectionBinding(),
     ),
+    GetPage(
+      name: _Paths.KONSULTASI,
+      page: () => const KonsultasiView(),
+      binding: KonsultasiBinding(),
+    ),
   ];
 }

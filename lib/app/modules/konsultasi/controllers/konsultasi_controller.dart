@@ -2,21 +2,24 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Doctor {
+  final String id; // Tambahkan ID dokter
   final String name;
   final String specialty;
   final String image;
 
   Doctor({
+    required this.id,
     required this.name,
     required this.specialty,
     required this.image,
   });
 
-  factory Doctor.fromMap(Map<String, dynamic> data) {
+  factory Doctor.fromMap(String id, Map<String, dynamic> data) {
     return Doctor(
+      id: id,
       name: data['name'] ?? '',
       specialty: data['specialization'] ?? '',
-      image: data['image'] ?? 'assets/images/doctor.jpg',
+      image: data['photo_doctor'] ?? 'https://example.com/default.jpg',
     );
   }
 }
@@ -35,7 +38,7 @@ class KonsultasiController extends GetxController {
       final firestore = FirebaseFirestore.instance;
       final querySnapshot = await firestore.collection('doctor').get();
       final allDoctors = querySnapshot.docs
-          .map((doc) => Doctor.fromMap(doc.data() as Map<String, dynamic>))
+          .map((doc) => Doctor.fromMap(doc.id, doc.data() as Map<String, dynamic>))
           .toList();
 
       doctors.assignAll(allDoctors);
