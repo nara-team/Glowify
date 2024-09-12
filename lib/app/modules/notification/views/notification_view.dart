@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/notification/controllers/notification_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
-import 'package:glowify/app/theme/sized_theme.dart';
 
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({Key? key}) : super(key: key);
@@ -55,7 +54,6 @@ class NotificationView extends GetView<NotificationController> {
                       ),
                     ],
                   ),
-              
                   onTap: () {
                     // Aksi ketika notifikasi di klik, bisa diarahkan ke halaman terkait
                     Get.snackbar(
