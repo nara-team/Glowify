@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tflite/tflite.dart';
+import 'package:tflite_v2/tflite_v2.dart';
 import '../views/result_page.dart';
 
 class FaceDetectionController extends GetxController {

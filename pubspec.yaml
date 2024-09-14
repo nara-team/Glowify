@@ -35,7 +35,7 @@ dependencies:
   ionicons: 0.2.2
   permission_handler: ^11.3.1
   shared_preferences: 2.2.3
-  tflite: ^1.1.2
+  tflite_v2: ^1.0.0
   timeago: ^3.7.0
 
 dev_dependencies:
@@ -46,7 +46,8 @@ flutter:
   assets:
     - assets/images/
     - core/.env.dev
-    - assets/face_health_detection/
+    - assets/face_health_detection/model.tflite
+    - assets/face_health_detection/labels.txt
   fonts:
     - family: Poppins
       fonts:

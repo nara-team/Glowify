@@ -18,6 +18,7 @@ class ActionButtons extends StatelessWidget {
           ),
           onPressed: () {
             // Action for "Konsultasi"
+            Get.offAllNamed('/konsultasi');
           },
           child: Text(
             'Konsultasi Ke Dokter',

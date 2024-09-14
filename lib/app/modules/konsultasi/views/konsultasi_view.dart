@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glowify/widget/appbarcustom.dart';
 import '../controllers/konsultasi_controller.dart';
-import 'doctor_chat_page.dart';
+import 'chat_doctor_view.dart';
 
 class KonsultasiView extends GetView<KonsultasiController> {
   const KonsultasiView({super.key});
@@ -10,7 +9,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(judul: "Konsultasi Dokter"),
+      appBar: AppBar(title: const Text('Konsultasi Dokter')),
       body: Obx(() {
         return ListView.builder(
           itemCount: controller.doctors.length,
@@ -25,7 +24,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
               child: ListTile(
                 leading: CircleAvatar(
                   radius: 30,
-                  backgroundImage: AssetImage(doctor.image),
+                  backgroundImage: NetworkImage(doctor.image), // Use NetworkImage instead of AssetImage
                 ),
                 title: Text(
                   doctor.name,
@@ -53,7 +52,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
       children: [
         IconButton(
           onPressed: () {
-            Get.to(() => DoctorChatPage(doctor: doctor));
+            Get.to(() => ChatDoctorPageView(doctorId: doctor.id)); // Ganti `doctor.name` dengan `doctor.id`
           },
           icon: const Icon(Icons.chat),
           color: Colors.pink,

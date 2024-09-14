@@ -1,68 +1,79 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:glowify/data/models/chat_model.dart';
+import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Untuk mendapatkan user ID
 
 class ChatController extends GetxController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final RxString name = ''.obs;
-  final RxString email = ''.obs;
-  final RxString imageUrl = ''.obs;
-
-  void fetchUserData() async {
-    try {
-      String uid = _auth.currentUser!.uid;
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      name.value = userDoc['fullName'] ?? 'No Name';
-      email.value = userDoc['email'] ?? 'No Email';
-      imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to load user data');
-    }
-  }
-
-
-
-  var chats = <Chat>[].obs;
+  var doctors = <Map<String, dynamic>>[].obs;
+  var filteredDoctors = <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchUserData();
-    fetchChats(); // Fetch chats when the controller is initialized
+    fetchDoctors();
   }
 
-  void fetchChats() async {
+  // Fungsi untuk mengambil data dokter dari Firestore
+  void fetchDoctors() async {
     try {
-      String uid = FirebaseAuth.instance.currentUser!.uid;
-      FirebaseFirestore.instance
-          .collection('chats')
-          .where('userId', isEqualTo: uid)
-          .orderBy('lastMessageTime', descending: true)
-          .snapshots()
-          .listen((snapshot) async {
-        chats.value = await Future.wait(snapshot.docs.map((doc) async { 
-          var chatData = Chat.fromFirestore(doc);
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('doctor').get();
+      var doctorsList = snapshot.docs.map((doc) {
+        var data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id;
+        return data;
+      }).toList();
 
-          // Fetch doctor data
-          DocumentSnapshot doctorSnapshot = await FirebaseFirestore.instance
-              .collection('doctor')
-              .doc(chatData.doctorId)
-              .get();
+      // Ambil pesan terakhir untuk setiap dokter
+      for (var doctor in doctorsList) {
+        final lastMessage = await _getLastMessage(doctor['id']);
+        doctor['lastMessage'] = lastMessage['text'];
+        doctor['lastMessageTime'] = lastMessage['timestamp'];
+      }
 
-          if (doctorSnapshot.exists) {
-            var doctorData = doctorSnapshot.data() as Map<String, dynamic>;
-            chatData = chatData.copyWith(
-              doctorProfilePicture: doctorData['profilePicture'] ?? '',
-            );
-          }
-
-          return chatData;
-        }).toList());
-      });
+      doctors.value = doctorsList;
+      filteredDoctors.value = doctorsList;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load chats');
-      print('Error fetching chats: $e');
+      print("Error fetching doctors: $e");
     }
+  }
+
+  // Ambil pesan terakhir dari chat room
+  Future<Map<String, dynamic>> _getLastMessage(String doctorId) async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser!.uid; // Mendapatkan user ID
+      final roomId = _generateRoomId(userId, doctorId);
+      final snapshot = await FirebaseFirestore.instance
+          .collection('chatRooms')
+          .doc(roomId)
+          .collection('messages')
+          .orderBy('timestamp', descending: true)
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        final lastMessageData = snapshot.docs.first.data() as Map<String, dynamic>;
+        return {
+          'text': lastMessageData['text'] ?? 'No message',
+          'timestamp': lastMessageData['timestamp'] ?? null,
+        };
+      }
+      return {'text': 'No message', 'timestamp': null};
+    } catch (e) {
+      print("Error fetching last message: $e");
+      return {'text': 'Error', 'timestamp': null};
+    }
+  }
+
+  // Fungsi untuk generate roomId unik berdasarkan userId dan doctorId
+  String _generateRoomId(String userId, String doctorId) {
+    return userId.compareTo(doctorId) > 0 ? '$userId\_$doctorId' : '$doctorId\_$userId';
+  }
+
+  // Fungsi untuk mencari dokter
+  void search(String query) {
+    filteredDoctors.value = doctors.where((doctor) {
+      final nameLower = doctor['name'].toString().toLowerCase();
+      final searchLower = query.toLowerCase();
+      return nameLower.contains(searchLower);
+    }).toList();
   }
 }

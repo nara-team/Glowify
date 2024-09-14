@@ -36,14 +36,14 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
             ListTile(
               leading: Icon(Icons.email, color: primaryColor),
               title: Text(
-                'Email: bantuan@glowify.com',
+                'Email: glowifyproject@gmail.com',
                 style: medium.copyWith(fontSize: smallSize),
               ),
             ),
             ListTile(
               leading: Icon(Icons.location_on, color: primaryColor),
               title: Text(
-                'Alamat: Jl. Kebon Jeruk No.12, Jakarta',
+                'Alamat: Jl. Mastrip, Krajan Timur, Sumbersari, Kec. Sumbersari, Kabupaten Jember, Jawa Timur',
                 style: medium.copyWith(fontSize: smallSize),
               ),
             ),
