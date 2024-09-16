@@ -115,7 +115,7 @@ class TreatmentRecommendation extends StatelessWidget {
           'Pembersih Anti-Akne',
           'Mengandung asam salisilat untuk mengurangi jerawat.',
           // 'assets/acne_cleanser.jpeg',
-          'assets/images/produk_kesehatan.1jpeg',
+          'assets/images/produk_kesehatan1.jpeg',
           () => print('Pembersih Anti-Akne tapped'),
         ),
         _buildProductCard(

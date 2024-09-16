@@ -121,9 +121,9 @@ class ResultPage extends StatelessWidget {
     if (healthyCount == 3) {
       return "Sehat";
     } else if (healthyCount > 0) {
-      return "Kurang Sehat";
+      return "Perlu Perhatian";
     } else {
-      return "Tidak Sehat";
+      return "Butuh Perawatan";
     }
   }
 
@@ -132,9 +132,9 @@ class ResultPage extends StatelessWidget {
     switch (result) {
       case "Sehat":
         return Colors.green;
-      case "Kurang Sehat":
-        return Colors.yellow;
-      case "Tidak Sehat":
+      case "Perlu Perhatian":
+        return const Color.fromARGB(255, 255, 174, 0);
+      case "Butuh Perawatan":
         return Colors.red;
       default:
         return Colors.grey;
@@ -146,10 +146,10 @@ class ResultPage extends StatelessWidget {
     switch (result) {
       case "Sehat":
         return "Sehat";
-      case "Kurang Sehat":
-        return "Kurang Sehat";
-      case "Tidak Sehat":
-        return "Tidak Sehat";
+      case "Perlu Perhatian":
+        return "Perlu Perhatian";
+      case "Butuh Perawatan":
+        return "Butuh Perawatan";
       default:
         return "Tidak Ada Data";
     }

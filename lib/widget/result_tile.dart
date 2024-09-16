@@ -52,7 +52,7 @@ class ResultTile extends StatelessWidget {
           Text(
             result,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
               color: result == "Sehat" ? Colors.green : Colors.red,
             ),
