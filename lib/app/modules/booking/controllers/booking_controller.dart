@@ -64,7 +64,7 @@ class BookingController extends GetxController {
       List<Doctor> doctorList = [];
       for (var doctorId in doctorIds) {
         DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-            .collection('doctors')
+            .collection('doctor')
             .doc(doctorId)
             .get();
         if (docSnapshot.exists) {

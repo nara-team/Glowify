@@ -8,7 +8,8 @@ class Chat {
   String doctorName;
   String lastMessage;
   Timestamp lastMessageTime;
-  String doctorProfilePicture;  // Add this field to store the doctor's profile picture URL
+  String
+      doctorProfilePicture; // Add this field to store the doctor's profile picture URL
   int unreadMessagesCount;
 
   Chat({
@@ -19,7 +20,7 @@ class Chat {
     required this.doctorName,
     required this.lastMessage,
     required this.lastMessageTime,
-    required this.doctorProfilePicture,  // Initialize this field
+    required this.doctorProfilePicture, // Initialize this field
     this.unreadMessagesCount = 0,
   });
 
@@ -34,7 +35,8 @@ class Chat {
       doctorName: data['doctorName'] ?? 'Unknown Doctor',
       lastMessage: data['lastMessage'] ?? 'No messages yet',
       lastMessageTime: data['lastMessageTime'] ?? Timestamp.now(),
-      doctorProfilePicture: data['profilePicture'] ?? '', 
+      doctorProfilePicture: data['doctorProfilePicture'] ??
+          'https://example.com/default.jpg', // Pastikan ini terisi default
       unreadMessagesCount: data['unreadMessagesCount'] ?? 0,
     );
   }
@@ -48,7 +50,7 @@ class Chat {
       'doctorName': doctorName,
       'lastMessage': lastMessage,
       'lastMessageTime': lastMessageTime,
-      'profilePicture': doctorProfilePicture,  // Add profile picture to the map
+      'profilePicture': doctorProfilePicture, // Add profile picture to the map
       'unreadMessagesCount': unreadMessagesCount,
     };
   }

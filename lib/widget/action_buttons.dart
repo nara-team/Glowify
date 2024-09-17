@@ -6,19 +6,22 @@ class ActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch, // Make buttons stretch to full width
+      crossAxisAlignment:
+          CrossAxisAlignment.stretch, // Make buttons stretch to full width
       children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent, // Use backgroundColor instead of primary
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16), // Larger padding
+            backgroundColor:
+                Colors.redAccent, // Use backgroundColor instead of primary
+            padding: EdgeInsets.symmetric(
+                horizontal: 24, vertical: 16), // Larger padding
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
           onPressed: () {
             // Action for "Konsultasi"
-            Get.offAllNamed('/konsultasi');
+            Get.toNamed('/konsultasi');
           },
           child: Text(
             'Konsultasi Ke Dokter',
@@ -28,7 +31,8 @@ class ActionButtons extends StatelessWidget {
         SizedBox(height: 16), // Space between buttons
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white, // Use backgroundColor instead of primary
+            backgroundColor:
+                Colors.white, // Use backgroundColor instead of primary
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
@@ -38,7 +42,7 @@ class ActionButtons extends StatelessWidget {
           onPressed: () {
             // Action for "Kembali"
             // Navigator.pop(context);
-            Get.offAllNamed('/beranda');
+            Get.offAllNamed('/navbar');
           },
           child: Text(
             'Kembali ke Beranda',

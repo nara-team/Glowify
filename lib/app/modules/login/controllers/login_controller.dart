@@ -31,18 +31,20 @@ class LoginController extends GetxController {
     emailError.value = '';
     passwordError.value = '';
 
-    // Validate email
     if (emailController.text.isEmpty) {
       emailError.value = 'Email tidak boleh kosong';
-    } else if (!emailController.text.contains('@')) {
+    } else if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+        .hasMatch(emailController.text)) {
       emailError.value = 'Email tidak valid';
     }
 
-    // Validate password
     if (passwordController.text.isEmpty) {
       passwordError.value = 'Password tidak boleh kosong';
     } else if (passwordController.text.length < 8) {
       passwordError.value = 'Password minimal 8 karakter';
+    } else if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d).+$')
+        .hasMatch(passwordController.text)) {
+      passwordError.value = 'Password harus mengandung huruf dan angka';
     }
   }
 
@@ -51,13 +53,11 @@ class LoginController extends GetxController {
     if (emailError.value.isEmpty && passwordError.value.isEmpty) {
       isLoading.value = true;
       try {
-        // ignore: unused_local_variable
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
 
-        // Setelah login sukses, arahkan ke halaman beranda
         Get.offAllNamed('/navbar');
       } on FirebaseAuthException catch (e) {
         Get.snackbar('Login Failed', e.message ?? 'Unknown error');
@@ -71,23 +71,26 @@ class LoginController extends GetxController {
     isLoading.value = true;
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
 
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
 
-      // Simpan data user ke Firestore
-      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
         'fullName': googleUser.displayName,
         'email': googleUser.email,
         'createdAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
 
-      // Setelah login sukses, arahkan ke halaman beranda
       Get.offAllNamed('/navbar');
     } catch (e) {
       Get.snackbar('Google Sign-In Failed', e.toString());

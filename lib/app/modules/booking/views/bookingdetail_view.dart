@@ -116,10 +116,11 @@ class BookingDetailView extends GetView<BookingdetailController> {
                               name: doctor.doctorName ?? 'Nama Tidak Diketahui',
                               specialty: doctor.specialization ??
                                   'Spesialisasi Tidak Diketahui',
-                              hospital:
-                                  klinik.namaKlinik ?? 'Klinik Tidak Diketahui',
                               imagePath: doctor.profilePicture ??
                                   'assets/images/default_doctor.png',
+                              onTap: () {
+                                Get.toNamed('/buatjanji', arguments: doctor);
+                              },
                             );
                           },
                         );
@@ -187,89 +188,72 @@ class LocationInfo extends StatelessWidget {
 class DoctorCard extends StatelessWidget {
   final String name;
   final String specialty;
-  final String hospital;
   final String imagePath;
+  final VoidCallback onTap; // Menambahkan fungsi onTap sebagai parameter
 
   const DoctorCard({
     super.key,
     required this.name,
     required this.specialty,
-    required this.hospital,
     required this.imagePath,
+    required this.onTap, // Parameter onTap
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: whiteBackground1Color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                imagePath,
-                height: 60,
-                width: 60,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(
-                    Icons.broken_image,
-                    size: 60,
-                  );
-                },
+    return InkWell(
+      onTap: onTap, // Aksi onTap saat card di-tap
+      child: Card(
+        color: Colors
+            .white, // Ganti ini dengan whiteBackground1Color jika warna didefinisikan di luar
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  imagePath,
+                  height: 60,
+                  width: 60,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.broken_image,
+                      size: 60,
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    specialty,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    hospital,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                backgroundColor: primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                    const SizedBox(height: 4),
+                    Text(
+                      specialty,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                  ],
                 ),
               ),
-              child: Text(
-                'Booking',
-                style: medium.copyWith(
-                  color: whiteBackground1Color,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ],
+              const SizedBox(width: 8),
+            ],
+          ),
         ),
       ),
     );

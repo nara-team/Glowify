@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BerandaController extends GetxController {
@@ -20,7 +21,7 @@ class BerandaController extends GetxController {
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       userName.value = userDoc['fullName'] ?? 'No Name';
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load user data');
+      debugPrint("gagal mendapatkan userdata");
     }
   }
 
@@ -55,23 +56,5 @@ class BerandaController extends GetxController {
       "route": "",
       "iconPath": "assets/images/banner_home.png",
     },
-  ].obs;
-
-  final List<Map<String, dynamic>> trendingTutorialModel = [
-    {
-      "route": "",
-      "iconPath": "assets/images/card_information_tutorial_sample.png",
-      "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
-    {
-      "route": "",
-      "iconPath": "assets/images/card_information_tutorial_sample.png",
-      "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    },
-    {
-      "route": "",
-      "iconPath": "assets/images/card_information_tutorial_sample.png",
-      "contentText": "Cara Memutihkan Kulit dan Faktor Penyebab Gelapnya Kulit"
-    }
   ].obs;
 }

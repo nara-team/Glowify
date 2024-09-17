@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import '../../../../widget/custom_button.dart';
+import '../../../../widget/custom_textfield.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -12,7 +14,7 @@ class LoginView extends GetView<LoginController> {
     Get.put(LoginController());
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: whiteBackground1Color,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -21,18 +23,18 @@ class LoginView extends GetView<LoginController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 60),
-              Center(
+              const Center(
                 child: Text(
                   'Selamat Datang Kembali!',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: blackColor,
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              Center(
+              const Center(
                 child: Text(
                   'Masuk kembali ke akunmu, dan nikmati fitur dari Glowify',
                   style: TextStyle(
@@ -44,103 +46,126 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
               const SizedBox(height: 40),
-              TextField(
-                controller: controller.emailController,
-                decoration: InputDecoration(
-                  hintText: 'Masukkan Email',
-                  prefixIcon: Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'Kata Sandi',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Obx(
-                () => TextField(
-                  controller: controller.passwordController,
-                  obscureText: controller.isPasswordHidden.value,
-                  decoration: InputDecoration(
-                    hintText: 'Masukkan Kata Sandi',
-                    prefixIcon: Icon(Icons.lock),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        // Ubah ikon berdasarkan kondisi show/hide password
-                        controller.isPasswordHidden.value
-                            ? Icons.visibility_off
-                            : Icons.visibility,
+              Obx(() => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextFieldNormal(
+                        hintText: 'Masukkan Email',
+                        controller: controller.emailController,
+                        isRequired: true,
+                        onTap: () {},
+                        onChanged: (value) {
+                          controller.validateInputs();
+                        },
                       ),
-                      onPressed: () {
-                        controller.togglePasswordVisibility();
-                      },
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
+                      if (controller.emailError.value.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              controller.emailError.value,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        )
+                      else if (controller.emailController.text.isNotEmpty)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Email valid',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  )),
+              const SizedBox(height: 20),
+              Obx(() => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextFieldNormal(
+                        hintText: 'Masukkan Kata Sandi',
+                        controller: controller.passwordController,
+                        isPassword: true,
+                        isRequired: true,
+                        onTap: () {},
+                        onChanged: (value) {
+                          controller.validateInputs();
+                        },
+                      ),
+                      if (controller.passwordError.value.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              controller.passwordError.value,
+                              style: const TextStyle(
+                                color: primaryColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        )
+                      else if (controller.passwordController.text.isNotEmpty)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Password valid',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  )),
               const SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {
-                    print('Lupa Kata Sandi');
-                  },
-                  child: Text(
+                  onPressed: () {},
+                  child: const Text(
                     'Lupa Kata Sandi?',
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: primaryColor),
                   ),
                 ),
               ),
               const SizedBox(height: 30),
               Center(
-                child: ElevatedButton(
+                child: CustomButton(
+                  text: 'Masuk',
                   onPressed: () {
                     controller.login();
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Masuk',
-                    style: TextStyle(fontSize: 16, color: whiteBackground1Color),
-                  ),
                 ),
               ),
               const SizedBox(height: 20),
               Center(
-                child: OutlinedButton.icon(
+                child: CustomButton(
+                  text: 'Login dengan Google',
                   onPressed: () {
                     controller.loginWithGoogle();
                   },
+                  hasOutline: true,
                   icon: Image.asset(
                     'assets/images/google_logo.png',
                     height: 24,
                   ),
-                  label: Text(
-                    'Login dengan Google',
-                    style: TextStyle(color: Colors.redAccent),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50),
-                    side: BorderSide(color: Colors.redAccent),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+                  buttonColor: primaryColor,
+                  textColor: primaryColor,
                 ),
               ),
               const SizedBox(height: 30),
@@ -153,7 +178,7 @@ class LoginView extends GetView<LoginController> {
                       TextSpan(
                         text: 'Daftar',
                         style: const TextStyle(
-                            color: Colors.redAccent,
+                            color: primaryColor,
                             fontWeight: FontWeight.bold),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

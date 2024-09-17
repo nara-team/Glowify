@@ -1,49 +1,53 @@
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-class Doctor {
-  final String id; // Tambahkan ID dokter
-  final String name;
-  final String specialty;
-  final String image;
-
-  Doctor({
-    required this.id,
-    required this.name,
-    required this.specialty,
-    required this.image,
-  });
-
-  factory Doctor.fromMap(String id, Map<String, dynamic> data) {
-    return Doctor(
-      id: id,
-      name: data['name'] ?? '',
-      specialty: data['specialization'] ?? '',
-      image: data['photo_doctor'] ?? 'https://example.com/default.jpg',
-    );
-  }
-}
+import '../../../../data/models/doctor_model.dart';
+import '../../../../data/models/klinik_model.dart';
 
 class KonsultasiController extends GetxController {
   var doctors = <Doctor>[].obs;
+  var klinik = Klinik().obs;
 
   @override
   void onInit() {
-    super.onInit();
     fetchDoctors();
+    super.onInit();
   }
 
   void fetchDoctors() async {
     try {
-      final firestore = FirebaseFirestore.instance;
-      final querySnapshot = await firestore.collection('doctor').get();
-      final allDoctors = querySnapshot.docs
-          .map((doc) => Doctor.fromMap(doc.id, doc.data() as Map<String, dynamic>))
-          .toList();
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('doctor').get();
 
-      doctors.assignAll(allDoctors);
+      doctors.value =
+          snapshot.docs.map((doc) => Doctor.fromFirestore(doc)).toList();
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch doctors', snackPosition: SnackPosition.BOTTOM);
+      print('Error fetching doctors: $e');
+    }
+  }
+
+  Future<void> fetchClinicByDoctorId(String doctorId) async {
+    try {
+      QuerySnapshot clinicSnapshot = await FirebaseFirestore.instance
+          .collection('klinik')
+          .where('id_doktor', arrayContains: doctorId)
+          .get();
+
+      if (clinicSnapshot.docs.isNotEmpty) {
+        var clinicData = clinicSnapshot.docs.first;
+        klinik.value = Klinik.fromFirestore(clinicData);
+      } else {
+        klinik.value = Klinik(
+          namaKlinik: 'Tidak diketahui',
+          alamatKlinik: {
+            'desa': '',
+            'kecamatan': '',
+            'kabupaten': '',
+            'provinsi': ''
+          },
+        );
+      }
+    } catch (e) {
+      print('Error fetching clinic data: $e');
     }
   }
 }

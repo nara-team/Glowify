@@ -28,7 +28,7 @@ class ProfilController extends GetxController {
       email.value = userDoc['email'] ?? 'No Email';
       imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load user data');
+      debugPrint("");
     }
   }
 
@@ -59,9 +59,9 @@ class ProfilController extends GetxController {
       if (newEmail != null && newEmail.isNotEmpty) email.value = newEmail;
       if (downloadUrl != null) imageUrl.value = downloadUrl;
 
-      Get.snackbar('Success', 'Profile updated successfully');
+debugPrint("");
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update profile');
+      debugPrint("");
     }
   }
 
@@ -78,7 +78,7 @@ class ProfilController extends GetxController {
 
       updateProfile(newName: newName, newEmail: newEmail, newImageFile: newImageFile);
     } catch (e) {
-      Get.snackbar('Error', 'Failed to pick image');
+      debugPrint("");
     }
   }
 
@@ -126,7 +126,7 @@ class ProfilController extends GetxController {
                     await _auth.signOut();
                     Get.offAllNamed('/login'); // Arahkan ke halaman login setelah logout
                   } catch (e) {
-                    Get.snackbar('Error', 'Gagal untuk logout');
+                    debugPrint("");
                   }
                 },
               ),

@@ -5,6 +5,7 @@ import '../modules/beranda/views/beranda_view.dart';
 import '../modules/booking/bindings/booking_binding.dart';
 import '../modules/booking/views/booking_view.dart';
 import '../modules/booking/views/bookingdetail_view.dart';
+import '../modules/booking/views/buatjanji_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
 import '../modules/face_detection/bindings/face_detection_binding.dart';
@@ -12,6 +13,7 @@ import '../modules/face_detection/views/face_detection_view.dart';
 import '../modules/keamanan/bindings/keamanan_binding.dart';
 import '../modules/keamanan/views/keamanan_view.dart';
 import '../modules/konsultasi/bindings/konsultasi_binding.dart';
+import '../modules/konsultasi/views/doctordetail_view.dart';
 import '../modules/konsultasi/views/konsultasi_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
@@ -108,6 +110,11 @@ class AppPages {
       binding: BookingBinding(),
     ),
     GetPage(
+      name: _Paths.BUATJANJI,
+      page: () => const BuatJanjiView(),
+      binding: BookingBinding(),
+    ),
+    GetPage(
       name: _Paths.NOTIFICATIONS,
       page: () => const NotificationView(),
     ),
@@ -124,6 +131,11 @@ class AppPages {
     GetPage(
       name: _Paths.KONSULTASI,
       page: () => const KonsultasiView(),
+      binding: KonsultasiBinding(),
+    ),
+    GetPage(
+      name: _Paths.DOCTORDETAIL,
+      page: () => DoctordetailView(),
       binding: KonsultasiBinding(),
     ),
     GetPage(

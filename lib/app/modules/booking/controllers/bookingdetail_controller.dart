@@ -7,17 +7,13 @@ class BookingdetailController extends GetxController {
 
   Future<void> fetchDoctorsForKlinik(List<String> doctorIds) async {
     try {
-      List<Doctor> doctorList = [];
-      for (var doctorId in doctorIds) {
-        DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-            .collection('doctor')
-            .doc(doctorId)
-            .get();
-        if (docSnapshot.exists) {
-          doctorList.add(Doctor.fromFirestore(docSnapshot));
-        }
-      }
-      doctors.value = doctorList;
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('doctor')
+          .where(FieldPath.documentId, whereIn: doctorIds)
+          .get();
+
+      doctors.value =
+          snapshot.docs.map((doc) => Doctor.fromFirestore(doc)).toList();
     } catch (e) {
       Get.snackbar('Error', 'Error fetching doctors: $e');
     }

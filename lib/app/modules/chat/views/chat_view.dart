@@ -1,107 +1,138 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/modules/chat/controllers/chat_controller.dart';
+import 'package:glowify/app/modules/chat/controllers/chatroom_controller.dart';
+import 'package:glowify/app/modules/chat/views/chatroom_view.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 import 'package:intl/intl.dart';
-import '../controllers/chat_controller.dart';
-import 'chat_doctor_view.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatView extends GetView<ChatController> {
   const ChatView({Key? key}) : super(key: key);
 
+  String formatTimestamp(Timestamp timestamp) {
+    DateTime dateTime = timestamp.toDate();
+    return DateFormat('hh:mm a').format(dateTime);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ChatController controller = Get.put(ChatController());
-
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Cari dokter...',
-                  prefixIcon: Icon(Icons.search, color: Colors.redAccent),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            child: Obx(
+              () {
+                return Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(controller.imageUrl.value),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.name.value,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.pink,
+                          ),
+                        ),
+                        Text(
+                          controller.email.value,
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Cari disini..',
+                prefixIcon: Icon(Icons.search, color: Colors.pink),
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
                 ),
-                onChanged: (value) {
-                  controller.search(value);
-                },
               ),
             ),
           ),
           Expanded(
             child: Obx(() {
-              if (controller.filteredDoctors.isEmpty) {
-                return const Center(
-                  child: Text(
-                    "Dokter tidak ditemukan",
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                );
+              if (controller.chats.isEmpty) {
+                return Center(child: Text('No chats available'));
               }
               return ListView.builder(
-                itemCount: controller.filteredDoctors.length,
+                itemCount: controller.chats.length,
                 itemBuilder: (context, index) {
-                  final doctor = controller.filteredDoctors[index];
-                  final lastMessageTime = doctor['lastMessageTime'] != null
-                      ? DateFormat('hh:mm a').format((doctor['lastMessageTime'] as Timestamp).toDate())
-                      : '';
-                  
+                  final chat = controller.chats[index];
                   return ListTile(
-                    contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     leading: CircleAvatar(
-                      radius: 24,
-                      backgroundImage: NetworkImage(doctor['photo_doctor'] ?? 'https://example.com/default.jpg'),
+                      backgroundImage: NetworkImage(chat.doctorProfilePicture),
+                      radius: 25,
+                      onBackgroundImageError: (error, stackTrace) {
+                        print('Error loading image: $error');
+                      },
+                      child: chat.doctorProfilePicture.isEmpty
+                          ? const Icon(Icons.person)
+                          : null,
                     ),
                     title: Text(
-                      doctor['name'] ?? 'No Name',
-                      style: const TextStyle(
+                      chat.doctorName,
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                        fontSize: 16,
+                        color: Colors.black,
                       ),
                     ),
-                    subtitle: Text(
-                      doctor['lastMessage'] ?? 'No message',
-                      style: const TextStyle(color: Colors.black54),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    subtitle: Text(chat.lastMessage),
                     trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          lastMessageTime,
-                          style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                          formatTimestamp(chat.lastMessageTime),
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
-                        const SizedBox(height: 4),
-                        if (index == 0)
-                          Container(
-                            width: 18,
-                            height: 18,
-                            decoration: const BoxDecoration(
-                              color: Colors.redAccent,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                '1',
-                                style: TextStyle(color: Colors.white, fontSize: 12),
-                              ),
+                        if (chat.unreadMessagesCount > 0)
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor: Colors.pink,
+                            child: Text(
+                              chat.unreadMessagesCount.toString(),
+                              style: const TextStyle(
+                                  fontSize: 12, color: whiteBackground1Color),
                             ),
                           ),
-                        if (index != 0)
-                          Icon(Icons.check_circle, color: Colors.blue, size: 16),
                       ],
                     ),
                     onTap: () {
-                      Get.to(() => ChatDoctorPageView(doctorId: doctor['id']));
+                      // Get.to(() => ChatroomView(), arguments: chat.chatId);
+                      Get.to(
+                        () => ChatroomView(
+                          chatId: chat.chatId,
+                          doctorName: chat.doctorName,
+                          doctorProfilePicture: chat.doctorProfilePicture,
+                        ),
+                      );
+                      Get.lazyPut<ChatroomController>(
+                        () => ChatroomController(),
+                      );
                     },
                   );
                 },

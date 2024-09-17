@@ -19,8 +19,10 @@ abstract class Routes {
   static const KEAMANAN = _Paths.KEAMANAN;
   static const PUSAT_BANTUAN = _Paths.PUSAT_BANTUAN;
   static const KONSULTASI = _Paths.KONSULTASI;
+  static const DOCTORDETAIL = _Paths.DOCTORDETAIL;
   static const ONBOARDING = _Paths.ONBOARDING;
   static const CHATROOM = _Paths.CHAT + _Paths.CHATROOM;
+  static const BUATJANJI = _Paths.BUATJANJI;
 }
 
 abstract class _Paths {
@@ -42,6 +44,8 @@ abstract class _Paths {
   static const KEAMANAN = '/keamanan';
   static const PUSAT_BANTUAN = '/pusat-bantuan';
   static const KONSULTASI = '/konsultasi';
+  static const DOCTORDETAIL = '/doctordetail';
   static const ONBOARDING = '/onboarding';
   static const CHATROOM = '/chatroom';
+  static const BUATJANJI = '/buatjanji';
 }

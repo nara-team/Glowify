@@ -9,6 +9,7 @@ class Doctor {
   String? specialization;
   String? strDoctor;
   String? userType;
+  List<Timestamp>? schedule;
 
   Doctor({
     this.doctorId,
@@ -19,20 +20,21 @@ class Doctor {
     this.specialization,
     this.strDoctor,
     this.userType,
+    this.schedule,
   });
 
   factory Doctor.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
     return Doctor(
       doctorId: doc.id,
-      alumnus: List<String>.from(data['alumus'] ?? []),
+      alumnus: List<String>.from(data['alumnus'] ?? []),
       doctorEmail: data['doctor_email'] ?? 'Email tidak diketahui',
       doctorName: data['doctor_name'] ?? 'Nama tidak diketahui',
-      profilePicture:
-          data['profilePicture'] ?? 'assets/images/doktor_null.jpg',
+      profilePicture: data['profilePicture'] ?? 'https://firebasestorage.googleapis.com/v0/b/glowifyapp-9bf8d.appspot.com/o/doctor_image%2Fdokter_avatar.jpg?alt=media&token=67704983-655d-4796-9b2f-9c86682a1726',
       specialization: data['specialization'] ?? 'Spesialisasi tidak diketahui',
       strDoctor: data['str_doctor'] ?? 'Nomor STR tidak diketahui',
       userType: data['user_type'] ?? 'Tipe pengguna tidak diketahui',
-    );
+      schedule: List<Timestamp>.from(data['schedule'] ?? []),
+    );  
   }
 }
