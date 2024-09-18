@@ -11,6 +11,7 @@ import 'package:glowify/widget/card_image_information.dart';
 import 'package:glowify/widget/carousel_with_indicator.dart';
 import 'package:glowify/widget/featurebutton.dart';
 import 'package:glowify/widget/snackbar_custom.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class BerandaView extends GetView<BerandaController> {
   const BerandaView({Key? key}) : super(key: key);
@@ -113,8 +114,31 @@ class BerandaView extends GetView<BerandaController> {
                           const Gap(5),
                           Obx(() {
                             if (tutorialcontroller.isLoading.value) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
+                              return Skeletonizer(
+                                enabled: tutorialcontroller.isLoading
+                                    .value, 
+                                child: SizedBox(
+                                  height: 200,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 4, // Number of skeleton items
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Container(
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
                             } else if (tutorialcontroller
                                 .errorMessage.isNotEmpty) {
                               return Center(
@@ -172,8 +196,6 @@ class BerandaView extends GetView<BerandaController> {
                                         iconPath: article.urlToImage!,
                                         contentText: article.title,
                                         onTap: () {
-                                          // debugPrint(
-                                          //     'Artikel diklik: ${article.title}');
                                           Get.toNamed('/tutorialdetail',
                                               arguments: article);
                                         },

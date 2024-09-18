@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/data/models/klinik_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/bookingdetail_controller.dart';
 
 class BookingDetailView extends GetView<BookingdetailController> {
@@ -99,12 +100,54 @@ class BookingDetailView extends GetView<BookingdetailController> {
                   children: [
                     Obx(() {
                       if (controller.doctors.isEmpty) {
-                        return Center(
-                          child: Text(
-                            'Dokter belum tersedia untuk layanan ini',
-                            style: medium.copyWith(
-                              fontSize: regularSize,
-                            ),
+                        return Skeletonizer(
+                          enabled: controller.doctors.isEmpty,
+                          child: ListView.builder(
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 4.0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(16.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 100,
+                                        height: 16,
+                                        color: Colors.grey[300],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Container(
+                                        width: 150,
+                                        height: 16,
+                                        color: Colors.grey[300],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Container(
+                                        width: 50,
+                                        height: 50,
+                                        color: Colors.grey[300],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         );
                       } else {
@@ -189,23 +232,22 @@ class DoctorCard extends StatelessWidget {
   final String name;
   final String specialty;
   final String imagePath;
-  final VoidCallback onTap; // Menambahkan fungsi onTap sebagai parameter
+  final VoidCallback onTap;
 
   const DoctorCard({
     super.key,
     required this.name,
     required this.specialty,
     required this.imagePath,
-    required this.onTap, // Parameter onTap
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap, // Aksi onTap saat card di-tap
+      onTap: onTap,
       child: Card(
-        color: Colors
-            .white, // Ganti ini dengan whiteBackground1Color jika warna didefinisikan di luar
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

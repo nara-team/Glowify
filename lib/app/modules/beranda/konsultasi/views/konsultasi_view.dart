@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/konsultasi_controller.dart';
 
 class KonsultasiView extends GetView<KonsultasiController> {
@@ -50,8 +51,62 @@ class KonsultasiView extends GetView<KonsultasiController> {
               Expanded(
                 child: Obx(() {
                   if (controller.doctors.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
+                    // Skeleton loading using Skeletonizer when the doctors list is empty (loading state)
+                    return Skeletonizer(
+                      enabled: controller
+                          .doctors.isEmpty, // Skeletonizer active when loading
+                      child: ListView.builder(
+                        itemCount: 4, // Show 4 skeleton items
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 4.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    height: 16,
+                                    color:
+                                        Colors.grey[300], // Skeleton for name
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    width: 150,
+                                    height: 16,
+                                    color: Colors
+                                        .grey[300], // Skeleton for specialty
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    color: Colors.grey[
+                                        300], // Skeleton for profile picture
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   }
+
                   return ListView.builder(
                     itemCount: controller.doctors.length,
                     itemBuilder: (context, index) {
