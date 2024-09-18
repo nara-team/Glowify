@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glowify/app/modules/beranda/views/beranda_view.dart';
+import 'package:glowify/app/modules/beranda/home/views/beranda_view.dart';
 import 'package:glowify/app/modules/chat/views/chat_view.dart';
-import 'package:glowify/app/modules/profil/views/profil_view.dart';
+import 'package:glowify/app/modules/profil/setting/views/profil_view.dart';
 import 'package:glowify/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:badges/badges.dart' as badges;

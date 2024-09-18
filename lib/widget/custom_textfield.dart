@@ -24,7 +24,7 @@ class CustomTextFieldNormal extends StatefulWidget {
     this.isHasHint = true,
     this.placeholder,
     this.onChangeText,
-    required this.onTap,
+    this.onTap,
     this.isHandOver = false,
     this.focusNode,
     this.borderColor,
@@ -47,7 +47,7 @@ class CustomTextFieldNormal extends StatefulWidget {
   final bool enabled;
   final bool readOnly;
   final bool isRequired;
-  final bool isPassword; // Digunakan untuk password field
+  final bool isPassword;
   final bool isHasHint;
   final bool isHandOver;
   final int maxLines;
@@ -65,7 +65,7 @@ class CustomTextFieldNormal extends StatefulWidget {
   final Color? borderColor;
   final Color? textColor;
   final Function? onChangeText;
-  final Function onTap;
+  final Function? onTap;
   final Function? onEditingComplete;
   final TextStyle? hintTextStyle;
   final TextStyle? controllerTextStyle;
@@ -78,7 +78,7 @@ class CustomTextFieldNormal extends StatefulWidget {
 }
 
 class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
-  bool _isObscured = true; // Kontrol visibilitas password
+  bool _isObscured = true;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +123,7 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
             onChanged: widget.onChanged,
             maxLength: widget.maxLength,
             onTap: () {
-              widget.onTap();
+              widget.onTap!();
             },
             onEditingComplete: widget.onEditingComplete != null
                 ? () {
@@ -136,7 +136,8 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
                 TextStyle(
                   fontSize: widget.fontSize ?? 14,
                   fontWeight: FontWeight.w400,
-                  color: widget.textColor ?? (widget.enabled ? Colors.black : Colors.black54),
+                  color: widget.textColor ??
+                      (widget.enabled ? Colors.black : Colors.black54),
                 ),
             keyboardType: widget.keyboardType,
             maxLines: widget.maxLines,
@@ -147,7 +148,8 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
               hintText: widget.placeholder ?? 'Masukkan ${widget.hintText}',
               hintStyle: TextStyle(
                 fontSize: widget.fontSize ?? 14,
-                color: widget.textColor ?? (widget.enabled ? Colors.black54 : Colors.black38),
+                color: widget.textColor ??
+                    (widget.enabled ? Colors.black54 : Colors.black38),
               ),
               prefixIcon: widget.prefixIcon,
               prefix: widget.prefix,
@@ -186,12 +188,13 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
               ),
               errorText: widget.errorText,
             ),
-            validator: widget.validator ?? (value) {
-              if (value == null || value.isEmpty) {
-                return 'Harap masukkan teks';
-              }
-              return null;
-            },
+            validator: widget.validator ??
+                (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Harap masukkan teks';
+                  }
+                  return null;
+                },
           ),
         ),
       ],

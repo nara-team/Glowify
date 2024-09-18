@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:glowify/app/modules/beranda/controllers/beranda_controller.dart';
+import 'package:glowify/app/modules/beranda/home/controllers/beranda_controller.dart';
 import 'package:glowify/app/modules/chat/controllers/chat_controller.dart';
 import 'package:glowify/app/modules/chat/controllers/chatroom_controller.dart';
-import 'package:glowify/app/modules/profil/controllers/profil_controller.dart';
+import 'package:glowify/app/modules/profil/setting/controllers/profil_controller.dart';
 import 'package:glowify/app/modules/tutorial/controllers/tutorial_controller.dart';
 
 class NavbarController extends GetxController {

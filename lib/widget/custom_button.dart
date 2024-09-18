@@ -13,7 +13,7 @@ class CustomButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onPressed,
-    this.hasOutline = false, // Default tidak menggunakan outline
+    this.hasOutline = false,
     this.icon,
     this.buttonColor,
     this.textColor,
@@ -26,17 +26,17 @@ class CustomButton extends StatelessWidget {
       height: 50,
       child: hasOutline
           ? OutlinedButton.icon(
-              icon: icon ?? const SizedBox(), // Menampilkan icon jika ada
+              icon: icon ?? const SizedBox(),
               label: Text(
                 text,
                 style: medium.copyWith(
                   fontSize: mediumSize,
-                  color: textColor ?? primaryColor, // Warna teks disesuaikan
+                  color: textColor ?? primaryColor,
                 ),
               ),
               style: OutlinedButton.styleFrom(
                 side: BorderSide(
-                  color: buttonColor ?? primaryColor, // Warna border
+                  color: buttonColor ?? primaryColor,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -50,11 +50,11 @@ class CustomButton extends StatelessWidget {
                 text,
                 style: medium.copyWith(
                   fontSize: mediumSize,
-                  color: textColor ?? whiteBackground1Color, // Warna teks default
+                  color: textColor ?? whiteBackground1Color,
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: buttonColor ?? primaryColor, // Warna tombol
+                backgroundColor: buttonColor ?? primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
