@@ -9,6 +9,7 @@ class TutorialController extends GetxController {
   var newsArticles = <NewsArticle>[].obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
+  var isTextFieldFocused = false.obs; 
 
   @override
   void onInit() {

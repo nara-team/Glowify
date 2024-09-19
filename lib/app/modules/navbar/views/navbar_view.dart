@@ -6,7 +6,7 @@ import 'package:glowify/app/modules/profil/setting/views/profil_view.dart';
 import 'package:glowify/app/modules/tutorial/views/tutorial_view.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:ionicons/ionicons.dart';
+import 'package:iconsax/iconsax.dart';
 import '../controllers/navbar_controller.dart';
 
 class NavbarView extends GetView<NavbarController> {
@@ -26,39 +26,41 @@ class NavbarView extends GetView<NavbarController> {
               ],
             )),
       ),
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: primaryColor,
-            onTap: (index) {
-              controller.changeTabIndex(index);
-            },
-            currentIndex: controller.tabIndex.value,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            type: BottomNavigationBarType.fixed,
-            items: [
-              _bottomNavigationBarItem(
-                activeIcon: Ionicons.home,
-                icon: Ionicons.home_outline,
-                label: 'Beranda',
-              ),
-              _bottomNavigationBarItem(
-                activeIcon: Ionicons.chatbox_ellipses,
-                icon: Ionicons.chatbox_ellipses_outline,
-                label: 'Pesan',
-              ),
-              _bottomNavigationBarItem(
-                activeIcon: Ionicons.newspaper,
-                icon: Ionicons.newspaper_outline,
-                label: 'Tutorial',
-              ),
-              _bottomNavigationBarItem(
-                activeIcon: Ionicons.person,
-                icon: Ionicons.person_outline,
-                label: 'Profil',
-              ),
-            ],
-          )),
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          unselectedItemColor: abuMedColor,
+          selectedItemColor: primaryColor,
+          onTap: (index) {
+            controller.changeTabIndex(index);
+          },
+          currentIndex: controller.tabIndex.value,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            _bottomNavigationBarItem(
+              activeIcon: Iconsax.home_25,
+              icon: Iconsax.home_2,
+              label: 'Beranda',
+            ),
+            _bottomNavigationBarItem(
+              activeIcon: Iconsax.message5,
+              icon: Iconsax.message,
+              label: 'Pesan',
+            ),
+            _bottomNavigationBarItem(
+              activeIcon: Iconsax.receipt_2_15,
+              icon: Iconsax.receipt_2_14,
+              label: 'Tutorial',
+            ),
+            _bottomNavigationBarItem(
+              activeIcon: Iconsax.tag_user5,
+              icon: Iconsax.tag_user,
+              label: 'Profil',
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -73,7 +75,7 @@ class NavbarView extends GetView<NavbarController> {
           ? badges.Badge(
               badgeContent: Text(
                 badgeCount.toString(),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: whiteBackground1Color),
               ),
               position: badges.BadgePosition.topEnd(top: -10, end: -10),
               child: Icon(activeIcon),
@@ -83,7 +85,7 @@ class NavbarView extends GetView<NavbarController> {
           ? badges.Badge(
               badgeContent: Text(
                 badgeCount.toString(),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: whiteBackground1Color),
               ),
               position: badges.BadgePosition.topEnd(top: -10, end: -10),
               child: Icon(icon),

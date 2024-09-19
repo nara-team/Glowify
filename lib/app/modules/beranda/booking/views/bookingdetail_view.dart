@@ -247,7 +247,8 @@ class DoctorCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
+        surfaceTintColor: whiteBackground1Color,
+        // color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

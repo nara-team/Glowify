@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/settinglist.dart';
+import 'package:iconsax/iconsax.dart';
 import '../controllers/profil_controller.dart';
 
 class ProfilView extends GetView<ProfilController> {
@@ -44,7 +46,7 @@ class ProfilView extends GetView<ProfilController> {
                       },
                       child: controller.imageUrl.isEmpty
                           ? const Icon(
-                              Icons.person,
+                              Iconsax.user2,
                               color: whiteBackground1Color,
                               size: 35,
                             )
@@ -128,55 +130,79 @@ class ProfilView extends GetView<ProfilController> {
 
   @override
   Widget build(BuildContext context) {
+    final RxBool isExpanded = false.obs;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: PaddingCustom().paddingOnly(20, 30, 20, 4),
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.settings,
-                    size: 33,
-                    color: blackColor,
-                  ),
-                  onPressed: () => _openEditDialog(context),
-                ),
-              ),
-              const SizedBox(height: 20),
               Column(
                 children: [
                   Obx(
-                    () => CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(controller.imageUrl.value),
-                      child: controller.imageUrl.isEmpty
-                          ? const Icon(
-                              Icons.person,
+                    () => Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: primaryColor,
+                          backgroundImage: controller.imageUrl.isEmpty
+                              ? null
+                              : NetworkImage(controller.imageUrl.value),
+                          child: controller.imageUrl.isEmpty
+                              ? const Icon(
+                                  Icons.person,
+                                  color: whiteBackground1Color,
+                                  size: 35,
+                                )
+                              : null,
+                        ),
+                        Positioned(
+                          right: -10,
+                          bottom: -10,
+                          child: Container(
+                            decoration: BoxDecoration(
                               color: whiteBackground1Color,
-                              size: 35,
-                            )
-                          : null,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: blackColor.withOpacity(0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 1,
+                                ),
+                              ],
+                            ),
+                            child: IconButton(
+                              icon: const Icon(Iconsax.gallery_edit5),
+                              color: blackColor,
+                              onPressed: () => _openEditDialog(context),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Obx(() => Text(
-                        controller.name.value,
-                        style: bold.copyWith(
-                          fontSize: 22,
-                          color: blackColor,
-                        ),
-                      )),
+                  Obx(
+                    () => Text(
+                      controller.name.value,
+                      style: bold.copyWith(
+                        fontSize: 22,
+                        color: blackColor,
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  Obx(() => Text(
-                        controller.email.value,
-                        style: medium.copyWith(
-                          fontSize: 16,
-                          color: abuMedColor,
-                        ),
-                      )),
+                  Obx(
+                    () => Text(
+                      controller.email.value,
+                      style: medium.copyWith(
+                        fontSize: 16,
+                        color: abuMedColor,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
@@ -188,7 +214,7 @@ class ProfilView extends GetView<ProfilController> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.verified, color: primaryColor, size: 40),
+                    const Icon(Iconsax.verify5, color: primaryColor, size: 40),
                     const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,36 +242,125 @@ class ProfilView extends GetView<ProfilController> {
               Expanded(
                 child: ListView(
                   children: [
-                    SettingList(
-                      icon: Icons.history,
-                      title: 'Riwayat',
-                      onTap: () {
-                        Get.toNamed('/riwayat');
-                      },
+                    Card(
+                      shadowColor: Colors.transparent,
+                      clipBehavior: Clip.antiAlias,
+                      surfaceTintColor: whiteBackground1Color,
+                      // color: whiteBackground1Color,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: abuLightColor, // Warna outline
+                          width: 1, // Ketebalan outline
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 2,
+                      child: Column(
+                        children: [
+                          Theme(
+                            data: Theme.of(context).copyWith(
+                              dividerColor: Colors.transparent,
+                            ),
+                            child: Obx(
+                              () => ExpansionTile(
+                                trailing: Icon(
+                                  isExpanded.value
+                                      ? Iconsax.arrow_square_up
+                                      : Iconsax.arrow_square_down,
+                                ),
+                                backgroundColor: Colors.transparent,
+                                iconColor: primaryColor,
+                                leading: const Icon(Iconsax.clock),
+                                title: Text(
+                                  'Riwayat',
+                                  style: isExpanded.value
+                                      ? const TextStyle(color: primaryColor)
+                                      : const TextStyle(color: blackColor),
+                                ),
+                                children: <Widget>[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: abuLightColor.withOpacity(0.1),
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        SettingList(
+                                          icon: Iconsax.calendar_tick,
+                                          title: 'Riwayat Booking',
+                                          onTap: () {
+                                            Get.toNamed('/riwayatbooking');
+                                          },
+                                        ),
+                                        SettingList(
+                                          icon: Iconsax.scanning,
+                                          title: 'Riwayat Deteksi',
+                                          onTap: () {
+                                            Get.toNamed('/face-history');
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                                onExpansionChanged: (bool expanded) {
+                                  isExpanded.value = expanded;
+                                },
+                              ),
+                            ),
+                          ),
+                          SettingList(
+                            icon: Iconsax.information,
+                            title: 'Informasi Akun',
+                            onTap: () {
+                              Get.toNamed('/keamanan');
+                            },
+                          ),
+                          SettingList(
+                            icon: Iconsax.message_question,
+                            title: 'Pusat Bantuan',
+                            onTap: () {
+                              Get.toNamed('/pusat-bantuan');
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                    const Divider(),
-                    SettingList(
-                      icon: Icons.security,
-                      title: 'Keamanan',
-                      onTap: () {
-                        Get.toNamed('/keamanan');
-                      },
+                    const Gap(20),
+                    Divider(
+                      color: blackColor.withOpacity(0.5),
                     ),
-                    const Divider(),
-                    SettingList(
-                      icon: Icons.help_center,
-                      title: 'Pusat Bantuan',
-                      onTap: () {
-                        Get.toNamed('/pusat-bantuan');
-                      },
-                    ),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.exit_to_app),
-                      title: const Text('Keluar'),
-                      onTap: () {
-                        controller.showLogoutModal();
-                      },
+                    const Gap(20),
+                    Card(
+                      shadowColor: Colors.transparent,
+                      clipBehavior: Clip.antiAlias,
+                      surfaceTintColor: whiteBackground1Color,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: abuLightColor, // Warna outline
+                          width: 1, // Ketebalan outline
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      elevation: 2,
+                      child: ListTile(
+                        leading: const Icon(
+                          Iconsax.logout,
+                          color: Colors.red,
+                        ),
+                        title: const Text(
+                          'Keluar',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                        onTap: () {
+                          controller.showLogoutModal();
+                        },
+                      ),
                     ),
                   ],
                 ),

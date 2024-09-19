@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/home/controllers/beranda_controller.dart';
@@ -11,6 +10,7 @@ import 'package:glowify/widget/card_image_information.dart';
 import 'package:glowify/widget/carousel_with_indicator.dart';
 import 'package:glowify/widget/featurebutton.dart';
 import 'package:glowify/widget/snackbar_custom.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BerandaView extends GetView<BerandaController> {
@@ -40,19 +40,24 @@ class BerandaView extends GetView<BerandaController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Obx(() => Text(
-                          controller.userName.value.isNotEmpty
-                              ? "Hi, ${controller.userName.value}"
-                              : "Hi, Nama Pengguna",
-                          style: medium.copyWith(
-                              fontSize: largeSize, color: Colors.white),
-                        )),
+                    Obx(
+                      () => Text(
+                        controller.userName.value.isNotEmpty
+                            ? "Hi, ${controller.userName.value}"
+                            : "Hi, Nama Pengguna",
+                        style: medium.copyWith(
+                          fontSize: largeSize,
+                          color: whiteBackground1Color,
+                        ),
+                      ),
+                    ),
                     IconButton(
                       onPressed: () {
                         Get.toNamed('/notifications');
                       },
                       icon: const Icon(
-                        Icons.notifications_none_outlined,
+                        // Icons.notifications_none_outlined,
+                        Iconsax.notification5,
                         size: 30,
                         color: whiteBackground2Color,
                       ),
@@ -115,8 +120,7 @@ class BerandaView extends GetView<BerandaController> {
                           Obx(() {
                             if (tutorialcontroller.isLoading.value) {
                               return Skeletonizer(
-                                enabled: tutorialcontroller.isLoading
-                                    .value, 
+                                enabled: tutorialcontroller.isLoading.value,
                                 child: SizedBox(
                                   height: 200,
                                   child: ListView.builder(
@@ -129,7 +133,7 @@ class BerandaView extends GetView<BerandaController> {
                                         child: Container(
                                           width: 150,
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: whiteBackground1Color,
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                           ),

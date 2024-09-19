@@ -5,6 +5,7 @@ import 'package:glowify/app/modules/chat/controllers/chat_controller.dart';
 import 'package:glowify/app/modules/chat/controllers/chatroom_controller.dart';
 import 'package:glowify/app/modules/chat/views/chatroom_view.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:intl/intl.dart';
 
 class ChatView extends GetView<ChatController> {
@@ -31,16 +32,26 @@ class ChatView extends GetView<ChatController> {
                 return Row(
                   children: [
                     CircleAvatar(
+                      backgroundColor: primaryColor,
                       radius: 25,
-                      backgroundImage: NetworkImage(controller.imageUrl.value),
+                      backgroundImage: controller.imageUrl.isEmpty
+                          ? null
+                          : NetworkImage(controller.imageUrl.value),
+                      child: controller.imageUrl.isEmpty
+                          ? const Icon(
+                              Icons.person,
+                              color: whiteBackground1Color,
+                              size: 30,
+                            )
+                          : null,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           controller.name.value,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.pink,
@@ -48,7 +59,8 @@ class ChatView extends GetView<ChatController> {
                         ),
                         Text(
                           controller.email.value,
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 14, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -62,7 +74,7 @@ class ChatView extends GetView<ChatController> {
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Cari disini..',
-                prefixIcon: Icon(Icons.search, color: Colors.pink),
+                prefixIcon: const Icon(Icons.search, color: Colors.pink),
                 filled: true,
                 fillColor: Colors.grey[200],
                 border: OutlineInputBorder(
@@ -75,7 +87,9 @@ class ChatView extends GetView<ChatController> {
           Expanded(
             child: Obx(() {
               if (controller.chats.isEmpty) {
-                return Center(child: Text('No chats available'));
+                return const Center(
+                  child: Text('belum ada riwayat pesan'),
+                );
               }
               return ListView.builder(
                 itemCount: controller.chats.length,
@@ -83,12 +97,12 @@ class ChatView extends GetView<ChatController> {
                   final chat = controller.chats[index];
                   return ListTile(
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        PaddingCustom().paddingHorizontalVertical(16, 8),
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(chat.doctorProfilePicture),
                       radius: 25,
                       onBackgroundImageError: (error, stackTrace) {
-                        print('Error loading image: $error');
+                        debugPrint('Error loading image: $error');
                       },
                       child: chat.doctorProfilePicture.isEmpty
                           ? const Icon(Icons.person)
@@ -96,7 +110,7 @@ class ChatView extends GetView<ChatController> {
                     ),
                     title: Text(
                       chat.doctorName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
@@ -107,7 +121,8 @@ class ChatView extends GetView<ChatController> {
                       children: [
                         Text(
                           formatTimestamp(chat.lastMessageTime),
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                         if (chat.unreadMessagesCount > 0)
                           CircleAvatar(

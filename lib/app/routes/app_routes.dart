@@ -23,6 +23,7 @@ abstract class Routes {
   static const ONBOARDING = _Paths.ONBOARDING;
   static const CHATROOM = _Paths.CHAT + _Paths.CHATROOM;
   static const BUATJANJI = _Paths.BUATJANJI;
+  static const FACE_HISTORY = _Paths.FACE_HISTORY;
 }
 
 abstract class _Paths {
@@ -32,7 +33,7 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const SPLASH_SCREEN = '/splash-screen';
   static const BERANDA = '/beranda';
-  static const RIWAYAT = '/riwayat';
+  static const RIWAYAT = '/riwayatbooking';
   static const PROFIL = '/profil';
   static const CHAT = '/chat';
   static const TUTORIAL = '/tutorial';
@@ -48,4 +49,5 @@ abstract class _Paths {
   static const ONBOARDING = '/onboarding';
   static const CHATROOM = '/chatroom';
   static const BUATJANJI = '/buatjanji';
+  static const FACE_HISTORY = '/face-history';
 }

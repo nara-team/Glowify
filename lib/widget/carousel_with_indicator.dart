@@ -9,15 +9,15 @@ class CarouselWithIndicator extends StatefulWidget {
   const CarouselWithIndicator({super.key, required this.images});
 
   @override
-  _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
+  CarouselWithIndicatorState createState() => CarouselWithIndicatorState();
 }
 
-class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
+class CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   int _current = 0;
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _imageSliders = widget.images.map((imageData) {
+    final List<Widget> imageSliders = widget.images.map((imageData) {
       return InkWell(
         child: Container(
           height: 150,
@@ -42,9 +42,10 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
     return Column(
       children: [
         CarouselSlider(
-          items: _imageSliders,
+          items: imageSliders,
           options: CarouselOptions(
-            autoPlay: false,
+            autoPlay: true,
+            autoPlayInterval: const Duration(seconds: 3),
             enlargeCenterPage: true,
             height: 150,
             onPageChanged: (index, reason) {
@@ -56,7 +57,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: _imageSliders.asMap().entries.map((entry) {
+          children: imageSliders.asMap().entries.map((entry) {
             return GestureDetector(
               child: Container(
                 width: 8.0,

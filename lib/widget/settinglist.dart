@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:iconsax/iconsax.dart';
 
 class SettingList extends StatelessWidget {
   final IconData icon;
   final String title;
-  final VoidCallback? onTap; // Add onTap as a parameter
+  final VoidCallback? onTap;
 
   const SettingList({
     Key? key,
     required this.icon,
     required this.title,
-    this.onTap, // Optional parameter
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -21,16 +22,17 @@ class SettingList extends StatelessWidget {
         title,
         style: medium.copyWith(
           fontSize: 16,
-          color: blackColor.withOpacity(0.6),
+          color: blackColor,
         ),
       ),
-      trailing: Icon(
-        Icons.arrow_forward_ios,
-        color: blackColor.withOpacity(0.5),
+      trailing: const Icon(
+        Iconsax.arrow_right,
+        color: blackColor,
       ),
-      onTap: onTap ?? () {
-        debugPrint("nantinya route ke $title");
-      }, // Use the custom onTap or a default debug print
+      onTap: onTap ??
+          () {
+            debugPrint("nantinya route ke $title");
+          },
     );
   }
 }

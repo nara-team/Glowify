@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:iconsax/iconsax.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String judul;
@@ -25,15 +26,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: whiteBackground1Color,
-            size: 26,
-          ),
+        onPressed: () {
+          Get.back();
+        },
+        icon: const Icon(
+          Iconsax.arrow_circle_left4,
+          color: whiteBackground1Color,
+          size: 26,
         ),
+      ),
       backgroundColor: primaryColor,
       elevation: 0,
       automaticallyImplyLeading: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/card_image_information.dart';
 import '../controllers/tutorial_controller.dart';
@@ -11,6 +12,12 @@ class TutorialView extends GetView<TutorialController> {
 
   @override
   Widget build(BuildContext context) {
+    final FocusNode textFieldFocusNode = FocusNode();
+
+    textFieldFocusNode.addListener(() {
+      controller.isTextFieldFocused.value = textFieldFocusNode.hasFocus;
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -18,84 +25,76 @@ class TutorialView extends GetView<TutorialController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: whiteBackground1Color,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                      offset: const Offset(1, 2),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  style: const TextStyle(fontSize: 16),
-                  onChanged: (query) {
-                    controller.searchNews(query);
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: whiteBackground1Color,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: "Search...",
-                    prefixIcon: const Icon(Icons.search),
+              TextField(
+                onChanged: (query) {
+                  controller.searchNews(query);
+                },
+                focusNode: textFieldFocusNode,
+                cursorColor: primaryColor,
+                decoration: InputDecoration(
+                  hintText: 'Cari disini..',
+                  prefixIcon: const Icon(Icons.search, color: primaryColor),
+                  filled: true,
+                  fillColor: abuLightColor.withOpacity(0.5),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
               const Gap(20),
-              Text(
-                "Kategori Tutorial",
-                style: semiBold.copyWith(fontSize: mediumSize),
-              ),
-              const Gap(20),
-              Obx(() => Wrap(
-                    spacing: 20,
-                    runSpacing: 10,
-                    children: categories.map((category) {
-                      final isSelected = selectedCategory.value == category;
-                      return GestureDetector(
-                        onTap: () {
-                          selectedCategory.value = category;
-                        },
-                        child: Container(
-                          padding:
-                              PaddingCustom().paddingHorizontalVertical(12, 8),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? whiteBackground1Color
-                                : primaryColor.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: primaryColor.withOpacity(0.2),
-                            ),
-                            boxShadow: isSelected
-                                ? [
-                                    BoxShadow(
-                                      color: blackColor.withOpacity(0.1),
-                                      blurRadius: 5,
-                                      offset: const Offset(0, 3),
-                                    ),
-                                  ]
-                                : [],
-                          ),
-                          child: Text(
-                            category,
-                            style: medium.copyWith(
-                              color: isSelected
-                                  ? primaryColor
-                                  : primaryColor.withOpacity(0.6),
-                            ),
-                          ),
+              Obx(
+                () {
+                  final hasFocus = controller.isTextFieldFocused.value;
+                  if (hasFocus) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Kategori Tutorial",
+                          style: semiBold.copyWith(fontSize: mediumSize),
                         ),
-                      );
-                    }).toList(),
-                  )),
+                        const Gap(20),
+                        Wrap(
+                          spacing: 20,
+                          runSpacing: 10,
+                          children: categories.map((category) {
+                            return Obx(() {
+                              final isSelected =
+                                  selectedCategory.value == category;
+                              return ChoiceChip(
+                                label: Text(
+                                  category,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : primaryColor.withOpacity(0.7),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                selected: isSelected,
+                                selectedColor: primaryColor,
+                                backgroundColor: primaryColor.withOpacity(0.2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  side: BorderSide(
+                                    color: primaryColor.withOpacity(0.4),
+                                  ),
+                                ),
+                                onSelected: (selected) {
+                                  selectedCategory.value = category;
+                                },
+                              );
+                            });
+                          }).toList(),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
               const Gap(20),
               Text(
                 "Trending Tutorial",
@@ -105,7 +104,29 @@ class TutorialView extends GetView<TutorialController> {
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Skeletonizer(
+                      enabled: true,
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 15,
+                          childAspectRatio: 0.9,
+                        ),
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 150,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   } else if (controller.errorMessage.isNotEmpty) {
                     return Center(child: Text(controller.errorMessage.value));
                   } else {
@@ -122,7 +143,6 @@ class TutorialView extends GetView<TutorialController> {
                         final article = controller.newsArticles[index];
                         return TrendingTutorialItem(
                           iconPath: '${article.urlToImage}',
-                          // iconPath: 'assets/images/card_information_tutorial_sample.png',
                           contentText: article.title,
                           onTap: () {
                             Get.toNamed('/tutorialdetail', arguments: article);
