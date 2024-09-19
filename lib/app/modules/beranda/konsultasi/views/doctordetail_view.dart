@@ -21,7 +21,6 @@ class DoctordetailView extends GetView<DoctordetailController> {
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Card(
-            color: whiteBackground1Color,
             surfaceTintColor: whiteBackground1Color,
             elevation: 4.0,
             shape: RoundedRectangleBorder(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import '../controllers/face_detection_controller.dart';
 import '../../../../../widget/face_area_widget.dart';
@@ -23,44 +25,59 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // FaceAreaWidget untuk Area Dahi
                 FaceAreaWidget(
                   title: "Area Dahi",
                   image: controller.imageForehead.value,
                   onTap: () => controller.pickImage("forehead"),
+                  onRemoveImage: () {
+                    controller.removeImage("forehead");
+                  },
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
+                
+                // FaceAreaWidget untuk Area Pipi
                 FaceAreaWidget(
                   title: "Area Pipi",
                   image: controller.imageCheek.value,
                   onTap: () => controller.pickImage("cheek"),
+                  onRemoveImage: () {
+                    controller.removeImage("cheek");
+                  },
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
+                
+                // FaceAreaWidget untuk Area Hidung
                 FaceAreaWidget(
                   title: "Area Hidung",
                   image: controller.imageNose.value,
                   onTap: () => controller.pickImage("nose"),
+                  onRemoveImage: () {
+                    controller.removeImage("nose");
+                  },
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
+                
                 ElevatedButton(
                   onPressed: allImagesSelected && !controller.loading.value
                       ? controller.classifyImage
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    padding: PaddingCustom().paddingVertical(16),
                     elevation: 4,
                   ),
                   child: controller.loading.value
-                      ? CircularProgressIndicator(color: Colors.white)
+                      ? const CircularProgressIndicator(
+                          color: whiteBackground1Color)
                       : Text(
-                          'Analisis AI',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          'Analisa Sekarang',
+                          style: bold.copyWith(
+                            fontSize: largeSize,
+                            color: whiteBackground1Color,
                           ),
                         ),
                 ),

@@ -109,6 +109,17 @@ class FaceDetectionController extends GetxController {
     }
   }
 
+  // Fungsi untuk menghapus gambar
+  void removeImage(String area) {
+    if (area == "forehead") {
+      imageForehead.value = null;
+    } else if (area == "cheek") {
+      imageCheek.value = null;
+    } else if (area == "nose") {
+      imageNose.value = null;
+    }
+  }
+
   Future<void> classifyImage() async {
     loading.value = true;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:iconsax/iconsax.dart';
 
 class CustomTextFieldNormal extends StatefulWidget {
   const CustomTextFieldNormal({
@@ -156,7 +157,7 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
               suffixIcon: widget.isPassword
                   ? IconButton(
                       icon: Icon(
-                        _isObscured ? Icons.visibility_off : Icons.visibility,
+                        _isObscured ? Iconsax.eye_slash : Iconsax.eye,
                       ),
                       onPressed: () {
                         setState(() {
