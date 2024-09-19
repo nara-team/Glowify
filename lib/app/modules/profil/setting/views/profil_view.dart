@@ -316,7 +316,7 @@ class ProfilView extends GetView<ProfilController> {
                             icon: Iconsax.information,
                             title: 'Informasi Akun',
                             onTap: () {
-                              Get.toNamed('/keamanan');
+                              Get.toNamed('/informasiakun');
                             },
                           ),
                           SettingList(

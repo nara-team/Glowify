@@ -1,37 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/widget/appbarcustom.dart';
-import '../controllers/keamanan_controller.dart';
-import 'package:glowify/app/theme/app_theme.dart'; // Import your app theme
-// import 'package:glowify/app/theme/sized_theme.dart'; // Import your size theme
+import '../controllers/informasi_akun_controller.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 
-class KeamananView extends GetView<KeamananController> {
-  const KeamananView({Key? key}) : super(key: key);
+class InformasiAkunView extends GetView<InformasiAkunController> {
+  const InformasiAkunView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(judul: "Keamanan"),
+      appBar: const CustomAppBar(judul: "Informasi Akun"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            // Header Section
             Text(
               'Pengaturan Keamanan',
-              style: semiBold.copyWith(fontSize: largeSize), // Using theme
+              style: semiBold.copyWith(fontSize: largeSize),
             ),
             const SizedBox(height: 20),
-
-            // Two-Factor Authentication Section
             Obx(() {
               return Card(
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.security,
-                    color: primaryColor, // Consistent with the theme
+                    color: primaryColor,
                   ),
                   title: const Text('Aktifkan Autentikasi Dua Faktor'),
                   trailing: Switch(
@@ -39,18 +35,15 @@ class KeamananView extends GetView<KeamananController> {
                     onChanged: (value) {
                       controller.toggleTwoFactor(value);
                     },
-                    activeColor: primaryColor, // Consistent with the theme
+                    activeColor: primaryColor,
                   ),
                 ),
               );
             }),
-
             const SizedBox(height: 20),
-
-            // Password Update Section
             Text(
               'Perbarui Kata Sandi',
-              style: semiBold.copyWith(fontSize: mediumSize), // Using theme
+              style: semiBold.copyWith(fontSize: mediumSize),
             ),
             const SizedBox(height: 10),
             TextField(
@@ -59,9 +52,7 @@ class KeamananView extends GetView<KeamananController> {
                 labelText: 'Kata Sandi Baru',
                 border: OutlineInputBorder(),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: primaryColor,
-                      width: 2.0), // Consistent with the theme
+                  borderSide: BorderSide(color: primaryColor, width: 2.0),
                 ),
               ),
               onChanged: (password) {

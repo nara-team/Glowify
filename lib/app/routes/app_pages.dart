@@ -26,8 +26,8 @@ import '../modules/profil/riwayat/face_history/bindings/face_history_binding.dar
 import '../modules/profil/riwayat/face_history/views/face_history_view.dart';
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
-import '../modules/profil/keamanan/bindings/keamanan_binding.dart';
-import '../modules/profil/keamanan/views/keamanan_view.dart';
+import '../modules/profil/informasi_akun/bindings/informasi_akun_binding.dart';
+import '../modules/profil/informasi_akun/views/informasi_akun_view.dart';
 import '../modules/profil/pusat_bantuan/bindings/pusat_bantuan_binding.dart';
 import '../modules/profil/pusat_bantuan/views/pusat_bantuan_view.dart';
 import '../modules/profil/riwayat/booking_history/bindings/riwayat_booking_binding.dart';
@@ -121,9 +121,9 @@ class AppPages {
       page: () => const NotificationView(),
     ),
     GetPage(
-      name: _Paths.KEAMANAN,
-      page: () => const KeamananView(),
-      binding: KeamananBinding(),
+      name: _Paths.INFORMASIAKUN,
+      page: () => const InformasiAkunView(),
+      binding: InformasiAkunBinding(),
     ),
     GetPage(
       name: _Paths.PUSAT_BANTUAN,

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class KeamananController extends GetxController {
+class InformasiAkunController extends GetxController {
   // Example observable variables for security settings
   var isTwoFactorEnabled = false.obs;
   var passwordStrength = ''.obs;

@@ -16,7 +16,7 @@ abstract class Routes {
   static const BOOKING = _Paths.BOOKING;
   static const BOOKINGDETAIL = _Paths.BOOKINGDETAIL;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
-  static const KEAMANAN = _Paths.KEAMANAN;
+  static const INFORMASIAKUN = _Paths.INFORMASIAKUN;
   static const PUSAT_BANTUAN = _Paths.PUSAT_BANTUAN;
   static const KONSULTASI = _Paths.KONSULTASI;
   static const DOCTORDETAIL = _Paths.DOCTORDETAIL;
@@ -42,7 +42,7 @@ abstract class _Paths {
   static const BOOKING = '/booking';
   static const BOOKINGDETAIL = '/bookingdetail';
   static const NOTIFICATIONS = '/notifications';
-  static const KEAMANAN = '/keamanan';
+  static const INFORMASIAKUN = '/informasiakun';
   static const PUSAT_BANTUAN = '/pusat-bantuan';
   static const KONSULTASI = '/konsultasi';
   static const DOCTORDETAIL = '/doctordetail';
