@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/data/models/klinik_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -98,77 +99,88 @@ class BookingDetailView extends GetView<BookingdetailController> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Obx(() {
-                      if (controller.doctors.isEmpty) {
-                        return Skeletonizer(
-                          enabled: controller.doctors.isEmpty,
-                          child: ListView.builder(
-                            itemCount: 4,
+                    Obx(
+                      () {
+                        if (controller.isLoading.value) {
+                          return Skeletonizer(
+                            enabled: controller.isLoading.value,
+                            child: ListView.builder(
+                              itemCount: 1,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: PaddingCustom()
+                                      .paddingHorizontalVertical(8, 4),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      color: whiteBackground1Color,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: abuLightColor.withOpacity(0.3),
+                                          spreadRadius: 2,
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 100,
+                                          height: 16,
+                                          color: abuLightColor,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Container(
+                                          width: 150,
+                                          height: 16,
+                                          color: abuLightColor,
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Container(
+                                          width: 50,
+                                          height: 50,
+                                          color: abuLightColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else if (controller.doctors.isEmpty) {
+                          return const Center(
+                            child: Text(
+                              'Belum ada dokter untuk layanan ini',
+                              style: TextStyle(fontSize: mediumSize),
+                            ),
+                          );
+                        } else {
+                          // Kondisi saat data tersedia (menampilkan daftar dokter)
+                          return ListView.builder(
+                            itemCount: controller.doctors.length,
                             itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0, vertical: 4.0),
-                                child: Container(
-                                  padding: const EdgeInsets.all(16.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 100,
-                                        height: 16,
-                                        color: Colors.grey[300],
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Container(
-                                        width: 150,
-                                        height: 16,
-                                        color: Colors.grey[300],
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        color: Colors.grey[300],
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              final doctor = controller.doctors[index];
+                              return DoctorCard(
+                                name:
+                                    doctor.doctorName ?? 'Nama Tidak Diketahui',
+                                specialty: doctor.specialization ??
+                                    'Spesialisasi Tidak Diketahui',
+                                imagePath: doctor.profilePicture ??
+                                    'assets/images/default_doctor.png',
+                                onTap: () {
+                                  Get.toNamed('/buatjanji', arguments: doctor);
+                                },
                               );
                             },
-                          ),
-                        );
-                      } else {
-                        return ListView.builder(
-                          itemCount: controller.doctors.length,
-                          itemBuilder: (context, index) {
-                            final doctor = controller.doctors[index];
-                            return DoctorCard(
-                              name: doctor.doctorName ?? 'Nama Tidak Diketahui',
-                              specialty: doctor.specialization ??
-                                  'Spesialisasi Tidak Diketahui',
-                              imagePath: doctor.profilePicture ??
-                                  'assets/images/default_doctor.png',
-                              onTap: () {
-                                Get.toNamed('/buatjanji', arguments: doctor);
-                              },
-                            );
-                          },
-                        );
-                      }
-                    }),
+                          );
+                        }
+                      },
+                    ),
                     Center(
                       child: Text(
                         'Alamat: ${klinik.alamatKlinik?['desa']}, ${klinik.alamatKlinik?['kecamatan']}, ${klinik.alamatKlinik?['kabupaten']}, ${klinik.alamatKlinik?['provinsi']}\n'
@@ -200,7 +212,7 @@ class LocationInfo extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: PaddingCustom().paddingHorizontalVertical(8, 4),
         decoration: BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.circular(5),

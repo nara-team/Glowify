@@ -4,9 +4,11 @@ import 'package:glowify/data/models/doctor_model.dart';
 
 class BookingdetailController extends GetxController {
   var doctors = <Doctor>[].obs;
+  var isLoading = true.obs;
 
   Future<void> fetchDoctorsForKlinik(List<String> doctorIds) async {
     try {
+      isLoading.value = true;
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('doctor')
           .where(FieldPath.documentId, whereIn: doctorIds)
@@ -16,6 +18,8 @@ class BookingdetailController extends GetxController {
           snapshot.docs.map((doc) => Doctor.fromFirestore(doc)).toList();
     } catch (e) {
       Get.snackbar('Error', 'Error fetching doctors: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 }
