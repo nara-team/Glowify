@@ -56,6 +56,14 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                       itemBuilder: (context, index) {
                         final booking = bookings[index];
                         return Card(
+                          surfaceTintColor: whiteBackground1Color,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: primaryColor,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                           elevation: 2,
                           margin: const EdgeInsets.symmetric(vertical: 8),
                           child: ListTile(
@@ -69,13 +77,20 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                                 Text('Tanggal: ${booking['date']}'),
                               ],
                             ),
-                            trailing: Text(
-                              booking['status']!,
-                              style: TextStyle(
+                            trailing: Container(
+                              padding: PaddingCustom()
+                                  .paddingHorizontalVertical(8, 4),
+                              decoration: BoxDecoration(
                                 color: booking['status'] == 'Completed'
                                     ? Colors.green
                                     : Colors.red,
-                                fontWeight: FontWeight.bold,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Text(
+                                booking['status']!,
+                                style: bold.copyWith(
+                                  color: whiteBackground1Color,
+                                ),
                               ),
                             ),
                           ),

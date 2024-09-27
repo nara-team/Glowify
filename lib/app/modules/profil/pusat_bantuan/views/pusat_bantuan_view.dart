@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
-// import 'package:glowify/app/theme/sized_theme.dart';
+import 'package:iconsax/iconsax.dart';
+
 import '../controllers/pusat_bantuan_controller.dart';
 
 class PusatBantuanView extends GetView<PusatBantuanController> {
@@ -10,52 +13,69 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
 
   @override
   Widget build(BuildContext context) {
+    const String phoneNumber = "0800123456";
+    const String email = "bantuan@glowify.com";
+    const String address = "Alamat: Jl. Kebon Jeruk No.12, Jakarta";
     Get.lazyPut<PusatBantuanController>(() => PusatBantuanController());
 
     return Scaffold(
       appBar: const CustomAppBar(judul: "Pusat Bantuan"),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: PaddingCustom().paddingHorizontalVertical(20, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Section Title
             Text(
               'Hubungi Kami',
-              style: semiBold.copyWith(fontSize: largeSize), // Using theme
+              style: semiBold.copyWith(fontSize: largeSize),
             ),
-            const SizedBox(height: 10),
-            // Contact Info
-            ListTile(
-              leading: Icon(Icons.phone, color: primaryColor),
-              title: Text(
-                'Telepon: 0800-123-456',
-                style: medium.copyWith(fontSize: smallSize),
-              ),
+            const Gap(15),
+            const Row(
+              children: [
+                Icon(
+                  Iconsax.call,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(phoneNumber)
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.email, color: primaryColor),
-              title: Text(
-                'Email: bantuan@glowify.com',
-                style: medium.copyWith(fontSize: smallSize),
-              ),
+            const Gap(20),
+            const Row(
+              children: [
+                Icon(
+                  Iconsax.message_question,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(email)
+              ],
             ),
-            ListTile(
-              leading: Icon(Icons.location_on, color: primaryColor),
-              title: Text(
-                'Alamat: Jl. Kebon Jeruk No.12, Jakarta',
-                style: medium.copyWith(fontSize: smallSize),
-              ),
+            const Gap(20),
+            const Row(
+              children: [
+                Icon(
+                  Iconsax.location,
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(address)
+              ],
             ),
-            const SizedBox(height: 20),
-            // Submit Question Button
+            const Gap(30),
             Center(
               child: ElevatedButton.icon(
-                icon: const Icon(Icons.message),
-                label: const Text('Ajukan Pertanyaan'),
+                icon: const Icon(Iconsax.message),
+                label: const Text(
+                  'Ajukan Pertanyaan',
+                  style: TextStyle(fontSize: mediumSize),
+                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      primaryColor, // Replaced 'primary' with 'backgroundColor'
+                  backgroundColor: primaryColor,
+                  foregroundColor: whiteBackground1Color,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 12,
@@ -72,16 +92,15 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
     );
   }
 
-  // Function to show a dialog for submitting a question
   void _showQuestionForm(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Ajukan Pertanyaan'),
-          content: Column(
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Nama',
@@ -108,7 +127,6 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle form submission
                 Navigator.of(context).pop();
               },
               child: const Text('Kirim'),
