@@ -5,6 +5,7 @@ import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/data/models/doctor_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:iconsax/iconsax.dart';
 import '../controllers/doctordetail_controller.dart';
 
 class DoctordetailView extends GetView<DoctordetailController> {
@@ -72,15 +73,25 @@ class DoctordetailView extends GetView<DoctordetailController> {
                       ),
                       const SizedBox(height: 20),
                       ListTile(
-                        leading: const Icon(Icons.school),
-                        title: const Text('Alumnus'),
+                        leading: const Icon(Iconsax.buildings),
+                        title: Text(
+                          'Alumnus',
+                          style: semiBold.copyWith(
+                            fontSize: mediumSize,
+                          ),
+                        ),
                         subtitle: Text(
                             doctor.alumnus?.join(', ') ?? 'Tidak diketahui'),
                       ),
                       Obx(() {
                         return ListTile(
-                          leading: const Icon(Icons.location_on),
-                          title: const Text('Praktik di'),
+                          leading: const Icon(Iconsax.hospital),
+                          title: Text(
+                            'Praktik di',
+                            style: semiBold.copyWith(
+                              fontSize: mediumSize,
+                            ),
+                          ),
                           subtitle: Text(
                             '${controller.klinik.value.namaKlinik}, '
                             '${controller.klinik.value.alamatKlinik?['desa'] ?? ''}, '
@@ -91,8 +102,13 @@ class DoctordetailView extends GetView<DoctordetailController> {
                         );
                       }),
                       ListTile(
-                        leading: const Icon(Icons.credit_card),
-                        title: const Text('Nomor STR'),
+                        leading: const Icon(Iconsax.card),
+                        title: Text(
+                          'Nomor STR',
+                          style: semiBold.copyWith(
+                            fontSize: mediumSize,
+                          ),
+                        ),
                         subtitle: Text(
                             doctor.strDoctor ?? 'Nomor STR tidak diketahui'),
                       ),
@@ -101,7 +117,7 @@ class DoctordetailView extends GetView<DoctordetailController> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            print('Chat button pressed');
+                            debugPrint('Chat button pressed');
                             // Memulai chat atau masuk ke chat yang sudah ada
                             if (doctor.doctorId != null &&
                                 doctor.doctorName != null &&
@@ -113,7 +129,7 @@ class DoctordetailView extends GetView<DoctordetailController> {
                                 doctor.profilePicture!,
                               );
                             } else {
-                              print('Error: Doctor data is incomplete');
+                              debugPrint('Error: Doctor data is incomplete');
                               Get.snackbar(
                                   'Error', 'Data dokter tidak lengkap.');
                             }
@@ -121,14 +137,28 @@ class DoctordetailView extends GetView<DoctordetailController> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor,
                             padding: PaddingCustom().paddingVertical(15),
-                          ),
-                          child: const Text(
-                            'Chat',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: whiteBackground1Color,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Iconsax.message,
+                                color: whiteBackground1Color,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                'Chat',
+                                style: bold.copyWith(
+                                  fontSize: mediumSize,
+                                  color: whiteBackground1Color,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

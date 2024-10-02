@@ -6,13 +6,14 @@ import 'package:glowify/app/theme/app_theme.dart';
 
 class ChatDoctorPageView extends StatefulWidget {
   final String doctorId;
-  const ChatDoctorPageView({required this.doctorId, Key? key}) : super(key: key);
+  const ChatDoctorPageView({required this.doctorId, Key? key})
+      : super(key: key);
 
   @override
-  _ChatDoctorPageViewState createState() => _ChatDoctorPageViewState();
+  ChatDoctorPageViewState createState() => ChatDoctorPageViewState();
 }
 
-class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
+class ChatDoctorPageViewState extends State<ChatDoctorPageView> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _messageController = TextEditingController();
@@ -24,22 +25,21 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
   void initState() {
     super.initState();
     _setRoomId();
-    _fetchDoctorData(); // Mengambil data dokter
+    _fetchDoctorData();
   }
 
-  // Membuat roomId yang unik berdasarkan userId dan doctorId
   void _setRoomId() {
     String userId = _auth.currentUser!.uid;
     roomId = _generateRoomId(userId, widget.doctorId);
     _fetchMessages();
   }
 
-  // Membuat roomId unik berdasarkan kombinasi userId dan doctorId
   String _generateRoomId(String userId, String doctorId) {
-    return userId.compareTo(doctorId) > 0 ? '$userId\_$doctorId' : '$doctorId\_$userId';
+    return userId.compareTo(doctorId) > 0
+        ? '${userId}_$doctorId'
+        : '${doctorId}_$userId';
   }
 
-  // Mengambil pesan dari room chat yang spesifik
   void _fetchMessages() {
     if (roomId == null) return;
 
@@ -56,7 +56,6 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
     });
   }
 
-  // Mengambil data dokter dari Firestore
   void _fetchDoctorData() async {
     try {
       DocumentSnapshot doctorSnapshot =
@@ -65,14 +64,17 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
         doctorData = doctorSnapshot.data() as Map<String, dynamic>?;
       });
     } catch (e) {
-      print("Error fetching doctor data: $e");
+      debugPrint("Error fetching doctor data: $e");
     }
   }
 
-  // Mengirim pesan ke room chat yang spesifik
   Future<void> _sendMessage() async {
     if (_messageController.text.isNotEmpty && roomId != null) {
-      await _firestore.collection('chatRooms').doc(roomId).collection('messages').add({
+      await _firestore
+          .collection('chatRooms')
+          .doc(roomId)
+          .collection('messages')
+          .add({
         'text': _messageController.text,
         'sender': _auth.currentUser!.uid,
         'timestamp': FieldValue.serverTimestamp(),
@@ -82,7 +84,6 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
     }
   }
 
-  // Format timestamp untuk menampilkan waktu
   String _formatTimestamp(Timestamp timestamp) {
     final DateTime date = timestamp.toDate();
     return DateFormat('HH:mm').format(date);
@@ -98,17 +99,17 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
                 children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(doctorData!['photo_doctor'] ??
-                        'https://example.com/default.jpg'), // URL gambar profil dokter
+                        'https://example.com/default.jpg'),
                     radius: 20,
                   ),
                   const SizedBox(width: 10),
                   Flexible(
                     child: Text(
-                      doctorData!['name'] ?? 'Doctor', // Nama dokter
+                      doctorData!['name'] ?? 'Doctor',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        overflow: TextOverflow.ellipsis, // Membatasi teks yang panjang
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
@@ -124,26 +125,33 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
-                final isUserMessage = message['sender'] == _auth.currentUser!.uid;
+                final isUserMessage =
+                    message['sender'] == _auth.currentUser!.uid;
                 final timestamp = message['timestamp'] as Timestamp?;
 
                 return Align(
-                  alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: isUserMessage
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 10),
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
                     decoration: BoxDecoration(
-                      color: isUserMessage ? Colors.blue[100] : Colors.grey[200],
+                      color:
+                          isUserMessage ? Colors.blue[100] : Colors.grey[200],
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
-                      crossAxisAlignment:
-                          isUserMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                      crossAxisAlignment: isUserMessage
+                          ? CrossAxisAlignment.end
+                          : CrossAxisAlignment.start,
                       children: [
                         Text(
                           message['text'],
                           style: const TextStyle(fontSize: 16),
-                          textAlign: isUserMessage ? TextAlign.right : TextAlign.left,
+                          textAlign:
+                              isUserMessage ? TextAlign.right : TextAlign.left,
                         ),
                         if (timestamp != null)
                           Text(
@@ -171,7 +179,8 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
                       hintText: 'Type a message',
                       filled: true,
                       fillColor: Colors.grey[200],
-                      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 15),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none,

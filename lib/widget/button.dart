@@ -17,38 +17,36 @@ class BtnLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-          child: SizedBox(
-            height: 45,
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                minimumSize: MaterialStateProperty.all(
-                  const Size(double.infinity, 50),
-                ),
-                backgroundColor: MaterialStateProperty.all(
-                  primaryColor,
-                ),
-              ),
-              onPressed: isLoading.value ? null : onPressed,
-              child: isLoading.value
-                  ? const CircularProgressIndicator(
-                      strokeWidth: 3,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    )
-                  : Text(
-                      btnText,
-                      style: medium.copyWith(
-                        color: Colors.white,
-                      ),
-                    ),
+    return Obx(() => SizedBox(
+      height: 45,
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
-        ));
+          minimumSize: MaterialStateProperty.all(
+            const Size(double.infinity, 50),
+          ),
+          backgroundColor: MaterialStateProperty.all(
+            primaryColor,
+          ),
+        ),
+        onPressed: isLoading.value ? null : onPressed,
+        child: isLoading.value
+            ? const CircularProgressIndicator(
+                strokeWidth: 3,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              )
+            : Text(
+                btnText,
+                style: medium.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+      ),
+    ));
   }
 }

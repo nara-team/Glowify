@@ -74,6 +74,9 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
                   style: TextStyle(fontSize: mediumSize),
                 ),
                 style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   backgroundColor: primaryColor,
                   foregroundColor: whiteBackground1Color,
                   padding: const EdgeInsets.symmetric(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import '../controllers/informasi_akun_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
@@ -12,16 +14,26 @@ class InformasiAkunView extends GetView<InformasiAkunController> {
     return Scaffold(
       appBar: const CustomAppBar(judul: "Informasi Akun"),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: PaddingCustom().paddingHorizontalVertical(20, 10),
         child: ListView(
           children: [
             Text(
               'Pengaturan Keamanan',
               style: semiBold.copyWith(fontSize: largeSize),
             ),
-            const SizedBox(height: 20),
+            const Gap(20),
             Obx(() {
               return Card(
+                surfaceTintColor: whiteBackground1Color,
+                shadowColor: Colors.transparent,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: abuLightColor, // Warna outline
+                    width: 1, // Ketebalan outline
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
@@ -40,15 +52,15 @@ class InformasiAkunView extends GetView<InformasiAkunController> {
                 ),
               );
             }),
-            const SizedBox(height: 20),
+            const Gap(20),
             Text(
               'Perbarui Kata Sandi',
               style: semiBold.copyWith(fontSize: mediumSize),
             ),
-            const SizedBox(height: 10),
+            const Gap(10),
             TextField(
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Kata Sandi Baru',
                 border: OutlineInputBorder(),
                 focusedBorder: OutlineInputBorder(

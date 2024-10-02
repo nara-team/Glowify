@@ -43,110 +43,110 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH_SCREEN;
+  static const initial = Routes.splashScreen;
 
   static final routes = [
     GetPage(
-      name: _Paths.LOGIN,
+      name: _Paths.login,
       page: () => const LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
-      name: _Paths.REGISTER,
+      name: _Paths.register,
       page: () => const RegisterView(),
       binding: RegisterBinding(),
     ),
     GetPage(
-      name: _Paths.SPLASH_SCREEN,
+      name: _Paths.splashScreen,
       page: () => const SplashScreenView(),
       binding: SplashScreenBinding(),
     ),
     GetPage(
-      name: _Paths.NAVBAR,
+      name: _Paths.navbar,
       page: () => const NavbarView(),
       binding: NavbarBinding(),
     ),
     GetPage(
-      name: _Paths.BERANDA,
+      name: _Paths.beranda,
       page: () => const BerandaView(),
       binding: BerandaBinding(),
     ),
     GetPage(
-      name: _Paths.RIWAYAT,
+      name: _Paths.riwayat,
       page: () => const RiwayatBookingView(),
       binding: RiwayatBookingBinding(),
     ),
     GetPage(
-      name: _Paths.PROFIL,
+      name: _Paths.profil,
       page: () => const ProfilView(),
       binding: ProfilBinding(),
     ),
     GetPage(
-      name: _Paths.CHAT,
+      name: _Paths.chat,
       page: () => const ChatView(),
       binding: ChatBinding(),
     ),
     GetPage(
-      name: _Paths.TUTORIAL,
+      name: _Paths.tutorial,
       page: () => const TutorialView(),
       binding: TutorialBinding(),
     ),
     GetPage(
-      name: _Paths.TUTORIALDETAIL,
+      name: _Paths.tutorialdetail,
       page: () => const TutorialDetailView(),
       binding: TutorialBinding(),
     ),
     GetPage(
-      name: _Paths.FACE_DETECTION,
+      name: _Paths.faceDetection,
       page: () => const FaceDetectionView(),
       binding: FaceDetectionBinding(),
     ),
     GetPage(
-      name: _Paths.BOOKING,
+      name: _Paths.booking,
       page: () => const BookingView(),
       binding: BookingBinding(),
     ),
     GetPage(
-      name: _Paths.BOOKINGDETAIL,
+      name: _Paths.bookingdetail,
       page: () => const BookingDetailView(),
       binding: BookingBinding(),
     ),
     GetPage(
-      name: _Paths.BUATJANJI,
+      name: _Paths.buatjanji,
       page: () => const BuatJanjiView(),
       binding: BookingBinding(),
     ),
     GetPage(
-      name: _Paths.NOTIFICATIONS,
+      name: _Paths.notifications,
       page: () => const NotificationView(),
     ),
     GetPage(
-      name: _Paths.INFORMASIAKUN,
+      name: _Paths.informasiakun,
       page: () => const InformasiAkunView(),
       binding: InformasiAkunBinding(),
     ),
     GetPage(
-      name: _Paths.PUSAT_BANTUAN,
+      name: _Paths.pusatBantuan,
       page: () => const PusatBantuanView(),
       binding: PusatBantuanBinding(),
     ),
     GetPage(
-      name: _Paths.KONSULTASI,
+      name: _Paths.konsultasi,
       page: () => const KonsultasiView(),
       binding: KonsultasiBinding(),
     ),
     GetPage(
-      name: _Paths.DOCTORDETAIL,
+      name: _Paths.doctordetail,
       page: () => DoctordetailView(),
       binding: KonsultasiBinding(),
     ),
     GetPage(
-      name: _Paths.ONBOARDING,
+      name: _Paths.onboarding,
       page: () => const OnboardingView(),
       binding: OnboardingBinding(),
     ),
     GetPage(
-      name: _Paths.FACE_HISTORY,
+      name: _Paths.faceHistory,
       page: () => const FaceHistoryView(),
       binding: FaceHistoryBinding(),
     ),

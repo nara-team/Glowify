@@ -19,7 +19,7 @@ class BtnLogin extends StatelessWidget {
       () => ElevatedButton(
         onPressed: isLoading.value ? null : onPressed,
         child: isLoading.value
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Text(btnText),
       ),
     );

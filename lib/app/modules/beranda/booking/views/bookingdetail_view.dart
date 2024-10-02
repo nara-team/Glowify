@@ -77,10 +77,10 @@ class BookingDetailView extends GetView<BookingdetailController> {
                       ),
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 10,
                     right: 12,
-                    child: const LocationInfo(
+                    child: LocationInfo(
                       distance: "16 km",
                     ),
                   ),

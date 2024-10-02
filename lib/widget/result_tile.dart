@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 
 class ResultTile extends StatelessWidget {
   final String area;
@@ -6,6 +7,7 @@ class ResultTile extends StatelessWidget {
   final String confidence;
 
   const ResultTile({
+    super.key,
     required this.area,
     required this.result,
     required this.confidence,
@@ -14,12 +16,12 @@ class ResultTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 96, // Sesuaikan lebar sesuai gambar
-      height: 96, // Sesuaikan tinggi sesuai gambar
-      padding: EdgeInsets.all(8.0), // Padding lebih kecil
+      width: 96,
+      height: 96,
+      padding: PaddingCustom().paddingAll(8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0), // Sudut lebih bulat
+        borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
@@ -33,22 +35,22 @@ class ResultTile extends StatelessWidget {
         children: [
           Text(
             '$confidence%',
-            style: TextStyle(
-              fontSize: 16, 
+            style: const TextStyle(
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             'Area $area',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             result,
             style: TextStyle(

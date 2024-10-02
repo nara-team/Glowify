@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../../data/models/doctor_model.dart';
@@ -21,7 +22,7 @@ class KonsultasiController extends GetxController {
       doctors.value =
           snapshot.docs.map((doc) => Doctor.fromFirestore(doc)).toList();
     } catch (e) {
-      print('Error fetching doctors: $e');
+      debugPrint('Error fetching doctors: $e');
     }
   }
 
@@ -47,7 +48,7 @@ class KonsultasiController extends GetxController {
         );
       }
     } catch (e) {
-      print('Error fetching clinic data: $e');
+      debugPrint('Error fetching clinic data: $e');
     }
   }
 }

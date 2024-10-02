@@ -12,7 +12,7 @@ class ResultPage extends StatelessWidget {
   final File? imageCheek;
   final File? imageNose;
 
-  ResultPage({
+  const ResultPage({super.key, 
     required this.results,
     required this.confidences,
     required this.imageForehead,
@@ -26,7 +26,7 @@ class ResultPage extends StatelessWidget {
     // String finalConfidence = _calculateFinalConfidence();
 
     return Scaffold(
-      appBar: CustomAppBar(judul: "Hasil Deteksi Wajah"),
+      appBar: const CustomAppBar(judul: "Hasil Deteksi Wajah"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -43,23 +43,23 @@ class ResultPage extends StatelessWidget {
                   Image.file(imageNose!, width: 80, height: 80),
               ],
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Kondisi Wajah',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Icon(
                   Icons.sentiment_satisfied,
                   color: _getConditionColor(),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Hari ini',
                       style: TextStyle(
                         color: Colors.black,
@@ -77,16 +77,16 @@ class ResultPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Detail Hasil Analisis',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             GridView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 1.2,
                 crossAxisSpacing: 8,
@@ -105,10 +105,10 @@ class ResultPage extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TreatmentRecommendation(results: results),
-            SizedBox(height: 32),
-            ActionButtons(),
+            const SizedBox(height: 32),
+            const ActionButtons(),
           ],
         ),
       ),
@@ -155,11 +155,11 @@ class ResultPage extends StatelessWidget {
     }
   }
 
-  String _calculateFinalConfidence() {
-    if (confidences.isEmpty) return "0.0";
-    double average =
-        confidences.map((s) => double.parse(s)).reduce((a, b) => a + b) /
-            confidences.length;
-    return average.toStringAsFixed(2);
-  }
+  // String _calculateFinalConfidence() {
+  //   if (confidences.isEmpty) return "0.0";
+  //   double average =
+  //       confidences.map((s) => double.parse(s)).reduce((a, b) => a + b) /
+  //           confidences.length;
+  //   return average.toStringAsFixed(2);
+  // }
 }

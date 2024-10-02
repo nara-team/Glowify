@@ -38,10 +38,10 @@ class ChatroomView extends GetView<ChatroomController> {
               backgroundImage: NetworkImage(doctorProfilePicture),
               radius: 20,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               doctorName,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ],
         ),
@@ -53,7 +53,7 @@ class ChatroomView extends GetView<ChatroomController> {
           Expanded(
             child: Obx(() {
               if (controller.messages.isEmpty) {
-                return Center(child: Text("Belum ada pesan"));
+                return const Center(child: Text("Belum ada pesan"));
               }
               return ListView.builder(
                 reverse: true,
@@ -65,8 +65,8 @@ class ChatroomView extends GetView<ChatroomController> {
                   return Align(
                     alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      padding: EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: isSender ? primaryColor : secondaryColor,
                         borderRadius: BorderRadius.circular(10),
@@ -76,17 +76,17 @@ class ChatroomView extends GetView<ChatroomController> {
                         children: [
                           Text(
                             message.message,
-                            style: TextStyle(color: whiteBackground1Color),
+                            style: const TextStyle(color: whiteBackground1Color),
                           ),
-                          SizedBox(height: 5),
+                          const SizedBox(height: 5),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
                                 DateFormat('hh:mm a').format(message.timestamp.toDate()),
-                                style: TextStyle(fontSize: 12, color: whiteBackground1Color),
+                                style: const TextStyle(fontSize: 12, color: whiteBackground1Color),
                               ),
-                              SizedBox(width: 5),
+                              const SizedBox(width: 5),
                               if (isSender)
                                 Icon(
                                   message.isRead ? Icons.done_all : Icons.done,
@@ -122,7 +122,7 @@ class ChatroomView extends GetView<ChatroomController> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.send,
                     color: primaryColor,
                   ),

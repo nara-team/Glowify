@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart'; // Tambahkan iconsax untuk ikon
+import 'package:iconsax/iconsax.dart';
 
 class ProfilController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -19,11 +19,11 @@ class ProfilController extends GetxController {
     fetchUserData();
   }
 
-  // Mengambil data user dari Firestore
   void fetchUserData() async {
     try {
       String uid = _auth.currentUser!.uid;
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
       name.value = userDoc['fullName'] ?? 'No Name';
       email.value = userDoc['email'] ?? 'No Email';
       imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
@@ -32,64 +32,68 @@ class ProfilController extends GetxController {
     }
   }
 
-  // Fungsi untuk memperbarui profile user
-  Future<void> updateProfile({String? newName, String? newEmail, File? newImageFile}) async {
+  Future<void> updateProfile(
+      {String? newName, String? newEmail, File? newImageFile}) async {
     try {
       String uid = _auth.currentUser!.uid;
       String? downloadUrl;
 
-      // Upload gambar baru jika ada
       if (newImageFile != null) {
-        Reference storageRef = FirebaseStorage.instance.ref().child('profile_images/$uid.png');
+        Reference storageRef =
+            FirebaseStorage.instance.ref().child('profile_images/$uid.png');
         UploadTask uploadTask = storageRef.putFile(newImageFile);
         TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
         downloadUrl = await snapshot.ref.getDownloadURL();
       }
 
-      // Update Firestore dengan data baru
       Map<String, dynamic> updateData = {};
-      if (newName != null && newName.isNotEmpty) updateData['fullName'] = newName;
-      if (newEmail != null && newEmail.isNotEmpty) updateData['email'] = newEmail;
+      if (newName != null && newName.isNotEmpty) {
+        updateData['fullName'] = newName;
+      }
+      if (newEmail != null && newEmail.isNotEmpty) {
+        updateData['email'] = newEmail;
+      }
       if (downloadUrl != null) updateData['photoURL'] = downloadUrl;
 
-      await FirebaseFirestore.instance.collection('users').doc(uid).update(updateData);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update(updateData);
 
-      // Update data lokal
       if (newName != null && newName.isNotEmpty) name.value = newName;
       if (newEmail != null && newEmail.isNotEmpty) email.value = newEmail;
       if (downloadUrl != null) imageUrl.value = downloadUrl;
 
-debugPrint("");
+      debugPrint("");
     } catch (e) {
       debugPrint("");
     }
   }
 
-  // Fungsi untuk mengambil gambar dari galeri dan mengupdate profile
   void pickImageAndEditProfile(String? newName, String? newEmail) async {
     try {
       final picker = ImagePicker();
-      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
       File? newImageFile;
       if (pickedFile != null) {
         newImageFile = File(pickedFile.path);
       }
 
-      updateProfile(newName: newName, newEmail: newEmail, newImageFile: newImageFile);
+      updateProfile(
+          newName: newName, newEmail: newEmail, newImageFile: newImageFile);
     } catch (e) {
-      debugPrint("");
+      debugPrint("Error picking image: $e");
     }
   }
 
-  // Fungsi untuk menampilkan modal BottomSheet saat logout
   void showLogoutModal() async {
     await Get.bottomSheet(
       SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white, // Background putih
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
@@ -108,9 +112,7 @@ debugPrint("");
                   ),
                 ),
               ),
-              const Divider(thickness: 1), // Divider untuk memisahkan heading
-              
-              // Tombol Konfirmasi Keluar
+              const Divider(thickness: 1),
               ListTile(
                 leading: const Icon(Iconsax.logout, color: Colors.redAccent),
                 title: const Text(
@@ -124,17 +126,13 @@ debugPrint("");
                 onTap: () async {
                   try {
                     await _auth.signOut();
-                    Get.offAllNamed('/login'); // Arahkan ke halaman login setelah logout
+                    Get.offAllNamed('/login');
                   } catch (e) {
                     debugPrint("");
                   }
                 },
               ),
-              
-              // Divider antara opsi
               const Divider(thickness: 1),
-              
-              // Tombol Batal
               ListTile(
                 leading: const Icon(Iconsax.close_circle, color: Colors.black),
                 title: const Text(
@@ -146,7 +144,7 @@ debugPrint("");
                   ),
                 ),
                 onTap: () {
-                  Get.back(); // Tutup bottom sheet tanpa melakukan apapun
+                  Get.back();
                 },
               ),
               const SizedBox(height: 20),

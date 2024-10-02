@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/data/models/message_model.dart';
 
@@ -106,7 +107,7 @@ class ChatroomController extends GetxController {
           .doc(messageId)
           .update({'isRead': true});
     } catch (e) {
-      print('Error marking message as read: $e');
+      debugPrint('Error marking message as read: $e');
     }
   }
 
@@ -149,7 +150,7 @@ class ChatroomController extends GetxController {
       });
     } catch (e) {
       Get.snackbar('Error', 'Failed to send message: $e');
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 }

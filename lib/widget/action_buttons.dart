@@ -1,50 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 
 class ActionButtons extends StatelessWidget {
+  const ActionButtons({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch, // Make buttons stretch to full width
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                Colors.redAccent, // Use backgroundColor instead of primary
-            padding: EdgeInsets.symmetric(
-                horizontal: 24, vertical: 16), // Larger padding
+            backgroundColor: Colors.redAccent,
+            padding: PaddingCustom().paddingHorizontalVertical(24, 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
           onPressed: () {
-            // Action for "Konsultasi"
             Get.toNamed('/konsultasi');
           },
-          child: Text(
+          child: const Text(
             'Konsultasi Ke Dokter',
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
-        SizedBox(height: 16), // Space between buttons
+        const SizedBox(height: 16),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                Colors.white, // Use backgroundColor instead of primary
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            backgroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
-              side: BorderSide(color: Colors.redAccent),
+              side: const BorderSide(color: Colors.redAccent),
             ),
           ),
           onPressed: () {
-            // Action for "Kembali"
-            // Navigator.pop(context);
             Get.offAllNamed('/navbar');
           },
-          child: Text(
+          child: const Text(
             'Kembali ke Beranda',
             style: TextStyle(color: Colors.redAccent, fontSize: 16),
           ),

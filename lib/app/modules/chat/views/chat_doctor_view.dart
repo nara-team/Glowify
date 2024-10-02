@@ -9,10 +9,10 @@ class ChatDoctorPageView extends StatefulWidget {
   const ChatDoctorPageView({required this.doctorId, Key? key}) : super(key: key);
 
   @override
-  _ChatDoctorPageViewState createState() => _ChatDoctorPageViewState();
+  ChatDoctorPageViewState createState() => ChatDoctorPageViewState();
 }
 
-class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
+class ChatDoctorPageViewState extends State<ChatDoctorPageView> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _messageController = TextEditingController();
@@ -24,22 +24,19 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
   void initState() {
     super.initState();
     _setRoomId();
-    _fetchDoctorData(); // Mengambil data dokter
+    _fetchDoctorData(); 
   }
 
-  // Membuat roomId yang unik berdasarkan userId dan doctorId
   void _setRoomId() {
     String userId = _auth.currentUser!.uid;
     roomId = _generateRoomId(userId, widget.doctorId);
     _fetchMessages();
   }
 
-  // Membuat roomId unik berdasarkan kombinasi userId dan doctorId
   String _generateRoomId(String userId, String doctorId) {
-    return userId.compareTo(doctorId) > 0 ? '$userId\_$doctorId' : '$doctorId\_$userId';
+    return userId.compareTo(doctorId) > 0 ? '${userId}_$doctorId' : '${doctorId}_$userId';
   }
 
-  // Mengambil pesan dari room chat yang spesifik
   void _fetchMessages() {
     if (roomId == null) return;
 
@@ -56,7 +53,6 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
     });
   }
 
-  // Mengambil data dokter dari Firestore
   void _fetchDoctorData() async {
     try {
       DocumentSnapshot doctorSnapshot =
@@ -65,11 +61,10 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
         doctorData = doctorSnapshot.data() as Map<String, dynamic>?;
       });
     } catch (e) {
-      print("Error fetching doctor data: $e");
+      debugPrint("Error fetching doctor data: $e");
     }
   }
 
-  // Mengirim pesan ke room chat yang spesifik
   Future<void> _sendMessage() async {
     if (_messageController.text.isNotEmpty && roomId != null) {
       await _firestore.collection('chatRooms').doc(roomId).collection('messages').add({
@@ -82,7 +77,6 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
     }
   }
 
-  // Format timestamp untuk menampilkan waktu
   String _formatTimestamp(Timestamp timestamp) {
     final DateTime date = timestamp.toDate();
     return DateFormat('HH:mm').format(date);
@@ -98,17 +92,17 @@ class _ChatDoctorPageViewState extends State<ChatDoctorPageView> {
                 children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(doctorData!['photo_doctor'] ??
-                        'https://example.com/default.jpg'), // URL gambar profil dokter
+                        'https://example.com/default.jpg'),
                     radius: 20,
                   ),
                   const SizedBox(width: 10),
                   Flexible(
                     child: Text(
-                      doctorData!['name'] ?? 'Doctor', // Nama dokter
+                      doctorData!['name'] ?? 'Doctor',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        overflow: TextOverflow.ellipsis, // Membatasi teks yang panjang
+                        overflow: TextOverflow.ellipsis, 
                       ),
                     ),
                   ),

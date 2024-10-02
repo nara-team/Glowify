@@ -98,11 +98,11 @@ class OnboardingView extends GetView<OnboardingController> {
             "Skip",
             style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
           ),
-          next: Icon(
+          next: const Icon(
             Icons.arrow_forward,
             color: Colors.black87,
           ),
-          done: Text(
+          done: const Text(
             "Selesai",
             style: TextStyle(
                 fontWeight: FontWeight.bold,

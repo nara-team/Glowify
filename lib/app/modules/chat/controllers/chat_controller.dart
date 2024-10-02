@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:glowify/data/models/chat_model.dart';
@@ -60,7 +61,7 @@ class ChatController extends GetxController {
       });
     } catch (e) {
       Get.snackbar('Error', 'Failed to load chats');
-      print('Error fetching chats: $e');
+      debugPrint('Error fetching chats: $e');
     }
   }
 }

@@ -4,6 +4,7 @@ class TreatmentRecommendation extends StatelessWidget {
   final List<String> results;
 
   const TreatmentRecommendation({
+    super.key,
     required this.results,
   });
 
@@ -15,29 +16,29 @@ class TreatmentRecommendation extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Rekomendasi Perawatan',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           recommendation,
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Rekomendasi Produk',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8),
-        Container(
-          height: 220, // Sesuaikan tinggi kontainer sesuai kebutuhan
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 220,
           child: PageView(
             scrollDirection: Axis.horizontal,
             children: productRecommendations,
@@ -97,16 +98,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Krim Pelembap SPF',
           'Mengandung SPF 30 untuk melindungi kulit dari sinar UV.',
-          // 'assets/cream.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Krim Pelembap SPF tapped'),
+          () => debugPrint('Krim Pelembap SPF tapped'),
         ),
         _buildProductCard(
           'Eksfoliasi Lembut',
           'Scrub lembut dengan bahan alami untuk mengangkat sel kulit mati.',
-          // 'assets/exfoliator.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Eksfoliasi Lembut tapped'),
+          () => debugPrint('Eksfoliasi Lembut tapped'),
         ),
       ];
     } else if (!dahiSehat && pipiSehat && hidungSehat) {
@@ -114,16 +113,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Akne',
           'Mengandung asam salisilat untuk mengurangi jerawat.',
-          // 'assets/acne_cleanser.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Pembersih Anti-Akne tapped'),
+          () => debugPrint('Pembersih Anti-Akne tapped'),
         ),
         _buildProductCard(
           'Serum Niacinamide',
           'Memperbaiki tekstur kulit dan mengurangi minyak berlebih.',
-          // 'assets/niacinamide_serum.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Serum Niacinamide tapped'),
+          () => debugPrint('Serum Niacinamide tapped'),
         ),
       ];
     } else if (dahiSehat && !pipiSehat && hidungSehat) {
@@ -131,16 +128,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Inflamasi',
           'Mengandung chamomile untuk menenangkan kulit.',
-          // 'assets/anti_inflammatory_cleanser.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Pembersih Anti-Inflamasi tapped'),
+          () => debugPrint('Pembersih Anti-Inflamasi tapped'),
         ),
         _buildProductCard(
           'Pelembap Aloe Vera',
           'Menghidrasi dan menenangkan iritasi kulit.',
-          // 'assets/aloe_vera_moisturizer.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Pelembap Aloe Vera tapped'),
+          () => debugPrint('Pelembap Aloe Vera tapped'),
         ),
       ];
     } else if (dahiSehat && pipiSehat && !hidungSehat) {
@@ -148,16 +143,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Pori',
           'Mengandung charcoal untuk membersihkan pori-pori.',
-          // 'assets/charcoal_cleanser.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Pembersih Pori tapped'),
+          () => debugPrint('Pembersih Pori tapped'),
         ),
         _buildProductCard(
           'Eksfoliasi Komedo',
           'Scrub yang dirancang khusus untuk mengurangi komedo.',
-          // 'assets/comedo_exfoliator.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Eksfoliasi Komedo tapped'),
+          () => debugPrint('Eksfoliasi Komedo tapped'),
         ),
       ];
     } else if (!dahiSehat && !pipiSehat && hidungSehat) {
@@ -165,16 +158,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Akne',
           'Diformulasikan untuk mengurangi jerawat di dahi dan pipi.',
-          // 'assets/acne_cleanser.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Pembersih Anti-Akne tapped'),
+          () => debugPrint('Pembersih Anti-Akne tapped'),
         ),
         _buildProductCard(
           'Serum Niacinamide',
           'Menyeimbangkan produksi minyak dan memperbaiki tekstur kulit.',
-          // 'assets/niacinamide_serum.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Serum Niacinamide tapped'),
+          () => debugPrint('Serum Niacinamide tapped'),
         ),
       ];
     } else if (!dahiSehat && hidungSehat && !pipiSehat) {
@@ -182,16 +173,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Akne',
           'Mengatasi masalah jerawat di dahi dan pipi.',
-          // 'assets/acne_cleanser.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Pembersih Anti-Akne tapped'),
+          () => debugPrint('Pembersih Anti-Akne tapped'),
         ),
         _buildProductCard(
           'Pelembap Menenangkan',
           'Menjaga kelembapan kulit dan mengurangi iritasi.',
-          // 'assets/soothing_moisturizer.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Pelembap Menenangkan tapped'),
+          () => debugPrint('Pelembap Menenangkan tapped'),
         ),
       ];
     } else if (dahiSehat && !pipiSehat && !hidungSehat) {
@@ -199,16 +188,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Anti-Inflamasi',
           'Mengatasi kemerahan dan iritasi di pipi.',
-          // 'assets/anti_inflammatory_cleanser.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Pembersih Anti-Inflamasi tapped'),
+          () => debugPrint('Pembersih Anti-Inflamasi tapped'),
         ),
         _buildProductCard(
           'Eksfoliasi Lembut',
           'Menjaga kebersihan pori dan mencegah penumpukan sel kulit mati.',
-          // 'assets/exfoliator.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Eksfoliasi Lembut tapped'),
+          () => debugPrint('Eksfoliasi Lembut tapped'),
         ),
       ];
     } else {
@@ -216,16 +203,14 @@ class TreatmentRecommendation extends StatelessWidget {
         _buildProductCard(
           'Pembersih Lengkap',
           'Mengatasi berbagai masalah kulit dengan formula lengkap.',
-          // 'assets/complete_cleanser.jpeg',
           'assets/images/produk_kesehatan2.jpeg',
-          () => print('Pembersih Lengkap tapped'),
+          () => debugPrint('Pembersih Lengkap tapped'),
         ),
         _buildProductCard(
           'Serum Semua Masalah',
           'Diformulasikan untuk berbagai jenis masalah kulit.',
-          // 'assets/all_problem_serum.jpeg',
           'assets/images/produk_kesehatan1.jpeg',
-          () => print('Serum Semua Masalah tapped'),
+          () => debugPrint('Serum Semua Masalah tapped'),
         ),
       ];
     }
@@ -243,34 +228,30 @@ class TreatmentRecommendation extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Mengatur ukuran gambar
-            Container(
-              height: 120, // Menentukan tinggi gambar
-              width: double
-                  .infinity, // Memastikan lebar gambar mengikuti lebar card
+            SizedBox(
+              height: 120,
+              width: double.infinity,
               child: Image.asset(
                 imagePath,
-                fit: BoxFit.cover, // Menjaga aspek rasio gambar
+                fit: BoxFit.cover,
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Menyusun nama produk
                   Text(
                     productName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  // Menyusun deskripsi produk
+                  const SizedBox(height: 8),
                   Text(
                     productDescription,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),

@@ -26,7 +26,7 @@ class FaceDetectionController extends GetxController {
       model: "assets/face_health_detection/model.tflite",
       labels: "assets/face_health_detection/labels.txt",
     );
-    print(res);
+    debugPrint(res);
   }
 
   Future<void> pickImage(String area) async {

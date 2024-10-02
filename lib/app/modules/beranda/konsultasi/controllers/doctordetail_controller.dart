@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +40,7 @@ class DoctordetailController extends GetxController {
         );
       }
     } catch (e) {
-      print('Error fetching clinic data: $e');
+      debugPrint('Error fetching clinic data: $e');
     }
   }
 
@@ -50,7 +51,7 @@ class DoctordetailController extends GetxController {
     String doctorProfilePicture,
   ) async {
     try {
-      print("Checking existing chats...");
+      debugPrint("Checking existing chats...");
 
       // Query untuk mengecek apakah chat antara user dan dokter sudah ada
       QuerySnapshot chatSnapshot = await FirebaseFirestore.instance
@@ -63,11 +64,11 @@ class DoctordetailController extends GetxController {
 
       if (chatSnapshot.docs.isNotEmpty) {
         // Jika chat sudah ada, ambil chatId yang ada
-        print("Chat exists!");
+        debugPrint("Chat exists!");
         chatId = chatSnapshot.docs.first.id;
       } else {
         // Jika belum ada, buat chat baru
-        print("Creating new chat...");
+        debugPrint("Creating new chat...");
         DocumentReference chatDocRef =
             await FirebaseFirestore.instance.collection('chats').add({
           'userId': userId,
@@ -95,7 +96,7 @@ class DoctordetailController extends GetxController {
 
         // Setelah mendapatkan chatId, navigasi ke chatroom
         if (chatId.isNotEmpty) {
-          print("Navigating to chatroom with chatId: $chatId");
+          debugPrint("Navigating to chatroom with chatId: $chatId");
           Get.to(
             () => ChatroomView(
               chatId: chatId,
@@ -107,16 +108,16 @@ class DoctordetailController extends GetxController {
             () => ChatroomController(),
           );
         } else {
-          print('Error: chatId is still empty after query');
+          debugPrint('Error: chatId is still empty after query');
           Get.snackbar('Error', 'Gagal memulai chat. chatId tidak valid.');
         }
       } else {
-        print('Error: Chat document does not exist.');
+        debugPrint('Error: Chat document does not exist.');
         Get.snackbar(
             'Error', 'Gagal memulai chat. Dokumen chat tidak ditemukan.');
       }
     } catch (e) {
-      print('Error: $e');
+      debugPrint('Error: $e');
       Get.snackbar('Error', 'Gagal memulai chat: $e');
     }
   }

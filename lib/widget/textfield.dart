@@ -172,10 +172,10 @@ class PassTf extends StatefulWidget {
   const PassTf({super.key, required this.controller, required this.error});
 
   @override
-  _PassTfState createState() => _PassTfState();
+  PassTfState createState() => PassTfState();
 }
 
-class _PassTfState extends State<PassTf> {
+class PassTfState extends State<PassTf> {
   bool _obscureText = true;
 
   void _togglePasswordVisibility() {
