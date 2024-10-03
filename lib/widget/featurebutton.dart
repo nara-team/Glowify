@@ -31,7 +31,7 @@ class FeatureButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: PaddingCustom().paddingAll(23),
+              padding: PaddingCustom().paddingAll(25),
               child: SvgPicture.asset(
                 pathIcon,
                 fit: BoxFit.contain,

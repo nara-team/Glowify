@@ -5,6 +5,7 @@ import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/snackbar_custom.dart';
+import 'package:glowify/widget/tabfilter_custom.dart';
 
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({Key? key}) : super(key: key);
@@ -24,36 +25,15 @@ class NotificationView extends GetView<NotificationController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: ['Semua', 'read', 'unread'].map(
-                  (status) {
-                    return Obx(
-                      () => ChoiceChip(
-                        label: Text(status),
-                        selectedColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            10,
-                          ),
-                        ),
-                        checkmarkColor: whiteBackground1Color,
-                        backgroundColor: whiteBackground1Color,
-                        labelPadding:
-                            PaddingCustom().paddingHorizontalVertical(20, 5),
-                        labelStyle: TextStyle(
-                          color: controller.activeFilter.value == status
-                              ? whiteBackground1Color
-                              : blackColor,
-                        ),
-                        selected: controller.activeFilter.value == status,
-                        onSelected: (bool selected) {
-                          controller.activeFilter.value = status;
-                        },
-                      ),
-                    );
-                  },
-                ).toList(),
+              TabFilterCustom(
+                categories: const ['Semua', 'read', 'unread'],
+                selectedCategory: controller.activeFilter,
+                onCategorySelected: (category) {
+                  controller.activeFilter.value = category;
+                },
+                isRow: true,
+                horizontal: 27,
+                vertical: 3,
               ),
               TextButton(
                 onPressed: () {

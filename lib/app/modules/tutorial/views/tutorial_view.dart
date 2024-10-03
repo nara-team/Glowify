@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/tabfilter_custom.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/card_image_information.dart';
@@ -55,38 +56,15 @@ class TutorialView extends GetView<TutorialController> {
                           style: semiBold.copyWith(fontSize: mediumSize),
                         ),
                         const Gap(20),
-                        Wrap(
-                          spacing: 20,
-                          runSpacing: 10,
-                          children: categories.map((category) {
-                            return Obx(() {
-                              final isSelected =
-                                  selectedCategory.value == category;
-                              return ChoiceChip(
-                                label: Text(
-                                  category,
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? whiteBackground1Color
-                                        : blackColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                selected: isSelected,
-                                selectedColor: primaryColor,
-                                backgroundColor: whiteBackground1Color,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: BorderSide(
-                                    color: primaryColor.withOpacity(0.4),
-                                  ),
-                                ),
-                                onSelected: (selected) {
-                                  selectedCategory.value = category;
-                                },
-                              );
-                            });
-                          }).toList(),
+                        TabFilterCustom(
+                          categories: categories,
+                          selectedCategory: selectedCategory,
+                          onCategorySelected: (category) {
+                            selectedCategory.value = category;
+                          },
+                          isRow: false,
+                          horizontal: 13,
+                          vertical: 3,
                         ),
                       ],
                     );

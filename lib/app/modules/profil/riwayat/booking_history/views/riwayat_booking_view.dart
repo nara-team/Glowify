@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/tabfilter_custom.dart';
 import '../controllers/riwayat_booking_controller.dart';
 
 class RiwayatBookingView extends GetView<RiwayatBookingController> {
@@ -18,26 +19,20 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
           padding: PaddingCustom().paddingHorizontalVertical(20, 10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: ['Semua', 'Completed', 'Pending'].map(
-                  (status) {
-                    return Obx(
-                      () => ChoiceChip(
-                        label: Text(status),
-                        selectedColor: primaryColor,
-                        labelStyle: TextStyle(
-                            color: controller.activeFilter.value == status
-                                ? whiteBackground1Color
-                                : blackColor),
-                        selected: controller.activeFilter.value == status,
-                        onSelected: (bool selected) {
-                          controller.activeFilter.value = status;
-                        },
-                      ),
-                    );
-                  },
-                ).toList(),
+              TabFilterCustom(
+                categories: const [
+                  'Semua',
+                  'Completed',
+                  'Pending',
+                  'Canceled'
+                ], // Kategori contoh
+                selectedCategory: controller.activeFilter,
+                onCategorySelected: (category) {
+                  controller.activeFilter.value = category;
+                },
+                isScrollable: true, // Aktifkan scroll horizontal
+                horizontal: 10, // Padding horizontal
+                vertical: 5, // Padding vertical
               ),
               const Gap(20),
               Expanded(
@@ -60,12 +55,13 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                           shape: RoundedRectangleBorder(
                             side: const BorderSide(
                               color: primaryColor,
-                              width: 1,
+                              width: 0.5,
                             ),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           elevation: 2,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          shadowColor: Colors.transparent,
+                          margin: const EdgeInsets.only(bottom: 10),
                           child: ListTile(
                             leading: const Icon(Icons.spa),
                             title: Text(booking['service']!),
