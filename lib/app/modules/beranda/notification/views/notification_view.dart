@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/notification/controllers/notification_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({Key? key}) : super(key: key);
@@ -13,64 +15,171 @@ class NotificationView extends GetView<NotificationController> {
 
     return Scaffold(
       appBar: const CustomAppBar(judul: 'Notifikasi'),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Obx(() {
-          return ListView.builder(
-            itemCount: controller.notifications.length,
-            itemBuilder: (context, index) {
-              final notification = controller.notifications[index];
-              final time = controller.formatTime(notification["time"]);
-
-              return Card(
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                    color: primaryColor,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 0,
-                surfaceTintColor: whiteBackground1Color,
-                margin: const EdgeInsets.symmetric(vertical: 6),
-                child: ListTile(
-                  title: Text(
-                    notification["title"] ?? '',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        notification["message"] ?? '',
-                        style: const TextStyle(
-                          fontSize: 14,
+      body: SafeArea(
+        child: Padding(
+          padding: PaddingCustom().paddingHorizontalVertical(
+            15,
+            20,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: ['Semua', 'read', 'unread'].map(
+                  (status) {
+                    return Obx(
+                      () => ChoiceChip(
+                        label: Text(status),
+                        selectedColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            10,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        time,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
+                        checkmarkColor: whiteBackground1Color,
+                        backgroundColor: whiteBackground1Color,
+                        labelPadding:
+                            PaddingCustom().paddingHorizontalVertical(20, 5),
+                        labelStyle: TextStyle(
+                          color: controller.activeFilter.value == status
+                              ? whiteBackground1Color
+                              : blackColor,
                         ),
+                        selected: controller.activeFilter.value == status,
+                        onSelected: (bool selected) {
+                          controller.activeFilter.value = status;
+                        },
                       ),
-                    ],
-                  ),
-                  onTap: () {
-                    Get.snackbar(
-                      "Notifikasi Dipilih",
-                      "Anda memilih: ${notification["title"]}",
                     );
                   },
+                ).toList(),
+              ),
+              TextButton(
+                onPressed: () {
+                  debugPrint("semua pesan sudah ditandai terbaca");
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
-              );
-            },
-          );
-        }),
+                child: Text(
+                  "Tandai semua sudah baca",
+                  style: regular.copyWith(
+                    decoration: TextDecoration.underline,
+                    decorationColor: primaryColor,
+                    decorationThickness: 2,
+                    color: primaryColor,
+                    fontSize: regularSize,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Obx(() {
+                  final filteredNotifications = controller.filteredNotification;
+                  final isUnreadTab = controller.activeFilter.value == 'unread';
+
+                  if (isUnreadTab && filteredNotifications.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "Semua notifikasi sudah terbaca",
+                        style: TextStyle(
+                          fontSize: mediumSize,
+                          color: abuMedColor,
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: filteredNotifications.length,
+                    itemBuilder: (context, index) {
+                      final notification = filteredNotifications[index];
+                      final time = controller.formatTime(notification["time"]);
+                      final isUnread = notification["status"] == "unread";
+
+                      return Column(
+                        children: [
+                          Card(
+                            surfaceTintColor: whiteBackground1Color,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: primaryColor,
+                                width: 0.5,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 2,
+                            shadowColor: Colors.transparent,
+                            margin: const EdgeInsets.only(bottom: 10),
+                            color: isUnread
+                                ? Colors.blue.shade50
+                                : whiteBackground1Color,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor:
+                                    isUnread ? primaryColor : abuMedColor,
+                                child: const Icon(
+                                  Icons.notifications,
+                                  color: whiteBackground1Color,
+                                ),
+                              ),
+                              title: Text(
+                                notification["title"] ?? '',
+                                style: TextStyle(
+                                  fontWeight: isUnread
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  fontSize: 16,
+                                  color: isUnread ? primaryColor : blackColor,
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    notification["message"] ?? '',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: isUnread
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    time,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: abuMedColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                SnackBarCustom(
+                                  judul: "Notifikasi Ditekan",
+                                  pesan:
+                                      "Anda memilih ${notification["title"]}",
+                                ).show();
+                              },
+                            ),
+                          ),
+                          if (index < filteredNotifications.length - 1)
+                            const Divider(
+                              color: abuMedColor,
+                              thickness: 0.5,
+                            ),
+                        ],
+                      );
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

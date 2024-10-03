@@ -5,11 +5,13 @@ import 'package:glowify/app/theme/app_theme.dart';
 class SnackBarCustom extends StatelessWidget {
   final String judul;
   final String pesan;
+  final SnackPosition? posisi;
 
   const SnackBarCustom({
     Key? key,
     required this.judul,
     required this.pesan,
+    this.posisi,
   }) : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class SnackBarCustom extends StatelessWidget {
     Get.snackbar(
       judul,
       pesan,
-      snackPosition: SnackPosition.TOP,
+      snackPosition: posisi ?? SnackPosition.TOP,
       duration: const Duration(seconds: 2),
       backgroundColor: whiteBackground1Color,
       margin: const EdgeInsets.only(
