@@ -43,24 +43,6 @@ class TutorialDetailView extends GetView<TutorialDetailController> {
                   ),
                 ),
                 const Gap(1),
-                // Text(
-                //   'Source: ${article.sourceName}',
-                //   style: medium.copyWith(
-                //     fontSize: smallSize,
-                //     fontStyle: FontStyle.italic,
-                //     color: abuMedColor,
-                //   ),
-                // ),
-                // const Gap(10),
-                // const SizedBox(height: 8.0),
-                // if (article.author != null)
-                //   Text(
-                //     'Author: ${article.author}',
-                //     style: medium.copyWith(
-                //       fontSize: regularSize,
-                //       color: abuMedColor,
-                //     ),
-                //   ),
                 const SizedBox(height: 8.0),
                 Text(
                   'Published At: ${DateFormat.yMMMMd().format(article.publishedAt)}',
@@ -79,16 +61,6 @@ class TutorialDetailView extends GetView<TutorialDetailController> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                // if (article.content != null)
-                //   Text( 
-                //     article.content!,
-                //     textAlign: TextAlign.justify,
-                //     style: medium.copyWith(
-                //       fontSize: regularSize,
-                //       color: blackColor,
-                //       height: 1.5,
-                //     ),
-                //   ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {

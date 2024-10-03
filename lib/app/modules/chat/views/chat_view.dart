@@ -137,7 +137,6 @@ class ChatView extends GetView<ChatController> {
                       ],
                     ),
                     onTap: () {
-                      // Get.to(() => ChatroomView(), arguments: chat.chatId);
                       Get.to(
                         () => ChatroomView(
                           chatId: chat.chatId,

@@ -68,7 +68,7 @@ class BookingView extends GetView<BookingController> {
                   () => controller.isLoading
                           .value
                       ? ListView.builder(
-                          itemCount: 5, // Skeleton placeholder 5 item
+                          itemCount: 5, 
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -78,7 +78,7 @@ class BookingView extends GetView<BookingController> {
                                 child: ClinicCard(
                                   onTap: () {},
                                   imagePath: '',
-                                  clinicName: 'Loading...', // Placeholder text
+                                  clinicName: 'Loading...',
                                   openHours: 'Loading...',
                                   address: 'Loading...',
                                   distance: 'Loading...',
@@ -88,7 +88,7 @@ class BookingView extends GetView<BookingController> {
                           },
                         )
                       : controller.klinikList
-                              .isEmpty // Kondisi jika list klinik kosong
+                              .isEmpty
                           ? Center(
                               child: Text(
                                 'Tidak ada klinik ditemukan',
@@ -97,7 +97,7 @@ class BookingView extends GetView<BookingController> {
                             )
                           : ListView.builder(
                               itemCount: controller.klinikList
-                                  .length, // Menampilkan list klinik jika data sudah tersedia
+                                  .length,
                               itemBuilder: (context, index) {
                                 final klinik = controller.klinikList[index];
 

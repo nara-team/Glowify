@@ -20,19 +20,14 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
           child: Column(
             children: [
               TabFilterCustom(
-                categories: const [
-                  'Semua',
-                  'Completed',
-                  'Pending',
-                  'Canceled'
-                ], // Kategori contoh
+                categories: const ['Semua', 'Completed', 'Pending', 'Canceled'],
                 selectedCategory: controller.activeFilter,
                 onCategorySelected: (category) {
                   controller.activeFilter.value = category;
                 },
-                isScrollable: true, // Aktifkan scroll horizontal
-                horizontal: 10, // Padding horizontal
-                vertical: 5, // Padding vertical
+                isScrollable: true,
+                horizontal: 10,
+                vertical: 5,
               ),
               const Gap(20),
               Expanded(

@@ -53,7 +53,6 @@ class DoctordetailController extends GetxController {
     try {
       debugPrint("Checking existing chats...");
 
-      // Query untuk mengecek apakah chat antara user dan dokter sudah ada
       QuerySnapshot chatSnapshot = await FirebaseFirestore.instance
           .collection('chats')
           .where('userId', isEqualTo: userId)
@@ -63,11 +62,9 @@ class DoctordetailController extends GetxController {
       String chatId = '';
 
       if (chatSnapshot.docs.isNotEmpty) {
-        // Jika chat sudah ada, ambil chatId yang ada
         debugPrint("Chat exists!");
         chatId = chatSnapshot.docs.first.id;
       } else {
-        // Jika belum ada, buat chat baru
         debugPrint("Creating new chat...");
         DocumentReference chatDocRef =
             await FirebaseFirestore.instance.collection('chats').add({
@@ -84,17 +81,14 @@ class DoctordetailController extends GetxController {
         chatId = chatDocRef.id;
       }
 
-      // Melakukan query ulang untuk mendapatkan chatId yang terbaru dari database
       DocumentSnapshot chatDocSnapshot = await FirebaseFirestore.instance
           .collection('chats')
           .doc(chatId)
           .get();
 
       if (chatDocSnapshot.exists) {
-        // Jika dokumen ditemukan, ambil `chatId` dari dokumen tersebut
         chatId = chatDocSnapshot.id;
 
-        // Setelah mendapatkan chatId, navigasi ke chatroom
         if (chatId.isNotEmpty) {
           debugPrint("Navigating to chatroom with chatId: $chatId");
           Get.to(

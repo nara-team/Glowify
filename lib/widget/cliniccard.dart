@@ -47,23 +47,17 @@ class ClinicCard extends StatelessWidget {
                 topRight: Radius.circular(12.0),
               ),
               child: Image.network(
-                  imagePath,
-                  height: 100,
-                  width: double.infinity,
-                  fit: BoxFit.fitWidth,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(
-                      Icons.broken_image,
-                      size: 100,
-                    );
-                  },
-                ),
-              // child: Image.asset(
-              //   imagePath,
-              //   height: 100.0,
-              //   width: double.infinity,
-              //   fit: BoxFit.fitWidth,
-              // ),
+                imagePath,
+                height: 100,
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.broken_image,
+                    size: 100,
+                  );
+                },
+              ),
             ),
             Padding(
               padding: PaddingCustom().paddingHorizontalVertical(16, 16),

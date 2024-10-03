@@ -118,7 +118,6 @@ class DoctordetailView extends GetView<DoctordetailController> {
                         child: ElevatedButton(
                           onPressed: () {
                             debugPrint('Chat button pressed');
-                            // Memulai chat atau masuk ke chat yang sudah ada
                             if (doctor.doctorId != null &&
                                 doctor.doctorName != null &&
                                 doctor.profilePicture != null) {

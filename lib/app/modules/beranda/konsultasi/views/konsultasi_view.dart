@@ -51,12 +51,10 @@ class KonsultasiView extends GetView<KonsultasiController> {
               Expanded(
                 child: Obx(() {
                   if (controller.doctors.isEmpty) {
-                    // Skeleton loading using Skeletonizer when the doctors list is empty (loading state)
                     return Skeletonizer(
-                      enabled: controller
-                          .doctors.isEmpty, // Skeletonizer active when loading
+                      enabled: controller.doctors.isEmpty,
                       child: ListView.builder(
-                        itemCount: 4, // Show 4 skeleton items
+                        itemCount: 4,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(
@@ -81,22 +79,19 @@ class KonsultasiView extends GetView<KonsultasiController> {
                                   Container(
                                     width: 100,
                                     height: 16,
-                                    color:
-                                        Colors.grey[300], // Skeleton for name
+                                    color: Colors.grey[300],
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
                                     width: 150,
                                     height: 16,
-                                    color: Colors
-                                        .grey[300], // Skeleton for specialty
+                                    color: Colors.grey[300],
                                   ),
                                   const SizedBox(height: 8),
                                   Container(
                                     width: 50,
                                     height: 50,
-                                    color: Colors.grey[
-                                        300], // Skeleton for profile picture
+                                    color: Colors.grey[300],
                                   ),
                                 ],
                               ),
@@ -153,7 +148,6 @@ class DoctorCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         surfaceTintColor: whiteBackground1Color,
-        // color: whiteBackground1Color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

@@ -160,7 +160,6 @@ class BookingDetailView extends GetView<BookingdetailController> {
                             ),
                           );
                         } else {
-                          // Kondisi saat data tersedia (menampilkan daftar dokter)
                           return ListView.builder(
                             itemCount: controller.doctors.length,
                             itemBuilder: (context, index) {
@@ -260,7 +259,6 @@ class DoctorCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         surfaceTintColor: whiteBackground1Color,
-        // color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

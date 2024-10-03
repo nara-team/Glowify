@@ -19,9 +19,9 @@ class RegisterController extends GetxController {
   final RxBool confirmPasswordValid = false.obs;
   final RxBool fullNameValid = false.obs;
 
-  RxBool isPasswordHidden = true.obs; // Untuk toggle show/hide password
+  RxBool isPasswordHidden = true.obs;
   RxBool isConfirmPasswordHidden =
-      true.obs; // Untuk toggle show/hide confirm password
+      true.obs; 
   RxBool isLoading = false.obs;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -35,18 +35,15 @@ class RegisterController extends GetxController {
     confirmPasswordController = TextEditingController();
   }
 
-  // Toggle visibilitas password
   void togglePasswordVisibility() {
     isPasswordHidden.value = !isPasswordHidden.value;
   }
 
-  // Toggle visibilitas konfirmasi password
   void toggleConfirmPasswordVisibility() {
     isConfirmPasswordHidden.value = !isConfirmPasswordHidden.value;
   }
 
   void validateInputs() {
-    // Reset semua error dan validasi
     emailError.value = '';
     passwordError.value = '';
     confirmPasswordError.value = '';
@@ -56,7 +53,6 @@ class RegisterController extends GetxController {
     confirmPasswordValid.value = false;
     fullNameValid.value = false;
 
-    // Validasi Email
     if (emailController.text.isEmpty) {
       emailError.value = 'Email tidak boleh kosong';
     } else if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
@@ -66,7 +62,6 @@ class RegisterController extends GetxController {
       emailValid.value = true;
     }
 
-    // Validasi Password
     if (passwordController.text.isEmpty) {
       passwordError.value = 'Password tidak boleh kosong';
     } else if (passwordController.text.length < 8) {
@@ -75,10 +70,10 @@ class RegisterController extends GetxController {
         .hasMatch(passwordController.text)) {
       passwordError.value = 'Password harus mengandung huruf dan angka';
     } else {
-      passwordValid.value = true; // Password valid
+      passwordValid.value = true; 
     }
 
-    // Validasi Konfirmasi Password
+    
     if (confirmPasswordController.text.isEmpty) {
       confirmPasswordError.value = 'Konfirmasi password tidak boleh kosong';
     } else if (confirmPasswordController.text != passwordController.text) {
@@ -87,11 +82,11 @@ class RegisterController extends GetxController {
       confirmPasswordValid.value = true;
     }
 
-    // Validasi Nama Lengkap
+    
     if (fullNameController.text.isEmpty) {
       fullNameError.value = 'Nama lengkap tidak boleh kosong';
     } else {
-      fullNameValid.value = true; // Nama lengkap valid
+      fullNameValid.value = true; 
     }
   }
 
@@ -109,7 +104,7 @@ class RegisterController extends GetxController {
           password: passwordController.text,
         );
 
-        // Simpan data user ke Firestore
+        
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredential.user!.uid)

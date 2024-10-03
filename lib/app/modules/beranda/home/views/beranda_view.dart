@@ -56,7 +56,6 @@ class BerandaView extends GetView<BerandaController> {
                         Get.toNamed('/notifications');
                       },
                       icon: const Icon(
-                        // Icons.notifications_none_outlined,
                         Iconsax.notification5,
                         size: 30,
                         color: whiteBackground2Color,
@@ -125,7 +124,7 @@ class BerandaView extends GetView<BerandaController> {
                                   height: 200,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: 4, // Number of skeleton items
+                                    itemCount: 4, 
                                     itemBuilder: (context, index) {
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(

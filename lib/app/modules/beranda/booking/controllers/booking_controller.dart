@@ -11,7 +11,7 @@ class BookingController extends GetxController {
   var klinikList = <Klinik>[].obs;
   var selectedKlinik = Klinik().obs;
   var doctors = <Doctor>[].obs;
-  var isLoading = true.obs; // Status loading untuk skeleton
+  var isLoading = true.obs; 
 
   @override
   void onInit() {
@@ -21,7 +21,7 @@ class BookingController extends GetxController {
   }
 
   Future<void> fetchKlinikList() async {
-    isLoading.value = true; // Mulai loading sebelum fetch data
+    isLoading.value = true; 
     try {
       QuerySnapshot snapshot =
           await FirebaseFirestore.instance.collection('klinik').get();
@@ -34,7 +34,7 @@ class BookingController extends GetxController {
     } catch (e) {
       Get.snackbar('Error', 'Error fetching klinik data: $e');
     } finally {
-      isLoading.value = false; // Akhiri loading setelah fetch selesai
+      isLoading.value = false; 
     }
   }
 

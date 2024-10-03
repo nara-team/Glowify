@@ -106,11 +106,10 @@ class ProfilView extends GetView<ProfilController> {
                       shadowColor: Colors.transparent,
                       clipBehavior: Clip.antiAlias,
                       surfaceTintColor: whiteBackground1Color,
-                      // color: whiteBackground1Color,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                          color: abuLightColor, // Warna outline
-                          width: 1, // Ketebalan outline
+                          color: abuLightColor,
+                          width: 1,
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -200,8 +199,8 @@ class ProfilView extends GetView<ProfilController> {
                       surfaceTintColor: whiteBackground1Color,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                          color: abuLightColor, // Warna outline
-                          width: 1, // Ketebalan outline
+                          color: abuLightColor,
+                          width: 1,
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),

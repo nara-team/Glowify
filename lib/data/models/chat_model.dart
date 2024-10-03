@@ -9,7 +9,7 @@ class Chat {
   String lastMessage;
   Timestamp lastMessageTime;
   String
-      doctorProfilePicture; // Add this field to store the doctor's profile picture URL
+      doctorProfilePicture;
   int unreadMessagesCount;
 
   Chat({
@@ -20,11 +20,10 @@ class Chat {
     required this.doctorName,
     required this.lastMessage,
     required this.lastMessageTime,
-    required this.doctorProfilePicture, // Initialize this field
+    required this.doctorProfilePicture,
     this.unreadMessagesCount = 0,
   });
 
-  // Factory constructor to create Chat from Firestore document
   factory Chat.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Chat(
@@ -36,12 +35,11 @@ class Chat {
       lastMessage: data['lastMessage'] ?? 'No messages yet',
       lastMessageTime: data['lastMessageTime'] ?? Timestamp.now(),
       doctorProfilePicture: data['doctorProfilePicture'] ??
-          'https://example.com/default.jpg', // Pastikan ini terisi default
+          'https://example.com/default.jpg',
       unreadMessagesCount: data['unreadMessagesCount'] ?? 0,
     );
   }
 
-  // Convert Chat object to Firestore document
   Map<String, dynamic> toFirestore() {
     return {
       'userId': userId,
@@ -50,12 +48,11 @@ class Chat {
       'doctorName': doctorName,
       'lastMessage': lastMessage,
       'lastMessageTime': lastMessageTime,
-      'profilePicture': doctorProfilePicture, // Add profile picture to the map
+      'profilePicture': doctorProfilePicture, 
       'unreadMessagesCount': unreadMessagesCount,
     };
   }
 
-  // Define the copyWith method
   Chat copyWith({
     String? chatId,
     String? userId,

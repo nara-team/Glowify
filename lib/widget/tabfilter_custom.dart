@@ -8,7 +8,7 @@ class TabFilterCustom extends StatelessWidget {
   final RxString selectedCategory;
   final Function(String) onCategorySelected;
   final bool isRow;
-  final bool isScrollable; // Opsi untuk scrollable
+  final bool isScrollable; 
   final double horizontal;
   final double vertical;
 
@@ -18,7 +18,7 @@ class TabFilterCustom extends StatelessWidget {
     required this.selectedCategory,
     required this.onCategorySelected,
     this.isRow = false,
-    this.isScrollable = false, // Default false jika tidak ingin scrollable
+    this.isScrollable = false, 
     required this.horizontal,
     required this.vertical,
   });

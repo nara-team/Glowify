@@ -16,10 +16,9 @@ class Message {
     required this.senderId,
     required this.senderName,
     required this.timestamp,
-    this.isRead = false,  // Default to false (unread)
+    this.isRead = false,
   });
 
-  // Factory constructor to create Message from Firestore document
   factory Message.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Message(
@@ -29,11 +28,10 @@ class Message {
       senderId: data['senderId'] ?? '',
       senderName: data['senderName'] ?? 'Unknown Sender',
       timestamp: data['timestamp'] ?? Timestamp.now(),
-      isRead: data['isRead'] ?? false,  // Default to false if field does not exist
+      isRead: data['isRead'] ?? false,
     );
   }
 
-  // Convert Message object to Firestore document
   Map<String, dynamic> toFirestore() {
     return {
       'message': message,

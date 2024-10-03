@@ -71,7 +71,7 @@ class FaceAreaWidget extends StatelessWidget {
                         : null,
                   ),
                 ),
-                if (image != null) // Tampilkan X jika ada gambar
+                if (image != null) 
                   Positioned(
                     top: 8.0,
                     right: 8.0,

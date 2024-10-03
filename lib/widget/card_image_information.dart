@@ -38,13 +38,6 @@ class TrendingTutorialItem extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(5),
                 ),
-                // child: Image.asset(
-                //   iconPath,
-                //   height: 100,
-                //   width: double.infinity,
-                //   fit: BoxFit.cover,
-                // ),
-                // ================= alternatif code =================
                 child: Image.network(
                   iconPath,
                   height: 100,

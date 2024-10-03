@@ -19,7 +19,6 @@ class ChatroomView extends GetView<ChatroomController> {
 
   @override
   Widget build(BuildContext context) {
-    // Periksa apakah nilai-nilai tidak kosong sebelum melanjutkan
     assert(chatId.isNotEmpty, "chatId tidak boleh kosong");
     assert(doctorName.isNotEmpty, "doctorName tidak boleh kosong");
     assert(doctorProfilePicture.isNotEmpty, "doctorProfilePicture tidak boleh kosong");
@@ -27,7 +26,6 @@ class ChatroomView extends GetView<ChatroomController> {
     final TextEditingController messageController = TextEditingController();
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    // Fetch messages when the view is built
     controller.fetchMessages(chatId);
 
     return Scaffold(

@@ -44,5 +44,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      const Size.fromHeight(kToolbarHeight); // Ukuran default AppBar
+      const Size.fromHeight(kToolbarHeight); 
 }

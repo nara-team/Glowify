@@ -109,7 +109,6 @@ class FaceDetectionController extends GetxController {
     }
   }
 
-  // Fungsi untuk menghapus gambar
   void removeImage(String area) {
     if (area == "forehead") {
       imageForehead.value = null;

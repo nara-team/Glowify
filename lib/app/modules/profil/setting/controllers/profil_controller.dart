@@ -34,7 +34,7 @@ class ProfilController extends GetxController {
       SafeArea(
         child: Container(
           decoration: const BoxDecoration(
-            color: Colors.white, // Background putih
+            color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
