@@ -25,7 +25,7 @@ class TutorialController extends GetxController {
       allNewsArticles = articles;
       newsArticles.assignAll(articles);
     } catch (e) {
-      errorMessage('Failed to load news: $e');
+      errorMessage('Gagal memuat berita');
     } finally {
       isLoading(false);
     }

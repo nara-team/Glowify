@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controllers/onboarding_controller.dart';
@@ -11,32 +13,35 @@ class OnboardingView extends GetView<OnboardingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: whiteBackground1Color,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: PaddingCustom().paddingHorizontal(16),
         child: IntroductionScreen(
+          globalBackgroundColor: whiteBackground1Color,
           pages: [
             PageViewModel(
               title: "Deteksi Kesehatan Kulit Wajah",
               body:
                   "Masalah kesehatan kulit wajah dapat dipengaruhi oleh polusi, gaya hidup, dan paparan sinar matahari. Glowify menggunakan teknologi AI untuk mendeteksi kondisi kulit wajah secara akurat.",
               image: Center(
-                  child: Image.asset(
-                "assets/images/onboard_1.jpg",
+                  child: SvgPicture.asset(
+                "assets/images/face_detection_onboard.svg",
                 height: MediaQuery.of(context).size.height * 0.3,
                 fit: BoxFit.cover,
               )),
               decoration: PageDecoration(
-                titleTextStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-                bodyTextStyle:
-                    const TextStyle(fontSize: 14, color: Colors.black54),
+                titleTextStyle: bold.copyWith(
+                  fontSize: 22,
+                  color: blackColor,
+                ),
+                bodyTextStyle: const TextStyle(
+                  fontSize: regularSize,
+                  color: blackColor,
+                ),
                 imagePadding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.1),
                 contentMargin: const EdgeInsets.symmetric(horizontal: 16),
-                pageColor: Colors.white, // Set background color for this page
+                pageColor: whiteBackground1Color,
               ),
             ),
             PageViewModel(
@@ -44,22 +49,21 @@ class OnboardingView extends GetView<OnboardingController> {
               body:
                   "Jika ada masalah terdeteksi, Anda dapat langsung berkonsultasi dengan dokter kulit profesional melalui platform kami. Glowify mempermudah akses ke perawatan kulit yang berkualitas.",
               image: Center(
-                  child: Image.asset(
-                "assets/images/onboard_2.jpg",
+                  child: SvgPicture.asset(
+                "assets/images/konsultasi_dokter_onboard.svg",
                 height: MediaQuery.of(context).size.height * 0.3,
                 fit: BoxFit.cover,
               )),
               decoration: PageDecoration(
-                titleTextStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-                bodyTextStyle:
-                    const TextStyle(fontSize: 14, color: Colors.black54),
+                titleTextStyle: bold.copyWith(fontSize: 22, color: blackColor),
+                bodyTextStyle: const TextStyle(
+                  fontSize: regularSize,
+                  color: blackColor,
+                ),
                 imagePadding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.1),
                 contentMargin: const EdgeInsets.symmetric(horizontal: 16),
-                pageColor: Colors.white, // Set background color for this page
+                pageColor: whiteBackground1Color,
               ),
             ),
             PageViewModel(
@@ -73,16 +77,18 @@ class OnboardingView extends GetView<OnboardingController> {
                 fit: BoxFit.cover,
               )),
               decoration: PageDecoration(
-                titleTextStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-                bodyTextStyle:
-                    const TextStyle(fontSize: 14, color: Colors.black54),
+                titleTextStyle: bold.copyWith(
+                  fontSize: 22,
+                  color: blackColor,
+                ),
+                bodyTextStyle: const TextStyle(
+                  fontSize: regularSize,
+                  color: blackColor,
+                ),
                 imagePadding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.1),
                 contentMargin: const EdgeInsets.symmetric(horizontal: 16),
-                pageColor: Colors.white, // Set background color for this page
+                pageColor: whiteBackground1Color,
               ),
             ),
           ],
@@ -94,24 +100,27 @@ class OnboardingView extends GetView<OnboardingController> {
             _completeOnboarding();
           },
           showSkipButton: true,
-          skip: Text(
+          skip: const Text(
             "Skip",
-            style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
+            style: TextStyle(
+              color: abuMedColor,
+              fontSize: mediumSize,
+            ),
           ),
           next: const Icon(
             Icons.arrow_forward,
-            color: Colors.black87,
+            color: blackColor,
           ),
-          done: const Text(
+          done: Text(
             "Selesai",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-                fontSize: 16),
+            style: bold.copyWith(
+              color: blackColor,
+              fontSize: mediumSize,
+            ),
           ),
           dotsDecorator: DotsDecorator(
             size: const Size(12.0, 12.0),
-            color: Colors.grey.shade300,
+            color: abuLightColor,
             activeSize: const Size(24.0, 12.0),
             activeColor: primaryColor,
             activeShape: RoundedRectangleBorder(

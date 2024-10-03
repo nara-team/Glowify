@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
-import '../../../../../widget/custom_button.dart';
-import '../../../../../widget/custom_textfield.dart';
+import 'package:glowify/widget/custom_button.dart';
+import 'package:glowify/widget/custom_textfield.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -162,9 +163,9 @@ class LoginView extends GetView<LoginController> {
                     controller.loginWithGoogle();
                   },
                   hasOutline: true,
-                  icon: Image.asset(
-                    'assets/images/google_logo.png',
-                    height: 24,
+                  icon: SvgPicture.asset(
+                    'assets/images/google_logo.svg',
+                    height: 20,
                   ),
                   buttonColor: primaryColor,
                   textColor: primaryColor,
@@ -175,12 +176,16 @@ class LoginView extends GetView<LoginController> {
                 child: RichText(
                   text: TextSpan(
                     text: 'Belum punya akun? ',
-                    style: const TextStyle(color: blackColor, fontSize: 14),
+                    style: const TextStyle(
+                      color: blackColor,
+                      fontSize: regularSize,
+                    ),
                     children: [
                       TextSpan(
                         text: 'Daftar',
-                        style: const TextStyle(
-                            color: primaryColor, fontWeight: FontWeight.bold),
+                        style: bold.copyWith(
+                          color: primaryColor,
+                        ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Get.offNamed('/register');

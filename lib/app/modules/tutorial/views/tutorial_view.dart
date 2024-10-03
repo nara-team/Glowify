@@ -67,14 +67,14 @@ class TutorialView extends GetView<TutorialController> {
                                   category,
                                   style: TextStyle(
                                     color: isSelected
-                                        ? Colors.white
-                                        : primaryColor.withOpacity(0.7),
+                                        ? whiteBackground1Color
+                                        : blackColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 selected: isSelected,
                                 selectedColor: primaryColor,
-                                backgroundColor: primaryColor.withOpacity(0.2),
+                                backgroundColor: whiteBackground1Color,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   side: BorderSide(

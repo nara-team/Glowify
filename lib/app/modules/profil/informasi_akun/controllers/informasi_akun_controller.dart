@@ -1,24 +1,203 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/app_theme.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
 
 class InformasiAkunController extends GetxController {
-  // Example observable variables for security settings
-  var isTwoFactorEnabled = false.obs;
-  var passwordStrength = ''.obs;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
 
-  // Method to toggle two-factor authentication
-  void toggleTwoFactor(bool value) {
-    isTwoFactorEnabled.value = value;
+  var isEditing = false.obs;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final RxString name = ''.obs;
+  final RxString email = ''.obs;
+  final RxString imageUrl = ''.obs;
+
+  var selectedImageFile = Rx<File?>(null);
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserData();
   }
 
-  // Method to update password strength
-  void updatePasswordStrength(String password) {
-    // Simple password strength check (this can be expanded)
-    if (password.length < 6) {
-      passwordStrength.value = 'Weak';
-    } else if (password.length < 12) {
-      passwordStrength.value = 'Moderate';
-    } else {
-      passwordStrength.value = 'Strong';
+  void fetchUserData() async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      name.value = userDoc['fullName'] ?? 'No Name';
+      email.value = userDoc['email'] ?? 'No Email';
+      imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
+
+      nameController.text = name.value;
+      emailController.text = email.value;
+    } catch (e) {
+      debugPrint("Error fetching user data: $e");
     }
+  }
+
+  void toggleEditingMode() {
+    isEditing.value = !isEditing.value;
+  }
+
+  Future<void> showImagePickerBottomSheet(BuildContext context) async {
+    final picker = ImagePicker();
+
+    File? pickedImage;
+    await Get.bottomSheet(
+      SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: whiteBackground1Color,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  'Pilih Gambar',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Divider(thickness: 1),
+              ListTile(
+                leading: const Icon(Iconsax.camera),
+                title: const Text('Kamera'),
+                onTap: () async {
+                  final pickedFile =
+                      await picker.pickImage(source: ImageSource.camera);
+                  if (pickedFile != null) {
+                    pickedImage = File(pickedFile.path);
+                  }
+                  Get.back();
+                },
+              ),
+              const Divider(thickness: 1),
+              ListTile(
+                leading: const Icon(Iconsax.gallery),
+                title: const Text('Pilih dari Galeri'),
+                onTap: () async {
+                  final pickedFile =
+                      await picker.pickImage(source: ImageSource.gallery);
+                  if (pickedFile != null) {
+                    pickedImage = File(pickedFile.path);
+                  }
+                  Get.back();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (pickedImage != null) {
+      selectedImageFile.value = pickedImage;
+    }
+  }
+
+  Future<void> updateProfile() async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      String? downloadUrl;
+
+      if (selectedImageFile.value != null) {
+        downloadUrl = await uploadImage(selectedImageFile.value!);
+      }
+
+      Map<String, dynamic> updateData = {
+        'fullName': nameController.text,
+        'email': emailController.text,
+      };
+
+      if (downloadUrl != null) {
+        updateData['photoURL'] = downloadUrl;
+      }
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update(updateData);
+
+      name.value = nameController.text;
+      email.value = emailController.text;
+      if (downloadUrl != null) imageUrl.value = downloadUrl;
+
+      Get.snackbar("Success", "Profile updated successfully.");
+    } catch (e) {
+      Get.snackbar("Error", "Failed to update profile: $e");
+    }
+  }
+
+  Future<String?> uploadImage(File imageFile) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        Get.snackbar("Error", "Please log in before uploading an image.");
+        return null;
+      } else {
+        debugPrint("User authenticated: ${user.email}");
+      }
+
+      String uid = user.uid;
+      Reference storageRef =
+          FirebaseStorage.instance.ref().child('profile_images/$uid.png');
+      UploadTask uploadTask = storageRef.putFile(imageFile);
+      TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      debugPrint("Error uploading image: $e");
+      return null;
+    }
+  }
+
+  Future<void> changePassword() async {
+    if (oldPasswordController.text.isEmpty ||
+        newPasswordController.text.isEmpty) {
+      Get.snackbar("Error", "Please enter both old and new passwords.");
+      return;
+    }
+
+    try {
+      User? user = _auth.currentUser;
+      String email = user!.email!;
+
+      AuthCredential credential = EmailAuthProvider.credential(
+          email: email, password: oldPasswordController.text);
+      await user.reauthenticateWithCredential(credential);
+
+      await user.updatePassword(newPasswordController.text);
+
+      Get.snackbar("Success", "Password updated successfully.");
+    } catch (e) {
+      Get.snackbar("Error", "Failed to update password: $e");
+    }
+  }
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    emailController.dispose();
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    super.onClose();
   }
 }

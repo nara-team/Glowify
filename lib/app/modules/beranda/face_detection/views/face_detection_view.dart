@@ -21,11 +21,10 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
 
         return SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: PaddingCustom().paddingAll(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // FaceAreaWidget untuk Area Dahi
                 FaceAreaWidget(
                   title: "Area Dahi",
                   image: controller.imageForehead.value,
@@ -36,7 +35,6 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                 ),
                 const SizedBox(height: 16),
                 
-                // FaceAreaWidget untuk Area Pipi
                 FaceAreaWidget(
                   title: "Area Pipi",
                   image: controller.imageCheek.value,
@@ -47,7 +45,6 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                 ),
                 const SizedBox(height: 16),
                 
-                // FaceAreaWidget untuk Area Hidung
                 FaceAreaWidget(
                   title: "Area Hidung",
                   image: controller.imageNose.value,

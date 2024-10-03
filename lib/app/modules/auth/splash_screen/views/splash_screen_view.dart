@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
@@ -24,29 +25,27 @@ class SplashScreenView extends GetView<SplashScreenController> {
           Expanded(
             flex: 6,
             child: Center(
-              child: Image.asset(
-                'assets/images/GLOWIFY.png',
-                height: 150,
+              child: SvgPicture.asset(
+                'assets/images/GLOWIFY.svg',
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             flex: 1,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Made With',
-                  style: TextStyle(
-                    fontSize: 16,
+                  style: bold.copyWith(
+                    fontSize: mediumSize,
                     color: whiteBackground1Color,
                   ),
                 ),
                 Text(
                   'Nara team',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  style: regular.copyWith(
+                    fontSize: mediumSize,
                     color: whiteBackground1Color,
                   ),
                 ),

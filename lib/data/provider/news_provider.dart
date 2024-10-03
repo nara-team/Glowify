@@ -13,7 +13,7 @@ class NewsProvider extends GetConnect {
 
       return posts.map((article) => NewsArticle.fromJson(article)).toList();
     } else {
-      throw Exception('Failed to load news');
+      throw Exception('Gagal memuat berita');
     }
   }
 }

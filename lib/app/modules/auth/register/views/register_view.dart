@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import '../../../../../widget/custom_button.dart';
 import '../../../../../widget/custom_textfield.dart';
 import '../controllers/register_controller.dart';
@@ -14,10 +15,10 @@ class RegisterView extends GetView<RegisterController> {
     Get.put(RegisterController());
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: whiteBackground1Color,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+          padding: PaddingCustom().paddingHorizontalVertical(24, 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

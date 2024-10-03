@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 
 class FeatureButton extends StatelessWidget {
   final String pathIcon;
   final Color featureColor;
   final String titleBtn;
   final VoidCallback tekan;
+
   const FeatureButton({
     required this.pathIcon,
     required this.featureColor,
@@ -26,8 +29,12 @@ class FeatureButton extends StatelessWidget {
             decoration: BoxDecoration(
               color: featureColor,
               borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: AssetImage(pathIcon),
+            ),
+            child: Padding(
+              padding: PaddingCustom().paddingAll(23),
+              child: SvgPicture.asset(
+                pathIcon,
+                fit: BoxFit.contain,
               ),
             ),
           ),

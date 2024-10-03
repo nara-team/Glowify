@@ -1,18 +1,17 @@
 import 'package:get/get.dart';
 
 class RiwayatBookingController extends GetxController {
-  // Observable list for booking history with clinic and doctor details
   var bookingHistory = <Map<String, String>>[].obs;
 
-  // Filter aktif
-  var activeFilter = 'Semua'.obs;  // Menambahkan state untuk filter aktif
-
-  // Fungsi untuk memfilter booking berdasarkan status
+  var activeFilter = 'Semua'.obs;
+  
   List<Map<String, dynamic>> get filteredBookingHistory {
     if (activeFilter.value == 'Semua') {
       return bookingHistory;
     } else {
-      return bookingHistory.where((booking) => booking['status'] == activeFilter.value).toList();
+      return bookingHistory
+          .where((booking) => booking['status'] == activeFilter.value)
+          .toList();
     }
   }
 
@@ -20,7 +19,6 @@ class RiwayatBookingController extends GetxController {
   void onInit() {
     super.onInit();
 
-    // Initialize booking history with more detailed data
     bookingHistory.assignAll([
       {
         'date': '2024-09-01',

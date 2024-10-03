@@ -28,17 +28,17 @@ class BerandaController extends GetxController {
   final List<Map<String, dynamic>> fetureDraftModel = [
     {
       "route": "/konsultasi",
-      "iconPath": "assets/images/stethoscope.png",
+      "iconPath": "assets/images/stethoscope.svg",
       "caption": "Konsultasi\nDoctor",
     },
     {
       "route": "/face-detection",
-      "iconPath": "assets/images/face-recognition.png",
+      "iconPath": "assets/images/face-recognition.svg",
       "caption": "Deteksi\nKesehatan Wajah",
     },
     {
       "route": "/booking",
-      "iconPath": "assets/images/klinik.png",
+      "iconPath": "assets/images/Vector.svg",
       "caption": "Booking Klinik\nkecantikan",
     },
   ].obs;

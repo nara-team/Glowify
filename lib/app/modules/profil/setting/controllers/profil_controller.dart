@@ -1,9 +1,6 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -29,61 +26,6 @@ class ProfilController extends GetxController {
       imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
     } catch (e) {
       debugPrint("");
-    }
-  }
-
-  Future<void> updateProfile(
-      {String? newName, String? newEmail, File? newImageFile}) async {
-    try {
-      String uid = _auth.currentUser!.uid;
-      String? downloadUrl;
-
-      if (newImageFile != null) {
-        Reference storageRef =
-            FirebaseStorage.instance.ref().child('profile_images/$uid.png');
-        UploadTask uploadTask = storageRef.putFile(newImageFile);
-        TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
-        downloadUrl = await snapshot.ref.getDownloadURL();
-      }
-
-      Map<String, dynamic> updateData = {};
-      if (newName != null && newName.isNotEmpty) {
-        updateData['fullName'] = newName;
-      }
-      if (newEmail != null && newEmail.isNotEmpty) {
-        updateData['email'] = newEmail;
-      }
-      if (downloadUrl != null) updateData['photoURL'] = downloadUrl;
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .update(updateData);
-
-      if (newName != null && newName.isNotEmpty) name.value = newName;
-      if (newEmail != null && newEmail.isNotEmpty) email.value = newEmail;
-      if (downloadUrl != null) imageUrl.value = downloadUrl;
-
-      debugPrint("");
-    } catch (e) {
-      debugPrint("");
-    }
-  }
-
-  void pickImageAndEditProfile(String? newName, String? newEmail) async {
-    try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-      File? newImageFile;
-      if (pickedFile != null) {
-        newImageFile = File(pickedFile.path);
-      }
-
-      updateProfile(
-          newName: newName, newEmail: newEmail, newImageFile: newImageFile);
-    } catch (e) {
-      debugPrint("Error picking image: $e");
     }
   }
 
