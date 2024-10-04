@@ -5,6 +5,8 @@ import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/tabfilter_custom.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:skeletonizer/skeletonizer.dart'; 
 import '../controllers/riwayat_booking_controller.dart';
 
 class RiwayatBookingView extends GetView<RiwayatBookingController> {
@@ -19,10 +21,11 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
           padding: PaddingCustom().paddingHorizontalVertical(20, 10),
           child: Column(
             children: [
+              
               TabFilterCustom(
-                categories: const ['Semua', 'Completed', 'Pending', 'Canceled'],
+                categories: const ['Semua', 'completed', 'pending', 'canceled'],
                 selectedCategory: controller.activeFilter,
-                onCategorySelected: (category) {
+                onCategorySelected: (String category) {
                   controller.activeFilter.value = category;
                 },
                 isScrollable: true,
@@ -30,8 +33,62 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                 vertical: 5,
               ),
               const Gap(20),
+              
               Expanded(
                 child: Obx(() {
+                  if (controller.bookingHistory.isEmpty) {
+                    
+                    return ListView.builder(
+                      itemCount: 5, 
+                      itemBuilder: (context, index) {
+                        return Skeletonizer(
+                          child: Card(
+                            surfaceTintColor: whiteBackground1Color,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: primaryColor,
+                                width: 0.5,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 2,
+                            shadowColor: Colors.transparent,
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: ListTile(
+                              leading: Container(
+                                width: 50,
+                                height: 50,
+                                color: Colors.grey, 
+                              ),
+                              title: Container(
+                                width: double.infinity,
+                                height: 20.0,
+                                color: Colors.grey, 
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: 10.0,
+                                    margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                    color: Colors.grey, 
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 10.0,
+                                    margin: const EdgeInsets.symmetric(vertical: 5.0),
+                                    color: Colors.grey, 
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+
                   var bookings = controller.filteredBookingHistory;
                   if (bookings.isEmpty) {
                     return const Center(
@@ -58,27 +115,29 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                           shadowColor: Colors.transparent,
                           margin: const EdgeInsets.only(bottom: 10),
                           child: ListTile(
-                            leading: const Icon(Icons.spa),
-                            title: Text(booking['service']!),
+                            leading: const Icon(Iconsax.stickynote),
+                            title: Text(
+                                booking['service'] ?? 'Service Tidak Tersedia'),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Klinik: ${booking['clinic']}'),
-                                Text('Dokter: ${booking['doctor']}'),
-                                Text('Tanggal: ${booking['date']}'),
+                                Text(
+                                    'Klinik: ${booking['clinic'] ?? 'Clinic Tidak Tersedia'}'),
+                                Text(
+                                    'Dokter: ${booking['doctor'] ?? 'Doctor Tidak Tersedia'}'),
+                                Text(
+                                    'Tanggal: ${booking['date'] ?? 'Tanggal Tidak Tersedia'}'),
                               ],
                             ),
                             trailing: Container(
                               padding: PaddingCustom()
                                   .paddingHorizontalVertical(8, 4),
                               decoration: BoxDecoration(
-                                color: booking['status'] == 'Completed'
-                                    ? Colors.green
-                                    : Colors.red,
+                                color: booking['statusColor'],
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Text(
-                                booking['status']!,
+                                booking['status'] ?? 'Status Tidak Tersedia',
                                 style: bold.copyWith(
                                   color: whiteBackground1Color,
                                 ),
