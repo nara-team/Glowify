@@ -164,7 +164,7 @@ class LoginView extends GetView<LoginController> {
                   },
                   hasOutline: true,
                   icon: SvgPicture.asset(
-                    'assets/images/google_logo.svg',
+                    'assets/icons/google_logo.svg',
                     height: 20,
                   ),
                   buttonColor: primaryColor,

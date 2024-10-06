@@ -18,10 +18,23 @@ class BerandaView extends GetView<BerandaController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut<BerandaController>(() => BerandaController());
-    final TutorialController tutorialcontroller =
-        Get.find<TutorialController>();
+    final BerandaController controller = Get.put(BerandaController());
+    final TutorialController tutorialController = Get.find<TutorialController>();
     final NavbarController navbarController = Get.find<NavbarController>();
+
+    // Menambahkan GlobalKey untuk setiap FeatureButton
+    controller.featureButtonKeys.addAll(
+      List.generate(
+        controller.fetureDraftModel.length,
+        (index) => GlobalKey(),
+      ),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.initTargets(controller.fetureDraftModel);
+      controller.showTutorial(context);
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -79,34 +92,40 @@ class BerandaView extends GetView<BerandaController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Feature",
-                            style: semiBold.copyWith(fontSize: mediumSize),
+                          Container(
+                            key: controller.featureHighlightKey,
+                            child: Text(
+                              "Feature",
+                              style: semiBold.copyWith(fontSize: mediumSize),
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Obx(() {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children:
-                                  controller.fetureDraftModel.map((feature) {
-                                return FeatureButton(
-                                  pathIcon: feature["iconPath"],
-                                  featureColor: const Color(0xFFf6d5d8),
-                                  titleBtn: feature["caption"],
-                                  tekan: () {
-                                    if (feature["route"].isNotEmpty) {
-                                      Get.toNamed(feature["route"]);
-                                    } else {
-                                      SnackBarCustom(
-                                        judul:
-                                            "fitur ${feature["caption"]} belum tersedia",
-                                        pesan:
-                                            "Fitur ${feature["caption"]} sedang dalam pengembangan!",
-                                      ).show();
-                                    }
-                                  },
-                                );
-                              }).toList(),
+                              children: List.generate(
+                                controller.fetureDraftModel.length,
+                                (index) {
+                                  return FeatureButton(
+                                    key: controller.featureButtonKeys[index],
+                                    pathIcon: controller.fetureDraftModel[index]["iconPath"],
+                                    featureColor: const Color(0xFFf6d5d8),
+                                    titleBtn: controller.fetureDraftModel[index]["caption"],
+                                    tekan: () {
+                                      if (controller.fetureDraftModel[index]["route"].isNotEmpty) {
+                                        Get.toNamed(controller.fetureDraftModel[index]["route"]);
+                                      } else {
+                                        SnackBarCustom(
+                                          judul:
+                                              "fitur ${controller.fetureDraftModel[index]["caption"]} belum tersedia",
+                                          pesan:
+                                              "Fitur ${controller.fetureDraftModel[index]["caption"]} sedang dalam pengembangan!",
+                                        ).show();
+                                      }
+                                    },
+                                  );
+                                },
+                              ),
                             );
                           }),
                           const SizedBox(height: 30),
@@ -117,24 +136,22 @@ class BerandaView extends GetView<BerandaController> {
                           const SizedBox(height: 20),
                           const Gap(5),
                           Obx(() {
-                            if (tutorialcontroller.isLoading.value) {
+                            if (tutorialController.isLoading.value) {
                               return Skeletonizer(
-                                enabled: tutorialcontroller.isLoading.value,
+                                enabled: tutorialController.isLoading.value,
                                 child: SizedBox(
                                   height: 200,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: 4, 
+                                    itemCount: 4,
                                     itemBuilder: (context, index) {
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                         child: Container(
                                           width: 150,
                                           decoration: BoxDecoration(
                                             color: whiteBackground1Color,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(12),
                                           ),
                                         ),
                                       );
@@ -142,17 +159,14 @@ class BerandaView extends GetView<BerandaController> {
                                   ),
                                 ),
                               );
-                            } else if (tutorialcontroller
-                                .errorMessage.isNotEmpty) {
+                            } else if (tutorialController.errorMessage.isNotEmpty) {
                               return Center(
-                                child:
-                                    Text(tutorialcontroller.errorMessage.value),
+                                child: Text(tutorialController.errorMessage.value),
                               );
                             } else {
-                              final itemCount =
-                                  tutorialcontroller.newsArticles.length > 4
-                                      ? 4
-                                      : tutorialcontroller.newsArticles.length;
+                              final itemCount = tutorialController.newsArticles.length > 4
+                                  ? 4
+                                  : tutorialController.newsArticles.length;
 
                               return SizedBox(
                                 height: 200,
@@ -162,8 +176,7 @@ class BerandaView extends GetView<BerandaController> {
                                   itemBuilder: (context, index) {
                                     if (index == itemCount) {
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                         child: GestureDetector(
                                           onTap: () {
                                             navbarController.changeTabIndex(2);
@@ -172,8 +185,7 @@ class BerandaView extends GetView<BerandaController> {
                                             width: 150,
                                             decoration: BoxDecoration(
                                               color: Colors.grey[200],
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                                              borderRadius: BorderRadius.circular(12),
                                             ),
                                             child: const Center(
                                               child: Text(
@@ -190,17 +202,14 @@ class BerandaView extends GetView<BerandaController> {
                                       );
                                     }
 
-                                    final article =
-                                        tutorialcontroller.newsArticles[index];
+                                    final article = tutorialController.newsArticles[index];
                                     return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                       child: TrendingTutorialItem(
                                         iconPath: article.urlToImage!,
                                         contentText: article.title,
                                         onTap: () {
-                                          Get.toNamed('/tutorialdetail',
-                                              arguments: article);
+                                          Get.toNamed('/tutorialdetail', arguments: article);
                                         },
                                       ),
                                     );
@@ -209,9 +218,7 @@ class BerandaView extends GetView<BerandaController> {
                               );
                             }
                           }),
-                          const SizedBox(
-                            height: 30,
-                          ),
+                          const SizedBox(height: 30),
                         ],
                       ),
                     ),

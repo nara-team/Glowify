@@ -72,7 +72,7 @@ class OnboardingView extends GetView<OnboardingController> {
                   "Glowify memanfaatkan algoritma deep learning untuk analisis citra kulit wajah. Dengan akurasi deteksi sebesar 90%, aplikasi ini menjamin hasil yang andal untuk perawatan kulit Anda.",
               image: Center(
                   child: Image.asset(
-                "assets/images/onboard_3.jpg",
+                "assets/images/onboarding_3.jpg",
                 height: MediaQuery.of(context).size.height * 0.3,
                 fit: BoxFit.cover,
               )),

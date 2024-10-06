@@ -45,7 +45,7 @@ class CarouselWithIndicatorState extends State<CarouselWithIndicator> {
           items: imageSliders,
           options: CarouselOptions(
             autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayInterval: const Duration(seconds: 5),
             enlargeCenterPage: true,
             height: 150,
             onPageChanged: (index, reason) {
