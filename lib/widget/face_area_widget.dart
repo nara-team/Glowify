@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -54,24 +55,31 @@ class FaceAreaWidget extends StatelessWidget {
                   ),
                   child: Center(
                     child: image == null
-                        ? const Row(
+                        ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.image5,
-                                  color: whiteBackground1Color, size: 30.0),
-                              SizedBox(width: 8.0),
-                              Text(
+                              SvgPicture.asset(
+                                "assets/icons/gallery_bold.svg",
+                                height: 28,
+                                colorFilter: const ColorFilter.mode(
+                                  whiteBackground1Color,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              const SizedBox(width: 8.0),
+                              const Text(
                                 'ketuk untuk pilih gambar',
                                 style: TextStyle(
-                                    color: whiteBackground1Color,
-                                    fontSize: 16.0),
+                                  color: whiteBackground1Color,
+                                  fontSize: 16.0,
+                                ),
                               ),
                             ],
                           )
                         : null,
                   ),
                 ),
-                if (image != null) 
+                if (image != null)
                   Positioned(
                     top: 8.0,
                     right: 8.0,

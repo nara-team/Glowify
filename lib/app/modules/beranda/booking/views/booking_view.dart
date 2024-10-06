@@ -5,7 +5,7 @@ import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/cliniccard.dart';
-import 'package:glowify/widget/serch_textfield.custom.dart';
+import 'package:glowify/widget/customsearchtextfield.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/booking_controller.dart';
@@ -58,8 +58,8 @@ class BookingView extends GetView<BookingController> {
                 ],
               ),
               const SizedBox(height: 20),
-              CustomTextField(
-                onChanged: (value) {},
+              CustomSearchTextField(
+                onChanged: (query) {},
                 hintText: "Cari Klinik",
               ),
               const Gap(30),

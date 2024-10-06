@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/customsearchtextfield.dart';
 import 'package:glowify/widget/tabfilter_custom.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
@@ -26,22 +27,12 @@ class TutorialView extends GetView<TutorialController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
+              CustomSearchTextField(
+                focusNode: textFieldFocusNode,
                 onChanged: (query) {
                   controller.searchNews(query);
                 },
-                focusNode: textFieldFocusNode,
-                cursorColor: primaryColor,
-                decoration: InputDecoration(
-                  hintText: 'Cari disini..',
-                  prefixIcon: const Icon(Icons.search, color: primaryColor),
-                  filled: true,
-                  fillColor: abuLightColor.withOpacity(0.5),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
+                hintText: 'Cari tutorial...',
               ),
               const Gap(20),
               Obx(

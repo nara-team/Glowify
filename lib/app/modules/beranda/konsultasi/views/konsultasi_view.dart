@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/customsearchtextfield.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/konsultasi_controller.dart';
 
@@ -19,33 +20,9 @@ class KonsultasiView extends GetView<KonsultasiController> {
           padding: PaddingCustom().paddingOnly(20, 20, 20, 0),
           child: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: whiteBackground1Color,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                      offset: const Offset(1, 2),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  style: const TextStyle(fontSize: 16),
-                  onChanged: (query) {},
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: whiteBackground1Color,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: "Search...",
-                    prefixIcon: const Icon(Icons.search),
-                  ),
-                ),
+              CustomSearchTextField(
+                onChanged: (query) {},
+                hintText: "Cari dokter...",
               ),
               const Gap(40),
               Expanded(

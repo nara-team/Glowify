@@ -6,6 +6,7 @@ import 'package:glowify/app/modules/chat/controllers/chatroom_controller.dart';
 import 'package:glowify/app/modules/chat/views/chatroom_view.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
+import 'package:glowify/widget/customsearchtextfield.dart';
 import 'package:intl/intl.dart';
 
 class ChatView extends GetView<ChatController> {
@@ -70,20 +71,11 @@ class ChatView extends GetView<ChatController> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Cari disini..',
-                prefixIcon: const Icon(Icons.search, color: Colors.pink),
-                filled: true,
-                fillColor: Colors.grey[200],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CustomSearchTextField(
+                onChanged: (query) {},
+                hintText: "Cari pesan...",
+              )),
           Expanded(
             child: Obx(() {
               if (controller.chats.isEmpty) {
