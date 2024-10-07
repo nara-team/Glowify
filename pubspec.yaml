@@ -41,6 +41,7 @@ dependencies:
   tflite_v2: ^1.0.0
   timeago: ^3.7.0
   tutorial_coach_mark: ^1.2.3
+  percent_indicator: ^3.0.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0

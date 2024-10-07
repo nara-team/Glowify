@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:glowify/app/theme/sized_theme.dart';
+import 'package:glowify/app/theme/app_theme.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class ResultTile extends StatelessWidget {
   final String area;
@@ -15,52 +16,45 @@ class ResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 96,
-      height: 96,
-      padding: PaddingCustom().paddingAll(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 4,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '$confidence%',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+    double confidencePercentage = double.tryParse(confidence) ?? 0.0;
+    double confidenceFraction = confidencePercentage / 100;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircularPercentIndicator(
+          radius: 80.0,
+          lineWidth: 12.0,
+          percent: confidenceFraction,
+          center: Text(
+            '${confidencePercentage.toStringAsFixed(1)}%',
+            style: bold.copyWith(
+              fontSize: largeSize,
+              color: blackColor,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            'Area $area',
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
+          progressColor: primaryColor,
+          backgroundColor: abuLightColor,
+          circularStrokeCap: CircularStrokeCap.round,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          area,
+          textAlign: TextAlign.center,
+          style: bold.copyWith(
+            fontSize: regularSize,
+            color: blackColor,
           ),
-          const SizedBox(height: 4),
-          Text(
-            result,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: result == "Sehat" ? Colors.green : Colors.red,
-            ),
+        ),
+        Text(
+          result,
+          textAlign: TextAlign.center,
+          style: bold.copyWith(
+            fontSize: smallSize,
+            color: blackColor,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

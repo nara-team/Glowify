@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gap/gap.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
-import 'dart:io';
+import 'package:glowify/widget/productresult_rekomendation_widget.dart' as widgetproduct;
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../widget/result_tile.dart';
-import '../../../../../widget/treatment_recommendation.dart';
-import '../../../../../widget/action_buttons.dart';
 
-class ResultPage extends StatelessWidget {
+import '../../../../../widget/action_buttons.dart';
+import '../controllers/resultdetection_controller.dart';
+import 'dart:io';
+
+class ResultPage extends GetView<ResultDetectionController> {
   final List<String> results;
   final List<String> confidences;
   final File? imageForehead;
   final File? imageCheek;
   final File? imageNose;
 
-  const ResultPage({super.key, 
+  const ResultPage({
+    super.key,
     required this.results,
     required this.confidences,
     required this.imageForehead,
@@ -22,96 +29,167 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // String finalResult = _determineFinalResult();
-    // String finalConfidence = _calculateFinalConfidence();
+    final ResultDetectionController controller =
+        Get.put(ResultDetectionController());
+
+    controller.fetchCondition(results);
 
     return Scaffold(
       appBar: const CustomAppBar(judul: "Hasil Deteksi Wajah"),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                if (imageForehead != null)
-                  Image.file(imageForehead!, width: 80, height: 80),
-                if (imageCheek != null)
-                  Image.file(imageCheek!, width: 80, height: 80),
-                if (imageNose != null)
-                  Image.file(imageNose!, width: 80, height: 80),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Kondisi Wajah',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(
-                  Icons.sentiment_satisfied,
-                  color: _getConditionColor(),
-                ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Hari ini',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      _getConditionText(),
-                      style: TextStyle(
-                        color: _getConditionColor(),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Detail Hasil Analisis',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 1.2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
+      body: Obx(() {
+        if (controller.loading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  if (imageForehead != null)
+                    Image.file(imageForehead!, width: 80, height: 80),
+                  if (imageCheek != null)
+                    Image.file(imageCheek!, width: 80, height: 80),
+                  if (imageNose != null)
+                    Image.file(imageNose!, width: 80, height: 80),
+                ],
               ),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return ResultTile(
-                  area: index == 0
-                      ? "Dahi"
-                      : index == 1
-                          ? "Pipi"
-                          : "Hidung",
-                  result: results[index],
-                  confidence: confidences[index],
+              const SizedBox(height: 16),
+              const Text(
+                'Kondisi Wajah',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(
+                    Icons.sentiment_satisfied,
+                    color: _getConditionColor(),
+                  ),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hari ini',
+                        style: bold.copyWith(
+                          fontSize: regularSize,
+                        ),
+                      ),
+                      Text(
+                        _getConditionText(),
+                        style: TextStyle(
+                          color: _getConditionColor(),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Detail Hasil Analisis',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 0.7,
+                  crossAxisSpacing: 20.0,
+                  mainAxisSpacing: 16.0,
+                ),
+                itemCount: results.length,
+                itemBuilder: (context, index) {
+                  return ResultTile(
+                    area: index == 0
+                        ? "Dahi"
+                        : index == 1
+                            ? "Pipi"
+                            : "Hidung",
+                    result: results[index],
+                    confidence: confidences[index],
+                  );
+                },
+              ),
+              const Gap(30),
+              const Text(
+                'Rekomendasi Perawatan',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                controller.condition.value.todo.isNotEmpty
+                    ? controller.condition.value.todo
+                    : 'Tidak ada rekomendasi perawatan untuk kondisi ini',
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Rekomendasi Produk',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Obx(() {
+                return SizedBox(
+                  height: 220,
+                  child: controller.loading.value
+                      ? _buildSkeletonLoader() 
+                      : controller.products.isNotEmpty
+                          ? PageView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.products.length,
+                              itemBuilder: (context, index) {
+                                return widgetproduct.ProductCard(
+                                    product: controller.products[index]);
+                              },
+                            )
+                          : const Center(
+                              child: Text(
+                                'Tidak ada rekomendasi produk untuk kondisi ini',
+                              ),
+                            ),
                 );
-              },
+              }),
+              const SizedBox(height: 32),
+              const Text(
+                "Disclaimer: Fitur ini menggunakan AI yang menganalisis kondisi wajah dengan tujuan merekomendasikan produk kecantikan. Ini tidak boleh digunakan sebagai, atau sebagai pengganti, nasihat medis. Jika Anda memiliki kekhawatiran medis mengenai kulit Anda, konsultasikan dengan Tenaga Medis",
+                textAlign: TextAlign.justify,
+              ),
+              const Gap(20),
+              const ActionButtons(),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildSkeletonLoader() {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: 2,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          child: Skeletonizer(
+            child: Container(
+              width: 160,
+              height: 220,
+              decoration: BoxDecoration(
+                color: whiteBackground1Color,
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
-            const SizedBox(height: 16),
-            TreatmentRecommendation(results: results),
-            const SizedBox(height: 32),
-            const ActionButtons(),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -154,12 +232,4 @@ class ResultPage extends StatelessWidget {
         return "Tidak Ada Data";
     }
   }
-
-  // String _calculateFinalConfidence() {
-  //   if (confidences.isEmpty) return "0.0";
-  //   double average =
-  //       confidences.map((s) => double.parse(s)).reduce((a, b) => a + b) /
-  //           confidences.length;
-  //   return average.toStringAsFixed(2);
-  // }
 }
