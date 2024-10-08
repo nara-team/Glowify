@@ -7,6 +7,7 @@ import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:glowify/widget/tabfilter_custom.dart';
+import 'package:iconsax/iconsax.dart';
 
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({Key? key}) : super(key: key);
@@ -103,7 +104,7 @@ class NotificationView extends GetView<NotificationController> {
                                 backgroundColor:
                                     isUnread ? primaryColor : abuMedColor,
                                 child: const Icon(
-                                  Icons.notifications,
+                                  Iconsax.notification5,
                                   color: whiteBackground1Color,
                                 ),
                               ),

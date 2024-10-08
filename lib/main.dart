@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "core/.env.dev");
   await Firebase.initializeApp();
-            
+
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const InitializationSettings initializationSettings =
@@ -32,7 +32,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Application",
+      title: "glowify",
       theme: AppTheme.getAppTheme(),
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
