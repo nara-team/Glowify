@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/widget/custom_bottomsheet.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -52,61 +52,36 @@ class InformasiAkunController extends GetxController {
 
   Future<void> showImagePickerBottomSheet(BuildContext context) async {
     final picker = ImagePicker();
-
     File? pickedImage;
-    await Get.bottomSheet(
-      SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            color: whiteBackground1Color,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  'Pilih Gambar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const Divider(thickness: 1),
-              ListTile(
-                leading: const Icon(Iconsax.camera),
-                title: const Text('Kamera'),
-                onTap: () async {
-                  final pickedFile =
-                      await picker.pickImage(source: ImageSource.camera);
-                  if (pickedFile != null) {
-                    pickedImage = File(pickedFile.path);
-                  }
-                  Get.back();
-                },
-              ),
-              const Divider(thickness: 1),
-              ListTile(
-                leading: const Icon(Iconsax.gallery),
-                title: const Text('Pilih dari Galeri'),
-                onTap: () async {
-                  final pickedFile =
-                      await picker.pickImage(source: ImageSource.gallery);
-                  if (pickedFile != null) {
-                    pickedImage = File(pickedFile.path);
-                  }
-                  Get.back();
-                },
-              ),
-            ],
-          ),
+
+    await showCustomBottomSheet(
+      title: 'Pilih Gambar',
+      actions: [
+        BottomSheetAction(
+          icon: Iconsax.camera,
+          label: 'Kamera',
+          onTap: () async {
+            final pickedFile =
+                await picker.pickImage(source: ImageSource.camera);
+            if (pickedFile != null) {
+              pickedImage = File(pickedFile.path);
+            }
+            Get.back();
+          },
         ),
-      ),
+        BottomSheetAction(
+          icon: Iconsax.gallery,
+          label: 'Pilih dari Galeri',
+          onTap: () async {
+            final pickedFile =
+                await picker.pickImage(source: ImageSource.gallery);
+            if (pickedFile != null) {
+              pickedImage = File(pickedFile.path);
+            }
+            Get.back();
+          },
+        ),
+      ],
     );
 
     if (pickedImage != null) {

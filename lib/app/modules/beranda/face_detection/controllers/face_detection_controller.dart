@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/widget/custom_bottomsheet.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite_v2/tflite_v2.dart';
@@ -32,70 +32,28 @@ class FaceDetectionController extends GetxController {
   Future<void> pickImage(String area) async {
     final picker = ImagePicker();
 
-    final pickedFile = await Get.bottomSheet<File?>(
-      SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            color: whiteBackground1Color,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  'Pilih Gambar',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const Divider(thickness: 1),
-              ListTile(
-                leading: const Icon(Iconsax.camera, color: Colors.black),
-                title: const Text(
-                  'Kamera',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                onTap: () async {
-                  final pickedFile =
-                      await picker.pickImage(source: ImageSource.camera);
-                  Get.back(
-                      result:
-                          pickedFile != null ? File(pickedFile.path) : null);
-                },
-              ),
-              const Divider(thickness: 1),
-              ListTile(
-                leading: const Icon(Iconsax.gallery, color: Colors.black),
-                title: const Text(
-                  'Pilih dari Galeri',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                onTap: () async {
-                  final pickedFile =
-                      await picker.pickImage(source: ImageSource.gallery);
-                  Get.back(
-                      result:
-                          pickedFile != null ? File(pickedFile.path) : null);
-                },
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
+    final pickedFile = await showCustomBottomSheet<File?>(
+      title: 'Pilih Gambar',
+      actions: [
+        BottomSheetAction(
+          icon: Iconsax.camera,
+          label: 'Kamera',
+          onTap: () async {
+            final pickedFile =
+                await picker.pickImage(source: ImageSource.camera);
+            Get.back(result: pickedFile != null ? File(pickedFile.path) : null);
+          },
         ),
-      ),
+        BottomSheetAction(
+          icon: Iconsax.gallery,
+          label: 'Pilih dari Galeri',
+          onTap: () async {
+            final pickedFile =
+                await picker.pickImage(source: ImageSource.gallery);
+            Get.back(result: pickedFile != null ? File(pickedFile.path) : null);
+          },
+        ),
+      ],
     );
 
     if (pickedFile != null) {

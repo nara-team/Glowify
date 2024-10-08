@@ -29,13 +29,13 @@ class NotificationController extends GetxController {
         "title": "Ada yang baru nih di Glowify!",
         "message": "Cek sekarang untuk mengetahui pembaruan terbaru.",
         "time": now.subtract(const Duration(minutes: 1)),
-        "status": "read"
+        "status": "unread"
       },
       {
         "title": "Tutorial memutihkan kulit",
         "message": "Ada tutorial baru tentang cara memutihkan kulit.",
         "time": now.subtract(const Duration(minutes: 10)),
-        "status": "read"
+        "status": "unread"
       },
       {
         "title": "Promo Spesial!",
@@ -59,6 +59,6 @@ class NotificationController extends GetxController {
   }
 
   String formatTime(DateTime dateTime) {
-  return timeago.format(dateTime, locale: 'en_short');
+    return timeago.format(dateTime, locale: 'en_short');
   }
 }
