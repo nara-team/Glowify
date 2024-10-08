@@ -24,6 +24,8 @@ abstract class Routes {
   static const chatroom = _Paths.chat + _Paths.chatroom;
   static const buatjanji = _Paths.buatjanji;
   static const faceHistory = _Paths.faceHistory;
+  static const deteksihistorydetail = _Paths.deteksihistorydetail;
+  static const bookinghistorydetail = _Paths.bookinghistorydetail;
 }
 
 abstract class _Paths {
@@ -50,4 +52,6 @@ abstract class _Paths {
   static const chatroom = '/chatroom';
   static const buatjanji = '/buatjanji';
   static const faceHistory = '/face-history';
+  static const deteksihistorydetail = '/detection-history-detail';
+  static const bookinghistorydetail = '/booking-history-detail';
 }

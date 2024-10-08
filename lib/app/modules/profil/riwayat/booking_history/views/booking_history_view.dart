@@ -8,7 +8,7 @@ import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:glowify/widget/tabfilter_custom.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import '../controllers/riwayat_booking_controller.dart';
+import '../controllers/booking_history_controller.dart';
 
 class RiwayatBookingView extends GetView<RiwayatBookingController> {
   const RiwayatBookingView({Key? key}) : super(key: key);

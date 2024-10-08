@@ -20,18 +20,20 @@ import '../modules/beranda/konsultasi/bindings/konsultasi_binding.dart';
 import '../modules/beranda/konsultasi/views/doctordetail_view.dart';
 import '../modules/beranda/konsultasi/views/konsultasi_view.dart';
 import '../modules/beranda/notification/views/notification_view.dart';
+import '../modules/profil/riwayat/booking_history/views/booking_history_detail_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
-import '../modules/profil/riwayat/face_history/bindings/face_history_binding.dart';
-import '../modules/profil/riwayat/face_history/views/face_history_view.dart';
 import '../modules/navbar/bindings/navbar_binding.dart';
 import '../modules/navbar/views/navbar_view.dart';
 import '../modules/profil/informasi_akun/bindings/informasi_akun_binding.dart';
 import '../modules/profil/informasi_akun/views/informasi_akun_view.dart';
 import '../modules/profil/pusat_bantuan/bindings/pusat_bantuan_binding.dart';
 import '../modules/profil/pusat_bantuan/views/pusat_bantuan_view.dart';
-import '../modules/profil/riwayat/booking_history/bindings/riwayat_booking_binding.dart';
-import '../modules/profil/riwayat/booking_history/views/riwayat_booking_view.dart';
+import '../modules/profil/riwayat/booking_history/bindings/booking_history_binding.dart';
+import '../modules/profil/riwayat/booking_history/views/booking_history_view.dart';
+import '../modules/profil/riwayat/detection_history/bindings/detection_history_binding.dart';
+import '../modules/profil/riwayat/detection_history/views/detection_history_detail_view.dart';
+import '../modules/profil/riwayat/detection_history/views/detection_history_view.dart';
 import '../modules/profil/setting/bindings/profil_binding.dart';
 import '../modules/profil/setting/views/profil_view.dart';
 import '../modules/tutorial/bindings/tutorial_binding.dart';
@@ -74,6 +76,11 @@ class AppPages {
     GetPage(
       name: _Paths.riwayat,
       page: () => const RiwayatBookingView(),
+      binding: RiwayatBookingBinding(),
+    ),
+    GetPage(
+      name: _Paths.bookinghistorydetail,
+      page: () => const BookingHistoryDetailView(),
       binding: RiwayatBookingBinding(),
     ),
     GetPage(
@@ -148,6 +155,11 @@ class AppPages {
     GetPage(
       name: _Paths.faceHistory,
       page: () => const FaceHistoryView(),
+      binding: FaceHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.deteksihistorydetail,
+      page: () => const DetectionHistoryDetailView(),
       binding: FaceHistoryBinding(),
     ),
   ];

@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/data/models/product_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
-import '../controllers/face_history_controller.dart';
 import 'package:intl/intl.dart';
+
+import '../controllers/detection_history_controller.dart';
 
 class FaceHistoryView extends GetView<FaceHistoryController> {
   const FaceHistoryView({super.key});
