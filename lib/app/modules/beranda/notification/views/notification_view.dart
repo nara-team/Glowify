@@ -4,6 +4,7 @@ import 'package:glowify/app/modules/beranda/notification/controllers/notificatio
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:glowify/widget/tabfilter_custom.dart';
 
@@ -59,16 +60,17 @@ class NotificationView extends GetView<NotificationController> {
                 child: Obx(() {
                   final filteredNotifications = controller.filteredNotification;
                   final isUnreadTab = controller.activeFilter.value == 'unread';
+                  final isreadTab = controller.activeFilter.value == 'read';
 
                   if (isUnreadTab && filteredNotifications.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "Semua notifikasi sudah terbaca",
-                        style: TextStyle(
-                          fontSize: mediumSize,
-                          color: abuMedColor,
-                        ),
-                      ),
+                    return const NodataHandling(
+                      iconVariant: IconVariant.dokumen,
+                      messageText: "semua notifikasi sudah dibaca",
+                    );
+                  } else if (isreadTab && filteredNotifications.isEmpty) {
+                    return const NodataHandling(
+                      iconVariant: IconVariant.dokumen,
+                      messageText: "belum ada notifikasi yang terbaca",
                     );
                   }
 

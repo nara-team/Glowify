@@ -7,6 +7,7 @@ import '../../../../../data/models/klinik_model.dart';
 class KonsultasiController extends GetxController {
   var doctors = <Doctor>[].obs;
   var klinik = Klinik().obs;
+  var isLoading = true.obs;
 
   @override
   void onInit() {
@@ -16,6 +17,7 @@ class KonsultasiController extends GetxController {
 
   void fetchDoctors() async {
     try {
+      isLoading = true.obs;
       QuerySnapshot snapshot =
           await FirebaseFirestore.instance.collection('doctor').get();
 
@@ -23,6 +25,8 @@ class KonsultasiController extends GetxController {
           snapshot.docs.map((doc) => Doctor.fromFirestore(doc)).toList();
     } catch (e) {
       debugPrint('Error fetching doctors: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 

@@ -4,7 +4,9 @@ import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/data/models/klinik_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
 import '../controllers/bookingdetail_controller.dart';
 
 class BookingDetailView extends GetView<BookingdetailController> {
@@ -153,11 +155,10 @@ class BookingDetailView extends GetView<BookingdetailController> {
                             ),
                           );
                         } else if (controller.doctors.isEmpty) {
-                          return const Center(
-                            child: Text(
-                              'Belum ada dokter untuk layanan ini',
-                              style: TextStyle(fontSize: mediumSize),
-                            ),
+                          return const NodataHandling(
+                            iconVariant: IconVariant.dokumen,
+                            messageText:
+                                "belum ada data dokter unutk layana di klinik ini",
                           );
                         } else {
                           return ListView.builder(

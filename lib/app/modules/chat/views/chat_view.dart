@@ -7,6 +7,7 @@ import 'package:glowify/app/modules/chat/views/chatroom_view.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/customsearchtextfield.dart';
+import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:intl/intl.dart';
 
 class ChatView extends GetView<ChatController> {
@@ -79,8 +80,10 @@ class ChatView extends GetView<ChatController> {
           Expanded(
             child: Obx(() {
               if (controller.chats.isEmpty) {
-                return const Center(
-                  child: Text('belum ada riwayat pesan'),
+                return const NodataHandling(
+                  iconVariant: IconVariant.chat,
+                  messageText: "belum ada riwayat pesan",
+                  iconSizeVariant: IconSize.besar,
                 );
               }
               return ListView.builder(

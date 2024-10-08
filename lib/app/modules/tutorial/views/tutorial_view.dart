@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/widget/customsearchtextfield.dart';
+import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:glowify/widget/tabfilter_custom.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
@@ -97,7 +98,15 @@ class TutorialView extends GetView<TutorialController> {
                       ),
                     );
                   } else if (controller.errorMessage.isNotEmpty) {
-                    return Center(child: Text(controller.errorMessage.value));
+                    return const NodataHandling(
+                      iconVariant: IconVariant.dokumen,
+                      messageText: "belum ada data",
+                    );
+                  } else if (controller.newsArticles.isEmpty) {
+                    return const NodataHandling(
+                      iconVariant: IconVariant.pencarian,
+                      messageText: "pencarian tidak ditemukan",
+                    );
                   } else {
                     return GridView.builder(
                       gridDelegate:

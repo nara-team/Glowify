@@ -27,7 +27,7 @@ class FaceHistoryView extends GetView<FaceHistoryController> {
             final faceHistory = controller.faceHistory.value;
 
             final String formattedTimeDetection =
-                DateFormat('yyyy-MM-dd – kk:mm')
+                DateFormat('yyyy-MM-dd - kk:mm')
                     .format(faceHistory.timeDetection);
 
             return ListView(

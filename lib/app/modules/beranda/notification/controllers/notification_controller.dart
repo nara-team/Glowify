@@ -29,36 +29,36 @@ class NotificationController extends GetxController {
         "title": "Ada yang baru nih di Glowify!",
         "message": "Cek sekarang untuk mengetahui pembaruan terbaru.",
         "time": now.subtract(const Duration(minutes: 1)),
-        "status" : "unread"
+        "status": "read"
       },
       {
         "title": "Tutorial memutihkan kulit",
         "message": "Ada tutorial baru tentang cara memutihkan kulit.",
         "time": now.subtract(const Duration(minutes: 10)),
-        "status" : "unread"
+        "status": "read"
       },
       {
         "title": "Promo Spesial!",
         "message": "Dapatkan diskon spesial untuk produk perawatan kulit.",
         "time": now.subtract(const Duration(hours: 3)),
-        "status" : "read"
+        "status": "read"
       },
       {
         "title": "Booking Klinik Kecantikan",
         "message": "Booking sekarang dan dapatkan penawaran eksklusif!",
         "time": now.subtract(const Duration(days: 1)),
-        "status" : "read"
+        "status": "read"
       },
       {
         "title": "Deteksi Kesehatan Wajah",
         "message": "Coba fitur deteksi kesehatan wajah sekarang.",
         "time": now.subtract(const Duration(days: 2)),
-        "status" : "read"
+        "status": "read"
       },
     ]);
   }
 
   String formatTime(DateTime dateTime) {
-    return timeago.format(dateTime, locale: 'en_short');
+  return timeago.format(dateTime, locale: 'en_short');
   }
 }

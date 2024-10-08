@@ -9,6 +9,7 @@ import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/card_image_information.dart';
 import 'package:glowify/widget/carousel_with_indicator.dart';
 import 'package:glowify/widget/featurebutton.dart';
+import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -19,10 +20,10 @@ class BerandaView extends GetView<BerandaController> {
   @override
   Widget build(BuildContext context) {
     final BerandaController controller = Get.put(BerandaController());
-    final TutorialController tutorialController = Get.find<TutorialController>();
+    final TutorialController tutorialController =
+        Get.find<TutorialController>();
     final NavbarController navbarController = Get.find<NavbarController>();
 
-    // Menambahkan GlobalKey untuk setiap FeatureButton
     controller.featureButtonKeys.addAll(
       List.generate(
         controller.fetureDraftModel.length,
@@ -108,12 +109,17 @@ class BerandaView extends GetView<BerandaController> {
                                 (index) {
                                   return FeatureButton(
                                     key: controller.featureButtonKeys[index],
-                                    pathIcon: controller.fetureDraftModel[index]["iconPath"],
+                                    pathIcon: controller.fetureDraftModel[index]
+                                        ["iconPath"],
                                     featureColor: const Color(0xFFf6d5d8),
-                                    titleBtn: controller.fetureDraftModel[index]["caption"],
+                                    titleBtn: controller.fetureDraftModel[index]
+                                        ["caption"],
                                     tekan: () {
-                                      if (controller.fetureDraftModel[index]["route"].isNotEmpty) {
-                                        Get.toNamed(controller.fetureDraftModel[index]["route"]);
+                                      if (controller
+                                          .fetureDraftModel[index]["route"]
+                                          .isNotEmpty) {
+                                        Get.toNamed(controller
+                                            .fetureDraftModel[index]["route"]);
                                       } else {
                                         SnackBarCustom(
                                           judul:
@@ -146,12 +152,14 @@ class BerandaView extends GetView<BerandaController> {
                                     itemCount: 4,
                                     itemBuilder: (context, index) {
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        padding: PaddingCustom()
+                                            .paddingHorizontal(8),
                                         child: Container(
                                           width: 150,
                                           decoration: BoxDecoration(
                                             color: whiteBackground1Color,
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
                                         ),
                                       );
@@ -159,15 +167,17 @@ class BerandaView extends GetView<BerandaController> {
                                   ),
                                 ),
                               );
-                            } else if (tutorialController.errorMessage.isNotEmpty) {
-                              return Center(
-                                child: Text(tutorialController.errorMessage.value),
+                            } else if (tutorialController
+                                .errorMessage.isNotEmpty) {
+                              return const NodataHandling(
+                                iconVariant: IconVariant.dokumen,
+                                messageText: "belum ada tutorial",
                               );
                             } else {
-                              final itemCount = tutorialController.newsArticles.length > 4
-                                  ? 4
-                                  : tutorialController.newsArticles.length;
-
+                              final itemCount =
+                                  tutorialController.newsArticles.length > 4
+                                      ? 4
+                                      : tutorialController.newsArticles.length;
                               return SizedBox(
                                 height: 200,
                                 child: ListView.builder(
@@ -176,23 +186,24 @@ class BerandaView extends GetView<BerandaController> {
                                   itemBuilder: (context, index) {
                                     if (index == itemCount) {
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        padding: PaddingCustom()
+                                            .paddingHorizontal(8),
                                         child: GestureDetector(
                                           onTap: () {
-                                            navbarController.changeTabIndex(2);
+                                            navbarController.changeTabIndex(3);
                                           },
                                           child: Container(
                                             width: 150,
                                             decoration: BoxDecoration(
                                               color: Colors.grey[200],
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
-                                            child: const Center(
+                                            child: Center(
                                               child: Text(
                                                 'Lihat Semua',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+                                                style: bold.copyWith(
+                                                  fontSize: mediumSize,
                                                   color: primaryColor,
                                                 ),
                                               ),
@@ -202,14 +213,17 @@ class BerandaView extends GetView<BerandaController> {
                                       );
                                     }
 
-                                    final article = tutorialController.newsArticles[index];
+                                    final article =
+                                        tutorialController.newsArticles[index];
                                     return Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: TrendingTutorialItem(
                                         iconPath: article.urlToImage!,
                                         contentText: article.title,
                                         onTap: () {
-                                          Get.toNamed('/tutorialdetail', arguments: article);
+                                          Get.toNamed('/tutorialdetail',
+                                              arguments: article);
                                         },
                                       ),
                                     );

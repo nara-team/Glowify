@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:glowify/widget/tabfilter_custom.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:skeletonizer/skeletonizer.dart'; 
+import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/riwayat_booking_controller.dart';
 
 class RiwayatBookingView extends GetView<RiwayatBookingController> {
@@ -21,7 +22,6 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
           padding: PaddingCustom().paddingHorizontalVertical(20, 10),
           child: Column(
             children: [
-              
               TabFilterCustom(
                 categories: const ['Semua', 'completed', 'pending', 'canceled'],
                 selectedCategory: controller.activeFilter,
@@ -33,13 +33,11 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                 vertical: 5,
               ),
               const Gap(20),
-              
               Expanded(
                 child: Obx(() {
                   if (controller.bookingHistory.isEmpty) {
-                    
                     return ListView.builder(
-                      itemCount: 5, 
+                      itemCount: 5,
                       itemBuilder: (context, index) {
                         return Skeletonizer(
                           child: Card(
@@ -58,12 +56,12 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                               leading: Container(
                                 width: 50,
                                 height: 50,
-                                color: Colors.grey, 
+                                color: Colors.grey,
                               ),
                               title: Container(
                                 width: double.infinity,
                                 height: 20.0,
-                                color: Colors.grey, 
+                                color: Colors.grey,
                               ),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,14 +69,16 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                                   Container(
                                     width: double.infinity,
                                     height: 10.0,
-                                    margin: const EdgeInsets.symmetric(vertical: 5.0),
-                                    color: Colors.grey, 
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 5.0),
+                                    color: Colors.grey,
                                   ),
                                   Container(
                                     width: double.infinity,
                                     height: 10.0,
-                                    margin: const EdgeInsets.symmetric(vertical: 5.0),
-                                    color: Colors.grey, 
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 5.0),
+                                    color: Colors.grey,
                                   ),
                                 ],
                               ),
@@ -91,11 +91,9 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
 
                   var bookings = controller.filteredBookingHistory;
                   if (bookings.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'Belum ada riwayat booking',
-                        style: TextStyle(fontSize: 18),
-                      ),
+                    return const NodataHandling(
+                      iconVariant: IconVariant.dokumen,
+                      messageText: "belum ada riwayat dengan status ini",
                     );
                   } else {
                     return ListView.builder(

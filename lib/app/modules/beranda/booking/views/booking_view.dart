@@ -6,8 +6,10 @@ import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/cliniccard.dart';
 import 'package:glowify/widget/customsearchtextfield.dart';
+import 'package:glowify/widget/nodata_handling_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
 import '../controllers/booking_controller.dart';
 
 class BookingView extends GetView<BookingController> {
@@ -65,10 +67,9 @@ class BookingView extends GetView<BookingController> {
               const Gap(30),
               Expanded(
                 child: Obx(
-                  () => controller.isLoading
-                          .value
+                  () => controller.isLoading.value
                       ? ListView.builder(
-                          itemCount: 5, 
+                          itemCount: 5,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(
@@ -87,17 +88,14 @@ class BookingView extends GetView<BookingController> {
                             );
                           },
                         )
-                      : controller.klinikList
-                              .isEmpty
-                          ? Center(
-                              child: Text(
-                                'Tidak ada klinik ditemukan',
-                                style: medium.copyWith(fontSize: regularSize),
-                              ),
+                      : controller.klinikList.isEmpty
+                          ? const NodataHandling(
+                              iconVariant: IconVariant.dokumen,
+                              messageText: "data klinik tidak ditemukan",
+                              iconSizeVariant: IconSize.besar,
                             )
                           : ListView.builder(
-                              itemCount: controller.klinikList
-                                  .length,
+                              itemCount: controller.klinikList.length,
                               itemBuilder: (context, index) {
                                 final klinik = controller.klinikList[index];
 
