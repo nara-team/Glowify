@@ -208,12 +208,12 @@ class ProfilView extends GetView<ProfilController> {
                       child: ListTile(
                         leading: const Icon(
                           Iconsax.logout,
-                          color: Colors.red,
+                          color: primaryColor,
                         ),
                         title: const Text(
                           'Keluar',
                           style: TextStyle(
-                            color: Colors.red,
+                            color: primaryColor,
                           ),
                         ),
                         onTap: () {

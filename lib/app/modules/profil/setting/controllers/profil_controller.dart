@@ -25,7 +25,7 @@ class ProfilController extends GetxController {
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       name.value = userDoc['fullName'] ?? 'No Name';
       email.value = userDoc['email'] ?? 'No Email';
-      imageUrl.value = userDoc['photoURL'] ?? 'https://example.com/default.jpg';
+      imageUrl.value = userDoc['photoURL'] ?? 'https://firebasestorage.googleapis.com/v0/b/glowifyapp-9bf8d.appspot.com/o/profile_images%2Fprofile_nul.png?alt=media&token=8c8bfe0d-a31a-4b62-921d-152d90c5ad60';
     } catch (e) {
       debugPrint("");
     }

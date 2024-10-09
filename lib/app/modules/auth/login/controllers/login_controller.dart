@@ -1,8 +1,10 @@
 // ignore_for_file: unused_local_variable
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginController extends GetxController {
@@ -28,7 +30,7 @@ class LoginController extends GetxController {
     isPasswordHidden.value = !isPasswordHidden.value;
   }
 
-  void validateInputs() {
+  bool validateInputs() {
     emailError.value = '';
     passwordError.value = '';
 
@@ -41,17 +43,23 @@ class LoginController extends GetxController {
 
     if (passwordController.text.isEmpty) {
       passwordError.value = 'Password tidak boleh kosong';
-    } else if (passwordController.text.length < 8) {
-      passwordError.value = 'Password minimal 8 karakter';
-    } else if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d).+$')
-        .hasMatch(passwordController.text)) {
-      passwordError.value = 'Password harus mengandung huruf dan angka';
     }
+
+    if (emailError.value.isNotEmpty || passwordError.value.isNotEmpty) {
+      return false;
+    }
+
+    return true;
   }
 
   Future<void> login() async {
-    validateInputs();
-    if (emailError.value.isNotEmpty || passwordError.value.isNotEmpty) {
+    if (!validateInputs()) {
+      const SnackBarCustom(
+          judul: "Login gagal",
+          pesan: "Periksa kembali form",
+          isHasIcon: true,
+          iconType: SnackBarIconType.warning,
+        ).show();
       return;
     }
 
@@ -61,9 +69,24 @@ class LoginController extends GetxController {
         email: emailController.text,
         password: passwordController.text,
       );
-      Get.offAllNamed('/navbar'); 
-    } on FirebaseAuthException catch (e) {
-      Get.snackbar('Login Failed', e.message ?? 'Unknown error');
+      Get.offAllNamed('/navbar');
+
+      Future.delayed(const Duration(milliseconds: 300), () {
+        const SnackBarCustom(
+          judul: "Login berhasil",
+          pesan: "selamat datang..",
+          isHasIcon: true,
+          iconType: SnackBarIconType.sukses,
+        ).show();
+      });
+    } on FirebaseAuthException {
+      // Get.snackbar('Login Failed', e.message ?? 'eror gak tau');
+      const SnackBarCustom(
+          judul: "Login gagal",
+          pesan: "Periksa kembali email dan password Anda",
+          isHasIcon: true,
+          iconType: SnackBarIconType.gagal,
+        ).show();
     } finally {
       isLoading.value = false;
     }
@@ -91,7 +114,7 @@ class LoginController extends GetxController {
         'fullName': googleUser.displayName,
         'email': googleUser.email,
         'createdAt': FieldValue.serverTimestamp(),
-        'photoURL' : googleUser.photoUrl
+        'photoURL': googleUser.photoUrl
       }, SetOptions(merge: true));
 
       Get.offAllNamed('/navbar');

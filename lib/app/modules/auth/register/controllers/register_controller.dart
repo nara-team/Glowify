@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 
 class RegisterController extends GetxController {
   late TextEditingController emailController;
@@ -112,10 +113,18 @@ class RegisterController extends GetxController {
           'fullName': fullNameController.text,
           'email': emailController.text,
           'createdAt': FieldValue.serverTimestamp(),
-          'photoURL' : ''
+          'photoURL' : 'https://firebasestorage.googleapis.com/v0/b/glowifyapp-9bf8d.appspot.com/o/profile_images%2Fprofile_nul.png?alt=media&token=8c8bfe0d-a31a-4b62-921d-152d90c5ad60'
         });
 
         Get.offAllNamed('/login');
+        Future.delayed(const Duration(milliseconds: 300), () {
+        const SnackBarCustom(
+          judul: "Register berhasil",
+          pesan: "login ke akunmu yang terdaftar",
+          isHasIcon: true,
+          iconType: SnackBarIconType.sukses,
+        ).show();
+      });
       } on FirebaseAuthException catch (e) {
         Get.snackbar('Register Failed', e.message ?? 'Unknown error');
       } finally {

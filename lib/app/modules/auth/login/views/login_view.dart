@@ -117,20 +117,6 @@ class LoginView extends GetView<LoginController> {
                             ),
                           ),
                         ),
-                      )
-                    else if (controller.passwordController.text.isNotEmpty)
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Password valid',
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
                       ),
                   ],
                 ),
@@ -148,12 +134,19 @@ class LoginView extends GetView<LoginController> {
               ),
               const SizedBox(height: 30),
               Center(
-                child: CustomButton(
-                  text: 'Masuk',
-                  onPressed: () {
-                    controller.login();
-                  },
-                ),
+                child: Obx(() => CustomButton(
+                      text: controller.isLoading.value
+                          ? 'Masuk akun anda...'
+                          : 'Masuk',
+                      onPressed: controller.isLoading.value
+                          ? () {}
+                          : () {
+                              controller.login();
+                            },
+                      buttonColor: controller.isLoading.value
+                          ? abuLightColor
+                          : primaryColor,
+                    )),
               ),
               const SizedBox(height: 20),
               Center(
@@ -188,7 +181,7 @@ class LoginView extends GetView<LoginController> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Get.offNamed('/register');
+                            Get.toNamed('/register');
                           },
                       ),
                     ],
