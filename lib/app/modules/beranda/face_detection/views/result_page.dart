@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/data/models/product_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/custom_button.dart';
-import 'package:glowify/widget/productresult_rekomendation_widget.dart'
-    as widgetproduct;
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../widget/result_tile.dart';
@@ -148,7 +147,7 @@ class ResultPage extends GetView<ResultDetectionController> {
                               scrollDirection: Axis.horizontal,
                               itemCount: controller.products.length,
                               itemBuilder: (context, index) {
-                                return widgetproduct.ProductCard(
+                                return ProductCard(
                                     product: controller.products[index]);
                               },
                             )
@@ -253,5 +252,61 @@ class ResultPage extends GetView<ResultDetectionController> {
       default:
         return "Tidak Ada Data";
     }
+  }
+}
+
+
+class ProductCard extends StatelessWidget {
+  final ProductModel product;
+
+  const ProductCard({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => debugPrint('${product.productName} tapped'),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 120,
+              width: double.infinity,
+              child: Image.network(
+                product.productImage,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.productName,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    product.productDescription,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
