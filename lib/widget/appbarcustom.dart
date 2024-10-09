@@ -5,19 +5,19 @@ import 'package:iconsax/iconsax.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String judul;
-  final EdgeInsetsGeometry padding;
+
   final List<Widget>? actions;
 
   const CustomAppBar({
     Key? key,
     required this.judul,
-    this.padding = const EdgeInsets.symmetric(horizontal: 20.0),
     this.actions,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      titleSpacing: 3,
       title: Text(
         judul,
         style: const TextStyle(
@@ -43,6 +43,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      const Size.fromHeight(kToolbarHeight); 
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/custom_button.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../controllers/pusat_bantuan_controller.dart';
@@ -67,26 +68,15 @@ class PusatBantuanView extends GetView<PusatBantuanController> {
             ),
             const Gap(30),
             Center(
-              child: ElevatedButton.icon(
-                icon: const Icon(Iconsax.message),
-                label: const Text(
-                  'Ajukan Pertanyaan',
-                  style: TextStyle(fontSize: mediumSize),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  backgroundColor: primaryColor,
-                  foregroundColor: whiteBackground1Color,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
-                ),
+              child: CustomButton(
+                text: 'Ajukan Pertanyaan',
                 onPressed: () {
                   _showQuestionForm(context);
                 },
+                icon: const Icon(
+                  Iconsax.message,
+                  color: whiteBackground1Color,
+                ),
               ),
             ),
           ],

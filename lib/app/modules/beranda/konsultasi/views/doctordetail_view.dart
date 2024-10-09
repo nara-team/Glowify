@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
-import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/data/models/doctor_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/custom_button.dart';
 import 'package:iconsax/iconsax.dart';
+
 import '../controllers/doctordetail_controller.dart';
 
 class DoctordetailView extends GetView<DoctordetailController> {
@@ -115,49 +116,19 @@ class DoctordetailView extends GetView<DoctordetailController> {
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
+                        child: CustomButton(
+                          text: 'Chat',
                           onPressed: () {
-                            debugPrint('Chat button pressed');
-                            if (doctor.doctorId != null &&
-                                doctor.doctorName != null &&
-                                doctor.profilePicture != null) {
-                              controller.startChat(
-                                currentUserId,
-                                doctor.doctorId!,
-                                doctor.doctorName!,
-                                doctor.profilePicture!,
-                              );
-                            } else {
-                              debugPrint('Error: Doctor data is incomplete');
-                              Get.snackbar(
-                                  'Error', 'Data dokter tidak lengkap.');
-                            }
+                            controller.startChat(
+                              currentUserId,
+                              doctor.doctorId!,
+                              doctor.doctorName!,
+                              doctor.profilePicture!,
+                            );
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            padding: PaddingCustom().paddingVertical(15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Iconsax.message,
-                                color: whiteBackground1Color,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Chat',
-                                style: bold.copyWith(
-                                  fontSize: mediumSize,
-                                  color: whiteBackground1Color,
-                                ),
-                              ),
-                            ],
+                          icon: const Icon(
+                            Iconsax.message,
+                            color: whiteBackground1Color,
                           ),
                         ),
                       ),

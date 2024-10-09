@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/custom_button.dart';
 import 'package:intl/intl.dart';
 import '../controllers/buatjanji_controller.dart';
 
@@ -121,25 +122,18 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
               ),
               const SizedBox(height: 24),
               Center(
-                child: ElevatedButton.icon(
+                child: CustomButton(
+                  text: 'Buat Janji',
                   onPressed: () {
                     controller.saveBooking();
                   },
+                  hasOutline: false,
                   icon: const Icon(
                     Icons.schedule,
                     color: whiteBackground1Color,
                   ),
-                  label: const Text(
-                    'Buat Janji',
-                    style: TextStyle(color: whiteBackground1Color),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  buttonColor: primaryColor,
+                  textColor: whiteBackground1Color,
                 ),
               ),
             ],

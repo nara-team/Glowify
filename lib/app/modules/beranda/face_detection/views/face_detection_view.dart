@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
+import 'package:glowify/widget/custom_button.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 import '../controllers/face_detection_controller.dart';
 import '../../../../../widget/face_area_widget.dart';
 
@@ -33,7 +35,6 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                   },
                 ),
                 const SizedBox(height: 16),
-                
                 FaceAreaWidget(
                   title: "Area Pipi",
                   image: controller.imageCheek.value,
@@ -43,7 +44,6 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                   },
                 ),
                 const SizedBox(height: 16),
-                
                 FaceAreaWidget(
                   title: "Area Hidung",
                   image: controller.imageNose.value,
@@ -53,29 +53,30 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                   },
                 ),
                 const SizedBox(height: 32),
-                
-                ElevatedButton(
+                CustomButton(
+                  text: controller.loading.value
+                      ? 'Menganalisis...'
+                      : 'Analisa Sekarang',
                   onPressed: allImagesSelected && !controller.loading.value
-                      ? controller.classifyImage
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    padding: PaddingCustom().paddingVertical(16),
-                    elevation: 4,
-                  ),
-                  child: controller.loading.value
-                      ? const CircularProgressIndicator(
-                          color: whiteBackground1Color)
-                      : Text(
-                          'Analisa Sekarang',
-                          style: bold.copyWith(
-                            fontSize: largeSize,
-                            color: whiteBackground1Color,
-                          ),
-                        ),
+                      ? () {
+                          controller.classifyImage();
+                        }
+                      : () {
+                          if (!controller.loading.value) {
+                            const SnackBarCustom(
+                              judul: "perhatian",
+                              pesan: "Harap isi semua gambar",
+                              isHasIcon: true,
+                              iconType: SnackBarIconType.warning,
+                            ).show();
+                          }
+                        },
+                  hasOutline: false,
+                  buttonColor: controller.loading.value
+                      ? abuLightColor
+                      : (allImagesSelected ? primaryColor : abuLightColor),
+                  textColor: whiteBackground1Color,
+                  icon: null,
                 ),
               ],
             ),

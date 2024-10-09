@@ -1,15 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
-import 'package:glowify/widget/productresult_rekomendation_widget.dart' as widgetproduct;
+import 'package:glowify/widget/custom_button.dart';
+import 'package:glowify/widget/productresult_rekomendation_widget.dart'
+    as widgetproduct;
 import 'package:skeletonizer/skeletonizer.dart';
-import '../../../../../widget/result_tile.dart';
 
-import '../../../../../widget/action_buttons.dart';
+import '../../../../../widget/result_tile.dart';
 import '../controllers/resultdetection_controller.dart';
-import 'dart:io';
 
 class ResultPage extends GetView<ResultDetectionController> {
   final List<String> results;
@@ -140,7 +142,7 @@ class ResultPage extends GetView<ResultDetectionController> {
                 return SizedBox(
                   height: 220,
                   child: controller.loading.value
-                      ? _buildSkeletonLoader() 
+                      ? _buildSkeletonLoader()
                       : controller.products.isNotEmpty
                           ? PageView.builder(
                               scrollDirection: Axis.horizontal,
@@ -163,7 +165,27 @@ class ResultPage extends GetView<ResultDetectionController> {
                 textAlign: TextAlign.justify,
               ),
               const Gap(20),
-              const ActionButtons(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CustomButton(
+                    text: 'Konsultasi Ke Dokter',
+                    onPressed: () {
+                      Get.toNamed('/konsultasi');
+                    },
+                    hasOutline: false,
+                  ),
+                  const SizedBox(height: 16),
+                  CustomButton(
+                    text: 'Kembali ke Beranda',
+                    onPressed: () {
+                      Get.offAllNamed('/navbar');
+                    },
+                    hasOutline: true,
+                  ),
+                ],
+              ),
             ],
           ),
         );
