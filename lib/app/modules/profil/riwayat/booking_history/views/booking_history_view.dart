@@ -113,6 +113,10 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                           shadowColor: Colors.transparent,
                           margin: const EdgeInsets.only(bottom: 10),
                           child: ListTile(
+                            onTap: () {
+                              Get.toNamed("/booking-history-detail",
+                                  arguments: booking);
+                            },
                             leading: const Icon(Iconsax.stickynote),
                             title: Text(
                                 booking['service'] ?? 'Service Tidak Tersedia'),
