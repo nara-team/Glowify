@@ -23,7 +23,7 @@ class CarouselWithIndicatorState extends State<CarouselWithIndicator> {
           height: 150,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(imageData["iconPath"]),
+              image: NetworkImage(imageData["iconPath"]),
               fit: BoxFit.cover,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(20)),

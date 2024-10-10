@@ -24,18 +24,6 @@ class BerandaView extends GetView<BerandaController> {
         Get.find<TutorialController>();
     final NavbarController navbarController = Get.find<NavbarController>();
 
-    controller.featureButtonKeys.addAll(
-      List.generate(
-        controller.fetureDraftModel.length,
-        (index) => GlobalKey(),
-      ),
-    );
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.initTargets(controller.fetureDraftModel);
-      controller.showTutorial(context);
-    });
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -81,83 +69,40 @@ class BerandaView extends GetView<BerandaController> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    CarouselWithIndicator(
-                      images: controller.imagesliderModel,
-                    ),
-                    const SizedBox(height: 30),
-                    Padding(
-                      padding: PaddingCustom().paddingHorizontal(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            key: controller.featureHighlightKey,
-                            child: Text(
-                              "Feature",
-                              style: semiBold.copyWith(fontSize: mediumSize),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Obx(() {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: List.generate(
-                                controller.fetureDraftModel.length,
-                                (index) {
-                                  return FeatureButton(
-                                    key: controller.featureButtonKeys[index],
-                                    pathIcon: controller.fetureDraftModel[index]
-                                        ["iconPath"],
-                                    featureColor: const Color(0xFFf6d5d8),
-                                    titleBtn: controller.fetureDraftModel[index]
-                                        ["caption"],
-                                    tekan: () {
-                                      if (controller
-                                          .fetureDraftModel[index]["route"]
-                                          .isNotEmpty) {
-                                        Get.toNamed(controller
-                                            .fetureDraftModel[index]["route"]);
-                                      } else {
-                                        SnackBarCustom(
-                                          judul:
-                                              "fitur ${controller.fetureDraftModel[index]["caption"]} belum tersedia",
-                                          pesan:
-                                              "Fitur ${controller.fetureDraftModel[index]["caption"]} sedang dalam pengembangan!",
-                                        ).show();
-                                      }
-                                    },
-                                  );
-                                },
-                              ),
-                            );
-                          }),
-                          const SizedBox(height: 30),
-                          Text(
-                            "Trending Tutorial",
-                            style: semiBold.copyWith(fontSize: mediumSize),
-                          ),
-                          const SizedBox(height: 20),
-                          const Gap(5),
-                          Obx(() {
-                            if (tutorialController.isLoading.value) {
-                              return Skeletonizer(
-                                enabled: tutorialController.isLoading.value,
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (!controller.isLoading.value &&
+                        controller.targets.isNotEmpty) {
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        controller.showTutorial(Scaffold.of(context).context);
+                      });
+                    }
+                  });
+
+                  return Column(
+                    children: [
+                      const Gap(20),
+                      Obx(
+                        () => controller.isbannerLoading.value
+                            ? Skeletonizer(
+                                enabled: controller.isLoading.value,
                                 child: SizedBox(
-                                  height: 200,
+                                  height: 150,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: 4,
+                                    itemCount: 3,
                                     itemBuilder: (context, index) {
                                       return Padding(
                                         padding: PaddingCustom()
                                             .paddingHorizontal(8),
                                         child: Container(
-                                          width: 150,
+                                          width: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: whiteBackground1Color,
+                                            color: abuLightColor,
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                           ),
@@ -166,78 +111,180 @@ class BerandaView extends GetView<BerandaController> {
                                     },
                                   ),
                                 ),
-                              );
-                            } else if (tutorialController
-                                .errorMessage.isNotEmpty) {
-                              return const NodataHandling(
-                                iconVariant: IconVariant.dokumen,
-                                messageText: "belum ada tutorial",
-                              );
-                            } else {
-                              final itemCount =
-                                  tutorialController.newsArticles.length > 4
-                                      ? 4
-                                      : tutorialController.newsArticles.length;
-                              return SizedBox(
-                                height: 200,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: itemCount + 1,
-                                  itemBuilder: (context, index) {
-                                    if (index == itemCount) {
-                                      return Padding(
-                                        padding: PaddingCustom()
-                                            .paddingHorizontal(8),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            navbarController.changeTabIndex(3);
-                                          },
+                              )
+                            : controller.bannerSliders.isEmpty
+                                ? const NodataHandling(
+                                    iconVariant: IconVariant.dokumen,
+                                    messageText: "tidak ada banner",
+                                    iconSizeVariant: IconSize.kecil,
+                                  )
+                                : CarouselWithIndicator(
+                                    images: controller.bannerSliders
+                                        .map((banner) => {
+                                              "iconPath": banner.image,
+                                              "route": banner.route,
+                                            })
+                                        .toList(),
+                                  ),
+                      ),
+                      const Gap(30),
+                      Padding(
+                        padding: PaddingCustom().paddingHorizontal(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              key: controller.featureHighlightKey,
+                              child: Text(
+                                "Feature",
+                                style: semiBold.copyWith(fontSize: mediumSize),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            if (controller.mainFeatures.isEmpty)
+                              const Center(
+                                child: Text(
+                                  "Tidak ada fitur yang tersedia",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 16),
+                                ),
+                              )
+                            else
+                              Wrap(
+                                spacing: 25.0,
+                                runSpacing: 8.0,
+                                alignment: WrapAlignment.start,
+                                children: List.generate(
+                                  controller.mainFeatures.length,
+                                  (index) {
+                                    var feature =
+                                        controller.mainFeatures[index];
+                                    return FeatureButton(
+                                      key: controller.featureButtonKeys[index],
+                                      pathIcon: feature.icon ?? '',
+                                      featureColor: const Color(0xFFf6d5d8),
+                                      titleBtn: feature.title ?? 'No Title',
+                                      tekan: () {
+                                        if (feature.route != null &&
+                                            feature.route!.isNotEmpty) {
+                                          Get.toNamed(feature.route!);
+                                        } else {
+                                          SnackBarCustom(
+                                            judul:
+                                                "Fitur ${feature.title} belum tersedia",
+                                            pesan:
+                                                "Fitur ${feature.title} sedang dalam pengembangan!",
+                                          ).show();
+                                        }
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            const SizedBox(height: 30),
+                            Text(
+                              "Trending Tutorial",
+                              style: semiBold.copyWith(fontSize: mediumSize),
+                            ),
+                            const SizedBox(height: 20),
+                            Obx(() {
+                              if (tutorialController.isLoading.value) {
+                                return Skeletonizer(
+                                  enabled: tutorialController.isLoading.value,
+                                  child: SizedBox(
+                                    height: 200,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 4,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: PaddingCustom()
+                                              .paddingHorizontal(8),
                                           child: Container(
                                             width: 150,
                                             decoration: BoxDecoration(
-                                              color: Colors.grey[200],
+                                              color: whiteBackground1Color,
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                             ),
-                                            child: Center(
-                                              child: Text(
-                                                'Lihat Semua',
-                                                style: bold.copyWith(
-                                                  fontSize: mediumSize,
-                                                  color: primaryColor,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              } else if (tutorialController
+                                  .errorMessage.isNotEmpty) {
+                                return const NodataHandling(
+                                  iconVariant: IconVariant.dokumen,
+                                  messageText: "Belum ada tutorial",
+                                );
+                              } else {
+                                final itemCount =
+                                    tutorialController.newsArticles.length > 4
+                                        ? 4
+                                        : tutorialController
+                                            .newsArticles.length;
+                                return SizedBox(
+                                  height: 200,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: itemCount + 1,
+                                    itemBuilder: (context, index) {
+                                      if (index == itemCount) {
+                                        return Padding(
+                                          padding: PaddingCustom()
+                                              .paddingHorizontal(8),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              navbarController
+                                                  .changeTabIndex(3);
+                                            },
+                                            child: Container(
+                                              width: 150,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'Lihat Semua',
+                                                  style: bold.copyWith(
+                                                      fontSize: mediumSize,
+                                                      color: primaryColor),
                                                 ),
                                               ),
                                             ),
                                           ),
+                                        );
+                                      }
+                                      final article = tutorialController
+                                          .newsArticles[index];
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: TrendingTutorialItem(
+                                          iconPath: article.urlToImage!,
+                                          contentText: article.title,
+                                          onTap: () {
+                                            Get.toNamed('/tutorialdetail',
+                                                arguments: article);
+                                          },
                                         ),
                                       );
-                                    }
-
-                                    final article =
-                                        tutorialController.newsArticles[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: TrendingTutorialItem(
-                                        iconPath: article.urlToImage!,
-                                        contentText: article.title,
-                                        onTap: () {
-                                          Get.toNamed('/tutorialdetail',
-                                              arguments: article);
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            }
-                          }),
-                          const SizedBox(height: 30),
-                        ],
+                                    },
+                                  ),
+                                );
+                              }
+                            }),
+                            const SizedBox(height: 30),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  );
+                }),
               ),
             ),
           ],

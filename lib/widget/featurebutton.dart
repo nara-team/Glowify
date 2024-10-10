@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glowify/app/theme/app_theme.dart';
-import 'package:glowify/app/theme/sized_theme.dart';
 
 class FeatureButton extends StatelessWidget {
   final String pathIcon;
@@ -31,11 +30,8 @@ class FeatureButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: PaddingCustom().paddingAll(25),
-              child: SvgPicture.asset(
-                pathIcon,
-                fit: BoxFit.contain,
-              ),
+              padding: const EdgeInsets.all(25.0),
+              child: _buildIcon(pathIcon),
             ),
           ),
         ),
@@ -45,9 +41,30 @@ class FeatureButton extends StatelessWidget {
         Text(
           titleBtn,
           textAlign: TextAlign.center,
-          style: regular.copyWith(fontSize: regularSize),
+          // maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: regular.copyWith(
+            fontSize: regularSize,
+          ),
         ),
       ],
     );
+  }
+
+  Widget _buildIcon(String pathIcon) {
+    if (pathIcon.startsWith('http')) {
+      return SvgPicture.network(
+        pathIcon,
+        fit: BoxFit.contain,
+        placeholderBuilder: (context) => const CircularProgressIndicator(
+          color: whiteBackground1Color,
+        ),
+      );
+    } else {
+      return SvgPicture.asset(
+        pathIcon,
+        fit: BoxFit.contain,
+      );
+    }
   }
 }
