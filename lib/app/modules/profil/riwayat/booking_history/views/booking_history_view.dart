@@ -93,7 +93,7 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                   if (bookings.isEmpty) {
                     return const NodataHandling(
                       iconVariant: IconVariant.dokumen,
-                      messageText: "belum ada riwayat dengan status ini",
+                      messageText: "Belum ada riwayat dengan status ini",
                     );
                   } else {
                     return ListView.builder(
@@ -114,32 +114,38 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                           margin: const EdgeInsets.only(bottom: 10),
                           child: ListTile(
                             onTap: () {
-                              Get.toNamed("/booking-history-detail",
-                                  arguments: booking);
+                              Get.toNamed(
+                                "/booking-history-detail",
+                                arguments: booking,
+                              );
                             },
                             leading: const Icon(Iconsax.stickynote),
                             title: Text(
-                                booking['service'] ?? 'Service Tidak Tersedia'),
+                              booking.doctorName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                    'Klinik: ${booking['clinic'] ?? 'Clinic Tidak Tersedia'}'),
+                                    'Booking At: ${booking.formattedBookingAt}'),
                                 Text(
-                                    'Dokter: ${booking['doctor'] ?? 'Doctor Tidak Tersedia'}'),
-                                Text(
-                                    'Tanggal: ${booking['date'] ?? 'Tanggal Tidak Tersedia'}'),
+                                    'Tanggal Janji: ${booking.formattedBookingTime}'),
+                                Text('Catatan: ${booking.note}'),
+                                Text('Status: ${booking.status}'),
                               ],
                             ),
                             trailing: Container(
                               padding: PaddingCustom()
                                   .paddingHorizontalVertical(8, 4),
                               decoration: BoxDecoration(
-                                color: booking['statusColor'],
+                                color: booking.statusColor,
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Text(
-                                booking['status'] ?? 'Status Tidak Tersedia',
+                                booking.status,
                                 style: bold.copyWith(
                                   color: whiteBackground1Color,
                                 ),

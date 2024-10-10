@@ -7,6 +7,7 @@ import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/data/models/product_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/custom_button.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../widget/result_tile.dart';
@@ -66,10 +67,7 @@ class ResultPage extends GetView<ResultDetectionController> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(
-                    Icons.sentiment_satisfied,
-                    color: _getConditionColor(),
-                  ),
+                  _getConditionIcon(_determineFinalResult()),
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,6 +224,35 @@ class ResultPage extends GetView<ResultDetectionController> {
     }
   }
 
+  Icon _getConditionIcon(String result) {
+    switch (result) {
+      case "Sehat":
+        return const Icon(
+          Iconsax.emoji_happy,
+          size: 35,
+          color: Colors.green,
+        );
+      case "Perlu Perhatian":
+        return const Icon(
+          Iconsax.emoji_normal,
+          size: 35,
+          color: Color.fromARGB(255, 255, 174, 0),
+        );
+      case "Butuh Perawatan":
+        return const Icon(
+          Iconsax.emoji_sad,
+          size: 35,
+          color: Colors.red,
+        );
+      default:
+        return const Icon(
+          Iconsax.emoji_normal,
+          size: 35,
+          color: Colors.grey,
+        );
+    }
+  }
+
   Color _getConditionColor() {
     String result = _determineFinalResult();
     switch (result) {
@@ -254,7 +281,6 @@ class ResultPage extends GetView<ResultDetectionController> {
     }
   }
 }
-
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;

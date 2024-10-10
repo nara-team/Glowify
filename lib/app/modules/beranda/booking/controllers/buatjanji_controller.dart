@@ -31,10 +31,13 @@ class BuatjanjiController extends GetxController {
           'note': noteController.value,
           'status': 'pending',
           'userId': currentUserId,
+          'bookingAt': Timestamp.now(),
         });
         const SnackBarCustom(
           judul: 'Sukses',
           pesan: 'Booking berhasil dibuat',
+          isHasIcon: true,
+          iconType: SnackBarIconType.sukses,
         ).show();
         Get.offNamed('/navbar');
       } catch (e) {
@@ -43,9 +46,10 @@ class BuatjanjiController extends GetxController {
     } else {
       Get.snackbar('Error', 'Silakan pilih jadwal terlebih dahulu');
       const SnackBarCustom(
-          judul: 'maaf,',
-          pesan: 'Silakan pilih jadwal terlebih dahulu',
-        ).show();
+        judul: 'maaf,',
+        pesan: 'Silakan pilih jadwal terlebih dahulu',
+        iconType: SnackBarIconType.warning,
+      ).show();
     }
   }
 }

@@ -157,8 +157,7 @@ class BookingDetailView extends GetView<BookingdetailController> {
                         } else if (controller.doctors.isEmpty) {
                           return const NodataHandling(
                             iconVariant: IconVariant.dokumen,
-                            messageText:
-                                "belum ada data dokter unutk layana di klinik ini",
+                            messageText: "belum tersedia",
                           );
                         } else {
                           return ListView.builder(

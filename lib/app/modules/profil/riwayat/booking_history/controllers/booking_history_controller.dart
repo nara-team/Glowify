@@ -1,96 +1,113 @@
-import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:glowify/data/models/bookings_model.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class RiwayatBookingController extends GetxController {
-  var bookingHistory = <Map<String, dynamic>>[].obs;
-  var activeFilter = 'Semua'.obs;
-
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-  Future<void> fetchBookingHistory() async {
-    try {
-      String userId = auth.currentUser?.uid ?? '';
-
-      if (userId.isEmpty) {
-        debugPrint('User not logged in');
-        return;
-      }
-
-      QuerySnapshot bookingSnapshot = await firestore
-          .collection('bookings')
-          .where('userId', isEqualTo: userId)
-          .get();
-
-      List<Map<String, dynamic>> fetchedData = [];
-
-      for (var doc in bookingSnapshot.docs) {
-        String status = doc['status'];
-        Color statusColor;
-
-        switch (status) {
-          case 'completed':
-            statusColor = Colors.green;
-            break;
-          case 'pending':
-            statusColor = Colors.orange;
-            break;
-          case 'canceled':
-            statusColor = Colors.red;
-            break;
-          default:
-            statusColor = Colors.grey;
-        }
-
-        String doctorId = doc['doctorId'];
-
-        DocumentSnapshot doctorSnapshot =
-            await firestore.collection('doctor').doc(doctorId).get();
-
-        String doctorName = doctorSnapshot.exists
-            ? doctorSnapshot['doctor_name']
-            : 'Unknown Doctor';
-
-        QuerySnapshot clinicSnapshot = await firestore
-            .collection('klinik')
-            .where('id_doktor', arrayContains: doctorId)
-            .get();
-
-        String clinicName = clinicSnapshot.docs.isNotEmpty
-            ? clinicSnapshot.docs.first['nama_klinik']
-            : 'Unknown Clinic';
-
-        fetchedData.add({
-          'date': doc['booking_time'].toDate().toString(),
-          'service': doc['note'],
-          'status': status,
-          'statusColor': statusColor,
-          'clinic': clinicName,
-          'doctor': doctorName,
-        });
-      }
-
-      bookingHistory.assignAll(fetchedData);
-    } catch (e) {
-      debugPrint('Error fetching booking data: $e');
-    }
-  }
-
-  List<Map<String, dynamic>> get filteredBookingHistory {
-    if (activeFilter.value == 'Semua') {
-      return bookingHistory;
-    } else {
-      return bookingHistory
-          .where((booking) => booking['status'] == activeFilter.value)
-          .toList();
-    }
-  }
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final bookingHistory = <Booking>[].obs;
+  final activeFilter = 'Semua'.obs;
+  final String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void onInit() {
     super.onInit();
-    fetchBookingHistory();
+    initializeDateFormatting('id_ID', null).then((_) {
+      fetchBookingHistory();
+    });
+  }
+
+  Future<String> getDoctorName(String doctorId) async {
+    try {
+      DocumentSnapshot doctorSnapshot =
+          await _firestore.collection('doctor').doc(doctorId).get();
+      return doctorSnapshot.get('doctor_name') as String;
+    } catch (e) {
+      return 'Unknown Doctor';
+    }
+  }
+
+  Future<String> getUserName(String userId) async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection('users').doc(userId).get();
+      return userSnapshot.get('fullName') as String;
+    } catch (e) {
+      User? user = FirebaseAuth.instance.currentUser;
+      return user?.displayName ?? 'Unknown User';
+    }
+  }
+
+  Future<void> fetchBookingHistory() async {
+    try {
+      QuerySnapshot bookingSnapshot = await _firestore
+          .collection('bookings')
+          .where('userId', isEqualTo: currentUserId)
+          .get();
+
+      List<Booking> fetchedBookings = [];
+
+      for (var doc in bookingSnapshot.docs) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        String doctorId = data['doctorId'];
+        String userId = data['userId'];
+
+        String doctorName = await getDoctorName(doctorId);
+        String userName = await getUserName(userId);
+
+        String status = data['status'];
+        Color statusColor = _getStatusColor(status);
+
+        DateTime bookingAtDateTime = (data['bookingAt'] as Timestamp).toDate();
+        DateTime bookingTimeDateTime =
+            (data['booking_time'] as Timestamp).toDate();
+        String formattedBookingAt =
+            DateFormat('EEEE, dd-MM-yyyy, HH:mm', 'id_ID')
+                .format(bookingAtDateTime);
+        String formattedBookingTime =
+            DateFormat('EEEE, dd-MM-yyyy, HH:mm', 'id_ID')
+                .format(bookingTimeDateTime);
+
+        Booking booking = Booking.fromFirestore(
+          doc,
+          doctorName,
+          userName,
+          statusColor,
+          formattedBookingAt,
+          formattedBookingTime,
+        );
+
+        fetchedBookings.add(booking);
+      }
+
+      bookingHistory.value = fetchedBookings;
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal mengambil data booking: $e');
+    }
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'completed':
+        return Colors.green;
+      case 'pending':
+        return Colors.orange;
+      case 'canceled':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  List<Booking> get filteredBookingHistory {
+    if (activeFilter.value == 'Semua') {
+      return bookingHistory;
+    }
+    return bookingHistory
+        .where((booking) => booking.status == activeFilter.value)
+        .toList();
   }
 }

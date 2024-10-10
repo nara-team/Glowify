@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/custom_button.dart';
+import 'package:glowify/widget/custom_textfield.dart';
+import 'package:glowify/widget/showdialog_custom.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:intl/intl.dart';
 import '../controllers/buatjanji_controller.dart';
 
@@ -15,7 +20,7 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
       appBar: CustomAppBar(judul: "${controller.doctor.value.doctorName}"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: PaddingCustom().paddingHorizontalVertical(20, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -31,28 +36,29 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
                     const SizedBox(height: 16),
                     Text(
                       controller.doctor.value.doctorName ?? 'Nama Dokter',
-                      style: const TextStyle(
+                      style: bold.copyWith(
                         fontSize: 22,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const Gap(5),
                     Text(
                       'Spesialisasi: ${controller.doctor.value.specialization ?? 'Tidak diketahui'}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[700],
+                      style: const TextStyle(
+                        fontSize: regularSize,
+                        color: abuDarkColor,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
-              const Text(
+              const Gap(24),
+              Text(
                 'Pilih Jadwal:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: semiBold.copyWith(
+                  fontSize: largeSize,
+                ),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               Obx(() {
                 return Wrap(
                   spacing: 10.0,
@@ -65,34 +71,31 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
 
                         return GestureDetector(
                           onTap: () {
-                            controller.updateSelectedSchedule(schedule);
+                            if (isSelected) {
+                              controller.selectedSchedule.value = null;
+                            } else {
+                              controller.updateSelectedSchedule(schedule);
+                            }
                           },
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
+                            duration: const Duration(milliseconds: 200),
+                            padding: PaddingCustom().paddingHorizontalVertical(
+                              20,
+                              10,
+                            ),
                             decoration: BoxDecoration(
-                              color:
-                                  isSelected ? Colors.pink[100] : Colors.white,
+                              color: isSelected ? primaryColor : Colors.white,
                               border: Border.all(
-                                color: isSelected ? Colors.pink : Colors.grey,
+                                color: isSelected ? primaryColor : abuMedColor,
                               ),
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: isSelected
-                                  ? [
-                                      BoxShadow(
-                                          color: Colors.pink.withOpacity(0.3),
-                                          blurRadius: 8)
-                                    ]
-                                  : [],
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
                               formattedDate,
                               style: TextStyle(
-                                color: isSelected ? Colors.pink : Colors.black,
-                                fontWeight: isSelected
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
+                                color: isSelected
+                                    ? whiteBackground1Color
+                                    : blackColor,
                               ),
                             ),
                           ),
@@ -102,40 +105,66 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
                 );
               }),
               const SizedBox(height: 24),
-              const Text(
+              Text(
                 'Catatan Tambahan',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: semiBold.copyWith(
+                  fontSize: largeSize,
+                ),
               ),
-              const SizedBox(height: 8),
-              TextField(
+              const Gap(8),
+              CustomTextFieldNormal(
                 controller: TextEditingController(),
+                placeholder: 'Masukkan catatan tambahan untuk dokter',
+                isHasHint: false,
+                isRequired: false,
+                maxLines: 4,
+                minLines: 1,
                 onChanged: (value) {
                   controller.noteController.value = value;
                 },
-                maxLines: 4,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Catatan tambahan untuk dokter',
-                  hintText: 'Tulis catatan di sini...',
-                  alignLabelWithHint: true,
+                enabled: true,
+                controllerTextStyle: const TextStyle(
+                  fontSize: regularSize,
+                  color: blackColor,
                 ),
               ),
-              const SizedBox(height: 24),
-              Center(
-                child: CustomButton(
-                  text: 'Buat Janji',
-                  onPressed: () {
-                    controller.saveBooking();
-                  },
-                  hasOutline: false,
-                  icon: const Icon(
-                    Icons.schedule,
-                    color: whiteBackground1Color,
+              const Gap(20),
+              Obx(() {
+                bool isScheduleSelected =
+                    controller.selectedSchedule.value != null;
+
+                return Center(
+                  child: CustomButton(
+                    text: 'Buat Janji',
+                    onPressed: () {
+                      if (isScheduleSelected) {
+                        ConfirmationDialog.show(
+                          textKonfirmasi: "Lanjut Booking",
+                          title: 'Konfirmasi',
+                          content:
+                              'Apakah Anda yakin ingin melanjutkan booking?',
+                          onConfirm: () {
+                            controller.saveBooking();
+                          },
+                        );
+                      } else {
+                        const SnackBarCustom(
+                          judul: 'Maaf',
+                          pesan: 'Silakan pilih jadwal terlebih dahulu',
+                          isHasIcon: true,
+                          iconType: SnackBarIconType.warning,
+                        ).show();
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.schedule,
+                      color: whiteBackground1Color,
+                    ),
+                    buttonColor:
+                        isScheduleSelected ? primaryColor : abuLightColor,
                   ),
-                  buttonColor: primaryColor,
-                  textColor: whiteBackground1Color,
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),

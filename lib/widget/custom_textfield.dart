@@ -93,7 +93,7 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
               text: TextSpan(
                 style: TextStyle(
                   fontSize: widget.fontSize ?? 14,
-                  color: Colors.black,
+                  color: blackColor,
                 ),
                 children: [
                   TextSpan(text: widget.hintText, style: widget.hintTextStyle),
@@ -138,13 +138,13 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
                   fontSize: widget.fontSize ?? 14,
                   fontWeight: FontWeight.w400,
                   color: widget.textColor ??
-                      (widget.enabled ? Colors.black : Colors.black54),
+                      (widget.enabled ? blackColor : Colors.black54),
                 ),
             keyboardType: widget.keyboardType,
             maxLines: widget.maxLines,
             decoration: InputDecoration(
               isDense: true,
-              fillColor: widget.inputColor ?? whiteBackground1Color,
+              fillColor: widget.inputColor ?? Colors.white,
               filled: true,
               hintText: widget.placeholder ?? 'Masukkan ${widget.hintText}',
               hintStyle: TextStyle(

@@ -69,6 +69,7 @@ class BookingView extends GetView<BookingController> {
                 child: Obx(
                   () => controller.isLoading.value
                       ? ListView.builder(
+                          clipBehavior: Clip.none,
                           itemCount: 5,
                           itemBuilder: (context, index) {
                             return Padding(
