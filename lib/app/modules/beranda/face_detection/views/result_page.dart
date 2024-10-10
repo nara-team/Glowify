@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
+import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/data/models/product_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/custom_button.dart';
@@ -311,21 +312,22 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: PaddingCustom().paddingAll(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.productName,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    style: bold.copyWith(
+                      fontSize: mediumSize,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const Gap(8),
                   Text(
                     product.productDescription,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(
+                      fontSize: regularSize,
+                    ),
                   ),
                 ],
               ),
