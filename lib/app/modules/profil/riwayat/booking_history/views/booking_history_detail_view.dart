@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/data/models/bookings_model.dart';
@@ -28,35 +29,35 @@ class BookingHistoryDetailView extends GetView<BookingHistoryDetailController> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            const Gap(8),
             Text(
               'User: ${booking.userName}',
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 8),
+            const Gap(8),
             Text(
               'Booking At: ${booking.formattedBookingAt}',
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 8),
+            const Gap(8),
             Text(
               'Tanggal Janji: ${booking.formattedBookingTime}',
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 8),
+            const Gap(8),
             Text(
               'Catatan: ${booking.note}',
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 8),
+            const Gap(8),
             Text(
               'Status: ${booking.status}',
               style: TextStyle(

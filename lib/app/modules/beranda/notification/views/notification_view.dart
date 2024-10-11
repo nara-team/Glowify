@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/modules/beranda/notification/controllers/notification_controller.dart';
 import 'package:glowify/app/theme/app_theme.dart';
@@ -130,7 +131,7 @@ class NotificationView extends GetView<NotificationController> {
                                           : FontWeight.normal,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const Gap(4),
                                   Text(
                                     time,
                                     style: const TextStyle(

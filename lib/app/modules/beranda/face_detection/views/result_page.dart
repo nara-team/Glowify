@@ -60,12 +60,12 @@ class ResultPage extends GetView<ResultDetectionController> {
                     Image.file(imageNose!, width: 80, height: 80),
                 ],
               ),
-              const SizedBox(height: 16),
+              const Gap(16),
               const Text(
                 'Kondisi Wajah',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               Row(
                 children: [
                   _getConditionIcon(_determineFinalResult()),
@@ -90,12 +90,12 @@ class ResultPage extends GetView<ResultDetectionController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const Gap(16),
               const Text(
                 'Detail Hasil Analisis',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -123,19 +123,19 @@ class ResultPage extends GetView<ResultDetectionController> {
                 'Rekomendasi Perawatan',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               Text(
                 controller.condition.value.todo.isNotEmpty
                     ? controller.condition.value.todo
                     : 'Tidak ada rekomendasi perawatan untuk kondisi ini',
                 style: const TextStyle(fontSize: 14),
               ),
-              const SizedBox(height: 16),
+              const Gap(16),
               const Text(
                 'Rekomendasi Produk',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               Obx(() {
                 return SizedBox(
                   height: 220,
@@ -157,7 +157,7 @@ class ResultPage extends GetView<ResultDetectionController> {
                             ),
                 );
               }),
-              const SizedBox(height: 32),
+              const Gap(32),
               const Text(
                 "Disclaimer: Fitur ini menggunakan AI yang menganalisis kondisi wajah dengan tujuan merekomendasikan produk kecantikan. Ini tidak boleh digunakan sebagai, atau sebagai pengganti, nasihat medis. Jika Anda memiliki kekhawatiran medis mengenai kulit Anda, konsultasikan dengan Tenaga Medis",
                 textAlign: TextAlign.justify,
@@ -174,7 +174,7 @@ class ResultPage extends GetView<ResultDetectionController> {
                     },
                     hasOutline: false,
                   ),
-                  const SizedBox(height: 16),
+                  const Gap(16),
                   CustomButton(
                     text: 'Kembali ke Beranda',
                     onPressed: () {

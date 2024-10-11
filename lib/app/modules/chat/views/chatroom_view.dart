@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +22,8 @@ class ChatroomView extends GetView<ChatroomController> {
   Widget build(BuildContext context) {
     assert(chatId.isNotEmpty, "chatId tidak boleh kosong");
     assert(doctorName.isNotEmpty, "doctorName tidak boleh kosong");
-    assert(doctorProfilePicture.isNotEmpty, "doctorProfilePicture tidak boleh kosong");
+    assert(doctorProfilePicture.isNotEmpty,
+        "doctorProfilePicture tidak boleh kosong");
 
     final TextEditingController messageController = TextEditingController();
     String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -61,9 +63,11 @@ class ChatroomView extends GetView<ChatroomController> {
                   bool isSender = message.senderId == userId;
 
                   return Align(
-                    alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
+                    alignment:
+                        isSender ? Alignment.centerRight : Alignment.centerLeft,
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: isSender ? primaryColor : secondaryColor,
@@ -74,21 +78,26 @@ class ChatroomView extends GetView<ChatroomController> {
                         children: [
                           Text(
                             message.message,
-                            style: const TextStyle(color: whiteBackground1Color),
+                            style:
+                                const TextStyle(color: whiteBackground1Color),
                           ),
-                          const SizedBox(height: 5),
+                          const Gap(5),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                DateFormat('hh:mm a').format(message.timestamp.toDate()),
-                                style: const TextStyle(fontSize: 12, color: whiteBackground1Color),
+                                DateFormat('hh:mm a')
+                                    .format(message.timestamp.toDate()),
+                                style: const TextStyle(
+                                    fontSize: 12, color: whiteBackground1Color),
                               ),
                               const SizedBox(width: 5),
                               if (isSender)
                                 Icon(
                                   message.isRead ? Icons.done_all : Icons.done,
-                                  color: message.isRead ? whiteBackground1Color : Colors.grey,
+                                  color: message.isRead
+                                      ? whiteBackground1Color
+                                      : Colors.grey,
                                   size: 16,
                                 ),
                             ],

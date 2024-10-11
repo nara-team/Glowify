@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/data/models/doctor_model.dart';
@@ -56,7 +57,7 @@ class DoctordetailView extends GetView<DoctordetailController> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      const Gap(10),
                       Text(
                         doctor.doctorName ?? 'Nama tidak tersedia',
                         style: const TextStyle(
@@ -64,7 +65,7 @@ class DoctordetailView extends GetView<DoctordetailController> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      const Gap(5),
                       Text(
                         'spesialis: ${doctor.specialization}',
                         style: const TextStyle(
@@ -72,7 +73,7 @@ class DoctordetailView extends GetView<DoctordetailController> {
                           color: abuMedColor,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const Gap(20),
                       ListTile(
                         leading: const Icon(Iconsax.buildings),
                         title: Text(
@@ -113,7 +114,7 @@ class DoctordetailView extends GetView<DoctordetailController> {
                         subtitle: Text(
                             doctor.strDoctor ?? 'Nomor STR tidak diketahui'),
                       ),
-                      const SizedBox(height: 20),
+                      const Gap(20),
                       SizedBox(
                         width: double.infinity,
                         child: CustomButton(

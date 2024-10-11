@@ -34,7 +34,7 @@ class TutorialDetailView extends GetView<TutorialDetailController> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                const SizedBox(height: 16.0),
+                const Gap(16.0),
                 Text(
                   article.title,
                   style: bold.copyWith(
@@ -43,7 +43,7 @@ class TutorialDetailView extends GetView<TutorialDetailController> {
                   ),
                 ),
                 const Gap(1),
-                const SizedBox(height: 8.0),
+                const Gap(8.0),
                 Text(
                   'Published At: ${DateFormat.yMMMMd().format(article.publishedAt)}',
                   style: medium.copyWith(
@@ -51,7 +51,7 @@ class TutorialDetailView extends GetView<TutorialDetailController> {
                     color: abuMedColor,
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                const Gap(16.0),
                 Text(
                   article.description,
                   textAlign: TextAlign.justify,
@@ -60,8 +60,8 @@ class TutorialDetailView extends GetView<TutorialDetailController> {
                     color: blackColor,
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                const SizedBox(height: 16.0),
+                const Gap(16.0),
+                const Gap(16.0),
                 ElevatedButton(
                   onPressed: () {
                     debugPrint("Baca Selengkapnya ditekan");

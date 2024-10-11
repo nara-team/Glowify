@@ -144,13 +144,15 @@ class BerandaView extends GetView<BerandaController> {
                                 style: semiBold.copyWith(fontSize: mediumSize),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const Gap(10),
                             if (controller.mainFeatures.isEmpty)
                               const Center(
                                 child: Text(
                                   "Tidak ada fitur yang tersedia",
                                   style: TextStyle(
-                                      color: abuMedColor, fontSize: mediumSize,),
+                                    color: abuMedColor,
+                                    fontSize: mediumSize,
+                                  ),
                                 ),
                               )
                             else
@@ -186,10 +188,12 @@ class BerandaView extends GetView<BerandaController> {
                                   },
                                 ),
                               ),
-                              const Gap(30),
+                            const Gap(30),
                             Text(
                               "Trending Tutorial",
-                              style: semiBold.copyWith(fontSize: mediumSize,),
+                              style: semiBold.copyWith(
+                                fontSize: mediumSize,
+                              ),
                             ),
                             const Gap(20),
                             Obx(() {
@@ -269,7 +273,8 @@ class BerandaView extends GetView<BerandaController> {
                                       final article = tutorialController
                                           .newsArticles[index];
                                       return Padding(
-                                        padding: PaddingCustom().paddingHorizontal(8),
+                                        padding: PaddingCustom()
+                                            .paddingHorizontal(8),
                                         child: TrendingTutorialItem(
                                           iconPath: article.urlToImage!,
                                           contentText: article.title,

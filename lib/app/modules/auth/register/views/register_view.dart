@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
@@ -32,7 +33,7 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const Gap(10),
               const Center(
                 child: Text(
                   'Masukkan data diri dan daftarkan akunmu\nuntuk menikmati fitur dari Glowify',
@@ -44,7 +45,7 @@ class RegisterView extends GetView<RegisterController> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 40),
+              const Gap(40),
               Obx(() => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -89,7 +90,7 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                     ],
                   )),
-              const SizedBox(height: 20),
+              const Gap(20),
               Obx(() => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -134,7 +135,7 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                     ],
                   )),
-              const SizedBox(height: 20),
+              const Gap(20),
               Obx(() => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -180,7 +181,7 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                     ],
                   )),
-              const SizedBox(height: 20),
+              const Gap(20),
               Obx(() => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -226,7 +227,7 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                     ],
                   )),
-              const SizedBox(height: 30),
+              const Gap(30),
               Center(
                 child: CustomButton(
                   text: 'Daftar',
@@ -235,7 +236,7 @@ class RegisterView extends GetView<RegisterController> {
                   },
                 ),
               ),
-              const SizedBox(height: 30),
+              const Gap(30),
               Center(
                 child: RichText(
                   text: TextSpan(

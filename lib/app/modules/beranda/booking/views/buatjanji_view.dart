@@ -33,7 +33,7 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
                         controller.doctor.value.profilePicture ?? '',
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const Gap(16),
                     Text(
                       controller.doctor.value.doctorName ?? 'Nama Dokter',
                       style: bold.copyWith(
@@ -104,7 +104,7 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
                       [],
                 );
               }),
-              const SizedBox(height: 24),
+              const Gap(24),
               Text(
                 'Catatan Tambahan',
                 style: semiBold.copyWith(

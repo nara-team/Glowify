@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
 
@@ -71,7 +72,7 @@ class ClinicCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  const Gap(8.0),
                   Text(
                     openHours,
                     style: const TextStyle(
@@ -79,7 +80,7 @@ class ClinicCard extends StatelessWidget {
                       color: abuLightColor,
                     ),
                   ),
-                  const SizedBox(height: 8.0),
+                  const Gap(8.0),
                   Text(
                     address,
                     style: const TextStyle(
@@ -87,7 +88,7 @@ class ClinicCard extends StatelessWidget {
                       color: blackColor,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const Gap(30),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:glowify/app/theme/app_theme.dart'; 
+import 'package:gap/gap.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 
 class DoctorCard extends StatelessWidget {
   final String name;
@@ -58,12 +59,12 @@ class DoctorCard extends StatelessWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    const Gap(4),
                     Text(
                       specialty,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    const Gap(4),
                   ],
                 ),
               ),

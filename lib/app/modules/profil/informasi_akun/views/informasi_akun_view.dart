@@ -80,7 +80,7 @@ class InformasiAkunView extends GetView<InformasiAkunController> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const Gap(16),
                   Obx(
                     () => Text(
                       controller.name.value,
@@ -93,12 +93,12 @@ class InformasiAkunView extends GetView<InformasiAkunController> {
                 ],
               ),
             ),
-            const SizedBox(height: 24.0),
+            const Gap(24.0),
             const Text(
               'Info Profil',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8.0),
+            const Gap(8.0),
             Obx(
               () => CustomTextFieldNormal(
                 hintText: 'Nama Pengguna',
@@ -124,7 +124,7 @@ class InformasiAkunView extends GetView<InformasiAkunController> {
                 hintText: 'Password Lama',
                 placeholder: 'Masukkan password lama',
                 isRequired: controller.isEditing.value,
-                enabled: controller.isEditing.value, 
+                enabled: controller.isEditing.value,
                 controller: controller.oldPasswordController,
                 isPassword: true,
               ),
@@ -135,7 +135,7 @@ class InformasiAkunView extends GetView<InformasiAkunController> {
                 hintText: 'Password Baru',
                 placeholder: 'Masukkan password baru',
                 isRequired: controller.isEditing.value,
-                enabled: controller.isEditing.value, 
+                enabled: controller.isEditing.value,
                 controller: controller.newPasswordController,
                 isPassword: true,
               ),

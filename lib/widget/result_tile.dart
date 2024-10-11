@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -37,7 +38,7 @@ class ResultTile extends StatelessWidget {
           backgroundColor: abuLightColor,
           circularStrokeCap: CircularStrokeCap.round,
         ),
-        const SizedBox(height: 8),
+        const Gap(8),
         Text(
           area,
           textAlign: TextAlign.center,

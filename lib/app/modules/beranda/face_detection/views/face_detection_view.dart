@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
@@ -34,7 +35,7 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                     controller.removeImage("forehead");
                   },
                 ),
-                const SizedBox(height: 16),
+                const Gap(16),
                 FaceAreaWidget(
                   title: "Area Pipi",
                   image: controller.imageCheek.value,
@@ -43,7 +44,7 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                     controller.removeImage("cheek");
                   },
                 ),
-                const SizedBox(height: 16),
+                const Gap(16),
                 FaceAreaWidget(
                   title: "Area Hidung",
                   image: controller.imageNose.value,
@@ -52,7 +53,7 @@ class FaceDetectionView extends GetView<FaceDetectionController> {
                     controller.removeImage("nose");
                   },
                 ),
-                const SizedBox(height: 32),
+                const Gap(32),
                 CustomButton(
                   text: controller.loading.value
                       ? 'Menganalisis...'

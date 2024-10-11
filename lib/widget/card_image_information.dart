@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 
 class TrendingTutorialItem extends StatelessWidget {
@@ -51,7 +52,7 @@ class TrendingTutorialItem extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(height: 8.0),
+              const Gap(8.0),
               Text(
                 contentText,
                 style: regular.copyWith(fontSize: regularSize),

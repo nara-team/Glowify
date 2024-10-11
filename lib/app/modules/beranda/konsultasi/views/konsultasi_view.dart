@@ -61,13 +61,13 @@ class KonsultasiView extends GetView<KonsultasiController> {
                                       height: 16,
                                       color: Colors.grey[300],
                                     ),
-                                    const SizedBox(height: 8),
+                                    const Gap(8),
                                     Container(
                                       width: 150,
                                       height: 16,
                                       color: Colors.grey[300],
                                     ),
-                                    const SizedBox(height: 8),
+                                    const Gap(8),
                                     Container(
                                       width: 50,
                                       height: 50,

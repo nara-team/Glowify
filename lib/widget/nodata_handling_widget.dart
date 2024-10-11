@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 
-enum IconVariant {
-  pencarian,
-  dokumen,
-  chat
-}
+enum IconVariant { pencarian, dokumen, chat }
 
 enum IconSize {
   kecil,
@@ -59,7 +56,7 @@ class NodataHandling extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          const SizedBox(height: 20),
+          const Gap(20),
           Text(
             messageText,
             style: const TextStyle(

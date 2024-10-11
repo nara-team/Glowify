@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/widget/custom_button.dart';
@@ -23,7 +24,7 @@ class LoginView extends GetView<LoginController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 60),
+              const Gap(60),
               const Center(
                 child: Text(
                   'Selamat Datang Kembali!',
@@ -34,7 +35,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const Gap(10),
               const Center(
                 child: Text(
                   'Masuk kembali ke akunmu, dan nikmati fitur dari Glowify',
@@ -46,7 +47,7 @@ class LoginView extends GetView<LoginController> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 40),
+              const Gap(40),
               Obx(
                 () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,7 @@ class LoginView extends GetView<LoginController> {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const Gap(20),
               Obx(
                 () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +122,7 @@ class LoginView extends GetView<LoginController> {
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              const Gap(10),
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -132,7 +133,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const Gap(30),
               Center(
                 child: Obx(() => CustomButton(
                       text: controller.isLoading.value
@@ -148,7 +149,7 @@ class LoginView extends GetView<LoginController> {
                           : primaryColor,
                     )),
               ),
-              const SizedBox(height: 20),
+              const Gap(20),
               Center(
                 child: CustomButton(
                   text: 'Login dengan Google',
@@ -164,7 +165,7 @@ class LoginView extends GetView<LoginController> {
                   textColor: primaryColor,
                 ),
               ),
-              const SizedBox(height: 30),
+              const Gap(30),
               Center(
                 child: RichText(
                   text: TextSpan(
@@ -188,7 +189,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const Gap(20),
             ],
           ),
         ),

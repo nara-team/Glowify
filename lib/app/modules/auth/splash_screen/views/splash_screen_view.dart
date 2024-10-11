@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
@@ -52,7 +53,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
               ],
             ),
           ),
-          const SizedBox(height: 30),
+          const Gap(30),
         ],
       ),
       backgroundColor: primaryColor,

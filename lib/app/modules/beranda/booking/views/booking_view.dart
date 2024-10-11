@@ -59,7 +59,7 @@ class BookingView extends GetView<BookingController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const Gap(20),
               CustomSearchTextField(
                 onChanged: (query) {},
                 hintText: "Cari Klinik",

@@ -43,7 +43,7 @@ class ProfilView extends GetView<ProfilController> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const Gap(16),
                   Obx(
                     () => Text(
                       controller.name.value,
@@ -53,7 +53,7 @@ class ProfilView extends GetView<ProfilController> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const Gap(8),
                   Obx(
                     () => Text(
                       controller.email.value,
@@ -65,7 +65,7 @@ class ProfilView extends GetView<ProfilController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const Gap(20),
               // Container(
               //   padding: PaddingCustom().paddingAll(16),
               //   decoration: BoxDecoration(
@@ -98,7 +98,7 @@ class ProfilView extends GetView<ProfilController> {
               //     ],
               //   ),
               // ),
-              const SizedBox(height: 30),
+              const Gap(30),
               Expanded(
                 child: ListView(
                   children: [

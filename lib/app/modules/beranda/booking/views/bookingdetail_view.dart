@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/app/theme/sized_theme.dart';
@@ -98,7 +99,7 @@ class BookingDetailView extends GetView<BookingdetailController> {
                 labelColor: primaryColor,
                 unselectedLabelColor: blackColor,
               ),
-              const SizedBox(height: 20),
+              const Gap(20),
               Expanded(
                 child: TabBarView(
                   children: [
@@ -136,13 +137,13 @@ class BookingDetailView extends GetView<BookingdetailController> {
                                           height: 16,
                                           color: abuLightColor,
                                         ),
-                                        const SizedBox(height: 8),
+                                        const Gap(8),
                                         Container(
                                           width: 150,
                                           height: 16,
                                           color: abuLightColor,
                                         ),
-                                        const SizedBox(height: 8),
+                                        const Gap(8),
                                         Container(
                                           width: 50,
                                           height: 50,
