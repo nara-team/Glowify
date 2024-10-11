@@ -19,10 +19,25 @@ class BerandaView extends GetView<BerandaController> {
 
   @override
   Widget build(BuildContext context) {
-    final BerandaController controller = Get.put(BerandaController());
     final TutorialController tutorialController =
         Get.find<TutorialController>();
     final NavbarController navbarController = Get.find<NavbarController>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller.featureButtonKeys.isEmpty) {
+        controller.featureButtonKeys.addAll(
+          List.generate(controller.mainFeatures.length, (index) => GlobalKey()),
+        );
+
+        controller.initTargets(controller.mainFeatures
+            .map((feature) => {
+                  "caption": feature.title,
+                  "route": feature.route,
+                })
+            .toList());
+        controller.showTutorial(context);
+      }
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -74,59 +89,48 @@ class BerandaView extends GetView<BerandaController> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (!controller.isLoading.value &&
-                        controller.targets.isNotEmpty) {
-                      Future.delayed(const Duration(milliseconds: 500), () {
-                        controller.showTutorial(Scaffold.of(context).context);
-                      });
-                    }
-                  });
-
                   return Column(
                     children: [
                       const Gap(20),
-                      Obx(
-                        () => controller.isbannerLoading.value
-                            ? Skeletonizer(
-                                enabled: controller.isLoading.value,
-                                child: SizedBox(
-                                  height: 150,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 3,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: PaddingCustom()
-                                            .paddingHorizontal(8),
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: abuLightColor,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
+                      Obx(() => controller.isbannerLoading.value
+                          ? Skeletonizer(
+                              enabled: controller.isLoading.value,
+                              child: SizedBox(
+                                height: 150,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 3,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding:
+                                          PaddingCustom().paddingHorizontal(8),
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: abuLightColor,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
-                                      );
-                                    },
-                                  ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              )
-                            : controller.bannerSliders.isEmpty
-                                ? const NodataHandling(
-                                    iconVariant: IconVariant.dokumen,
-                                    messageText: "tidak ada banner",
-                                    iconSizeVariant: IconSize.kecil,
-                                  )
-                                : CarouselWithIndicator(
-                                    images: controller.bannerSliders
-                                        .map((banner) => {
-                                              "iconPath": banner.image,
-                                              "route": banner.route,
-                                            })
-                                        .toList(),
-                                  ),
-                      ),
+                              ),
+                            )
+                          : controller.bannerSliders.isEmpty
+                              ? const NodataHandling(
+                                  iconVariant: IconVariant.dokumen,
+                                  messageText: "Tidak ada banner",
+                                  iconSizeVariant: IconSize.kecil,
+                                )
+                              : CarouselWithIndicator(
+                                  images: controller.bannerSliders
+                                      .map((banner) => {
+                                            "iconPath": banner.image,
+                                            "route": banner.route,
+                                          })
+                                      .toList(),
+                                )),
                       const Gap(30),
                       Padding(
                         padding: PaddingCustom().paddingHorizontal(20),
@@ -146,7 +150,7 @@ class BerandaView extends GetView<BerandaController> {
                                 child: Text(
                                   "Tidak ada fitur yang tersedia",
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 16),
+                                      color: abuMedColor, fontSize: mediumSize,),
                                 ),
                               )
                             else
@@ -159,6 +163,7 @@ class BerandaView extends GetView<BerandaController> {
                                   (index) {
                                     var feature =
                                         controller.mainFeatures[index];
+
                                     return FeatureButton(
                                       key: controller.featureButtonKeys[index],
                                       pathIcon: feature.icon ?? '',
@@ -181,12 +186,12 @@ class BerandaView extends GetView<BerandaController> {
                                   },
                                 ),
                               ),
-                            const SizedBox(height: 30),
+                              const Gap(30),
                             Text(
                               "Trending Tutorial",
-                              style: semiBold.copyWith(fontSize: mediumSize),
+                              style: semiBold.copyWith(fontSize: mediumSize,),
                             ),
-                            const SizedBox(height: 20),
+                            const Gap(20),
                             Obx(() {
                               if (tutorialController.isLoading.value) {
                                 return Skeletonizer(
@@ -225,6 +230,7 @@ class BerandaView extends GetView<BerandaController> {
                                         ? 4
                                         : tutorialController
                                             .newsArticles.length;
+
                                 return SizedBox(
                                   height: 200,
                                   child: ListView.builder(
@@ -259,11 +265,11 @@ class BerandaView extends GetView<BerandaController> {
                                           ),
                                         );
                                       }
+
                                       final article = tutorialController
                                           .newsArticles[index];
                                       return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
+                                        padding: PaddingCustom().paddingHorizontal(8),
                                         child: TrendingTutorialItem(
                                           iconPath: article.urlToImage!,
                                           contentText: article.title,
@@ -278,7 +284,7 @@ class BerandaView extends GetView<BerandaController> {
                                 );
                               }
                             }),
-                            const SizedBox(height: 30),
+                            const Gap(30),
                           ],
                         ),
                       ),

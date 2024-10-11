@@ -24,15 +24,16 @@ class FaceHistoryModel {
 
   factory FaceHistoryModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     return FaceHistoryModel(
-      userId: doc['UserId'],
-      detailResultCondition: doc['detail_result_condition'],
-      imageResult: doc['image_result'],
-      rekomendasiPerawatan: doc['rekomendasi_perawatan'],
-      rekomendasiProduk: List<String>.from(doc['rekomendasi_produk']),
+      userId: doc['UserId'] ?? '',
+      detailResultCondition: doc['detail_result_condition'] ?? {},
+      imageResult: doc['image_result'] ?? {},
+      rekomendasiPerawatan: doc['rekomendasi_perawatan'] ?? '',
+      rekomendasiProduk: List<String>.from(doc['rekomendasi_produk'] ?? []),
       products: [],
-      resultCondition: doc['result_condition'],
-      timeDetection:
-          (doc['result_condition']['time_detection'] as Timestamp).toDate(),
+      resultCondition: doc['result_condition'] ?? {},
+      timeDetection: (doc['result_condition']?['time_detection'] as Timestamp?)
+              ?.toDate() ??
+          DateTime.now(),
     );
   }
 

@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/data/models/bannerhome_model.dart';
 import 'package:glowify/data/models/featuremain_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class BerandaController extends GetxController {
@@ -26,10 +29,24 @@ class BerandaController extends GetxController {
     fetchMainFeatures();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (targets.isNotEmpty) {
-        showTutorial(Get.context!);
-      }
+      checkIfTutorialSeen();
     });
+  }
+
+  void checkIfTutorialSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? tutorialSeen = prefs.getBool('tutorial_seen') ?? false;
+
+    if (!tutorialSeen && targets.isNotEmpty) {
+      Future.delayed(const Duration(seconds: 1), () {
+        showTutorial(Get.context!);
+      });
+    }
+  }
+
+  Future<void> markTutorialAsSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('tutorial_seen', true);
   }
 
   void fetchBannerSliders() async {
@@ -94,8 +111,15 @@ class BerandaController extends GetxController {
 
   void initializeFeatureKeys() {
     featureButtonKeys.clear();
+
+    debugPrint(
+        "Initializing featureButtonKeys, mainFeatures length: ${mainFeatures.length}");
+
     featureButtonKeys
         .addAll(List.generate(mainFeatures.length, (index) => GlobalKey()));
+
+    debugPrint(
+        "featureButtonKeys initialized with length: ${featureButtonKeys.length}");
   }
 
   void initTargets(List<Map<String, dynamic>> features) {
@@ -108,23 +132,22 @@ class BerandaController extends GetxController {
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Feature Highlight",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  style: bold.copyWith(
                     color: Colors.white,
-                    fontSize: 24.0,
+                    fontSize: 24,
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const Gap(15),
+                const Text(
                   "Di sini Anda dapat menemukan berbagai fitur yang tersedia di aplikasi kami.",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16.0,
+                    fontSize: mediumSize,
                   ),
                 ),
               ],
@@ -134,8 +157,10 @@ class BerandaController extends GetxController {
       ),
     );
 
-    for (int i = featureButtonKeys.length - 1; i >= 0; i--) {
+    for (int i = 0; i < featureButtonKeys.length; i++) {
       if (features.length > i) {
+        debugPrint("Adding target for feature: ${features[i]['caption']}");
+
         targets.add(
           TargetFocus(
             identify: "FeatureButton_$i",
@@ -148,18 +173,17 @@ class BerandaController extends GetxController {
                   children: [
                     Text(
                       "Fitur ${features[i]['caption']}",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                      style: bold.copyWith(
                         color: Colors.white,
-                        fontSize: 24.0,
+                        fontSize: 24,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const Gap(15),
                     Text(
                       "Ketuk untuk melihat lebih lanjut tentang fitur ${features[i]['caption']}.",
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 16.0,
+                        fontSize: mediumSize,
                       ),
                     ),
                   ],
@@ -168,6 +192,9 @@ class BerandaController extends GetxController {
             ],
           ),
         );
+      } else {
+        debugPrint(
+            "Skipping target for index $i, features length is ${features.length}");
       }
     }
   }
@@ -179,9 +206,11 @@ class BerandaController extends GetxController {
       textSkip: "Lewati",
       onFinish: () {
         debugPrint("Tutorial selesai");
+        markTutorialAsSeen();
       },
       onSkip: () {
         debugPrint("Tutorial dilewati");
+        markTutorialAsSeen();
         return true;
       },
       onClickTarget: (target) {
