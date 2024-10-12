@@ -11,6 +11,7 @@ class RiwayatBookingController extends GetxController {
   final bookingHistory = <Booking>[].obs;
   final activeFilter = 'Semua'.obs;
   final String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  var isLoading = true.obs;
 
   @override
   void onInit() {
@@ -43,6 +44,7 @@ class RiwayatBookingController extends GetxController {
 
   Future<void> fetchBookingHistory() async {
     try {
+      isLoading.value = true;
       QuerySnapshot bookingSnapshot = await _firestore
           .collection('bookings')
           .where('userId', isEqualTo: currentUserId)
@@ -86,6 +88,8 @@ class RiwayatBookingController extends GetxController {
       bookingHistory.value = fetchedBookings;
     } catch (e) {
       Get.snackbar('Error', 'Gagal mengambil data booking: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 

@@ -123,9 +123,9 @@ class _CustomTextFieldNormalState extends State<CustomTextFieldNormal> {
             controller: widget.controller,
             onChanged: widget.onChanged,
             maxLength: widget.maxLength,
-            onTap: () {
-              widget.onTap!();
-            },
+            // onTap: () {
+            //   widget.onTap!();
+            // },
             onEditingComplete: widget.onEditingComplete != null
                 ? () {
                     widget.onEditingComplete!();

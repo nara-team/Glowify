@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:glowify/widget/custom_bottomsheet.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -25,10 +26,20 @@ class ProfilController extends GetxController {
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       name.value = userDoc['fullName'] ?? 'No Name';
       email.value = userDoc['email'] ?? 'No Email';
-      imageUrl.value = userDoc['photoURL'] ?? 'https://firebasestorage.googleapis.com/v0/b/glowifyapp-9bf8d.appspot.com/o/profile_images%2Fprofile_nul.png?alt=media&token=8c8bfe0d-a31a-4b62-921d-152d90c5ad60';
+      imageUrl.value = userDoc['photoURL'] ??
+          'https://firebasestorage.googleapis.com/v0/b/glowifyapp-9bf8d.appspot.com/o/profile_images%2Fprofile_nul.png?alt=media&token=8c8bfe0d-a31a-4b62-921d-152d90c5ad60';
     } catch (e) {
       debugPrint("");
     }
+  }
+
+  Future<void> logout() async {
+    await _auth.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', false);
+    await prefs.setBool('hasCompletedOnboarding', true);
+
+    Get.offAllNamed('/login');
   }
 
   void showLogoutModal() async {
@@ -39,13 +50,8 @@ class ProfilController extends GetxController {
           icon: Iconsax.logout,
           label: 'Keluar',
           iconColor: primaryColor,
-          onTap: () async {
-            try {
-              await _auth.signOut();
-              Get.offAllNamed('/login');
-            } catch (e) {
-              debugPrint(e.toString());
-            }
+          onTap: () {
+            logout();
           },
         ),
         BottomSheetAction(

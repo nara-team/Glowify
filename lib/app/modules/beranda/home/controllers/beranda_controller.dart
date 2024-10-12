@@ -72,7 +72,7 @@ class BerandaController extends GetxController {
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       userName.value = userDoc['fullName'] ?? 'No Name';
     } catch (e) {
-      debugPrint("Gagal mendapatkan userdata: ${e.toString()}");
+      debugPrint("gagal mendapatkan userdata");
     }
   }
 

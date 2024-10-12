@@ -35,7 +35,7 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
               const Gap(20),
               Expanded(
                 child: Obx(() {
-                  if (controller.bookingHistory.isEmpty) {
+                  if (controller.isLoading.value) {
                     return ListView.builder(
                       itemCount: 5,
                       itemBuilder: (context, index) {
@@ -87,19 +87,17 @@ class RiwayatBookingView extends GetView<RiwayatBookingController> {
                         );
                       },
                     );
-                  }
-
-                  var bookings = controller.filteredBookingHistory;
-                  if (bookings.isEmpty) {
+                  } else if (controller.filteredBookingHistory.isEmpty) {
                     return const NodataHandling(
                       iconVariant: IconVariant.dokumen,
                       messageText: "Belum ada riwayat dengan status ini",
                     );
                   } else {
                     return ListView.builder(
-                      itemCount: bookings.length,
+                      itemCount: controller.filteredBookingHistory.length,
                       itemBuilder: (context, index) {
-                        final booking = bookings[index];
+                        final booking =
+                            controller.filteredBookingHistory[index];
                         return Card(
                           surfaceTintColor: whiteBackground1Color,
                           shape: RoundedRectangleBorder(

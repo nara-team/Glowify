@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:glowify/app/theme/app_theme.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/onboarding_controller.dart';
 
@@ -99,6 +100,12 @@ class OnboardingView extends StatelessWidget {
   }
 
   Future<void> _completeOnboarding() async {
-    Get.offAllNamed('/login');
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('hasCompletedOnboarding', true);
+      Get.offAllNamed('/login');
+    } catch (e) {
+      debugPrint('Error during navigation: $e');
+    }
   }
 }

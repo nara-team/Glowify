@@ -119,9 +119,9 @@ class ResultPage extends GetView<ResultDetectionController> {
                 },
               ),
               const Gap(30),
-              const Text(
+              Text(
                 'Rekomendasi Perawatan',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: bold.copyWith(fontSize: largeSize),
               ),
               const Gap(8),
               Text(
@@ -131,9 +131,9 @@ class ResultPage extends GetView<ResultDetectionController> {
                 style: const TextStyle(fontSize: 14),
               ),
               const Gap(16),
-              const Text(
+              Text(
                 'Rekomendasi Produk',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: bold.copyWith(fontSize: largeSize),
               ),
               const Gap(8),
               Obx(() {
@@ -181,6 +181,20 @@ class ResultPage extends GetView<ResultDetectionController> {
                       Get.offAllNamed('/navbar');
                     },
                     hasOutline: true,
+                  ),
+                  const Gap(16),
+                  CustomButton(
+                    text: 'Simpan Hasil Analisis',
+                    onPressed: () {
+                      controller.simpanRiwayat(
+                        results,
+                        confidences,
+                        imageForehead,
+                        imageCheek,
+                        imageNose,
+                      );
+                    },
+                    hasOutline: false,
                   ),
                 ],
               ),

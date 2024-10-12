@@ -1,11 +1,10 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
   late TextEditingController emailController;
@@ -45,27 +44,23 @@ class LoginController extends GetxController {
       passwordError.value = 'Password tidak boleh kosong';
     }
 
-    if (emailError.value.isNotEmpty || passwordError.value.isNotEmpty) {
-      return false;
-    }
-
-    return true;
+    return emailError.value.isEmpty && passwordError.value.isEmpty;
   }
 
   Future<void> login() async {
     if (!validateInputs()) {
       const SnackBarCustom(
-          judul: "Login gagal",
-          pesan: "Periksa kembali form",
-          isHasIcon: true,
-          iconType: SnackBarIconType.warning,
-        ).show();
+        judul: "Login gagal",
+        pesan: "Periksa kembali form",
+        isHasIcon: true,
+        iconType: SnackBarIconType.warning,
+      ).show();
       return;
     }
 
     isLoading.value = true;
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -80,13 +75,12 @@ class LoginController extends GetxController {
         ).show();
       });
     } on FirebaseAuthException {
-      // Get.snackbar('Login Failed', e.message ?? 'eror gak tau');
       const SnackBarCustom(
-          judul: "Login gagal",
-          pesan: "Periksa kembali email dan password Anda",
-          isHasIcon: true,
-          iconType: SnackBarIconType.gagal,
-        ).show();
+        judul: "Login gagal",
+        pesan: "Periksa kembali email dan password Anda",
+        isHasIcon: true,
+        iconType: SnackBarIconType.gagal,
+      ).show();
     } finally {
       isLoading.value = false;
     }
@@ -107,19 +101,37 @@ class LoginController extends GetxController {
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
 
-      await FirebaseFirestore.instance
+      final userDoc = FirebaseFirestore.instance
           .collection('users')
-          .doc(userCredential.user!.uid)
-          .set({
-        'fullName': googleUser.displayName,
-        'email': googleUser.email,
-        'createdAt': FieldValue.serverTimestamp(),
-        'photoURL': googleUser.photoUrl
-      }, SetOptions(merge: true));
+          .doc(userCredential.user!.uid);
+
+      final userSnapshot = await userDoc.get();
+
+      if (!userSnapshot.exists) {
+        await userDoc.set({
+          'fullName': googleUser.displayName,
+          'email': googleUser.email,
+          'createdAt': FieldValue.serverTimestamp(),
+          'photoURL': googleUser.photoUrl,
+        });
+      }
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
 
       Get.offAllNamed('/navbar');
+
+      Future.delayed(const Duration(milliseconds: 300), () {
+        const SnackBarCustom(
+          judul: "Login berhasil",
+          pesan: "Selamat datang..",
+          isHasIcon: true,
+          iconType: SnackBarIconType.sukses,
+        ).show();
+      });
     } catch (e) {
       Get.snackbar('Google Sign-In Failed', e.toString());
+      debugPrint('Error during Google login: $e');
     } finally {
       isLoading.value = false;
     }
