@@ -19,7 +19,6 @@ class BerandaView extends GetView<BerandaController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut<BerandaController>(() => BerandaController());
     final TutorialController tutorialController =
         Get.find<TutorialController>();
     final NavbarController navbarController = Get.find<NavbarController>();

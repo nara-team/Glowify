@@ -6,12 +6,12 @@ import 'package:glowify/app/theme/sized_theme.dart';
 class ConfirmationDialog extends StatelessWidget {
   final String title;
   final String content;
-  final VoidCallback onConfirm;
+  final Future<void> Function() onConfirm;
   final VoidCallback? onCancel;
   final String textKonfirmasi;
   final String? textBatal;
 
-  const ConfirmationDialog({
+  ConfirmationDialog({
     Key? key,
     required this.title,
     required this.content,
@@ -21,10 +21,12 @@ class ConfirmationDialog extends StatelessWidget {
     this.textBatal,
   }) : super(key: key);
 
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
+
   static void show({
     required String title,
     required String content,
-    required VoidCallback onConfirm,
+    required Future<void> Function() onConfirm,
     VoidCallback? onCancel,
     required String textKonfirmasi,
     String? textBatal,
@@ -77,27 +79,38 @@ class ConfirmationDialog extends StatelessWidget {
             ),
           ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            Get.back();
-            onConfirm();
+        ValueListenableBuilder<bool>(
+          valueListenable: isLoading,
+          builder: (context, loading, child) {
+            return ElevatedButton(
+              onPressed: loading
+                  ? null
+                  : () async {
+                      isLoading.value = true;
+                      try {
+                        await onConfirm();
+                      } finally {
+                        isLoading.value = false;
+                      }
+                    },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: loading ? Colors.grey : primaryColor,
+                padding: PaddingCustom().paddingHorizontalVertical(
+                  15,
+                  6,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: Text(
+                loading ? 'Menyimpan...' : textKonfirmasi,
+                style: const TextStyle(
+                  color: whiteBackground1Color,
+                ),
+              ),
+            );
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor,
-            padding: PaddingCustom().paddingHorizontalVertical(
-              15,
-              6,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-          child: Text(
-            textKonfirmasi,
-            style: const TextStyle(
-              color: whiteBackground1Color,
-            ),
-          ),
         ),
       ],
     );

@@ -8,6 +8,7 @@ import 'package:glowify/app/theme/sized_theme.dart';
 import 'package:glowify/data/models/product_model.dart';
 import 'package:glowify/widget/appbarcustom.dart';
 import 'package:glowify/widget/custom_button.dart';
+import 'package:glowify/widget/showdialog_custom.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -178,24 +179,26 @@ class ResultPage extends GetView<ResultDetectionController> {
                   CustomButton(
                     text: 'Kembali ke Beranda',
                     onPressed: () {
-                      Get.offAllNamed('/navbar');
+                      ConfirmationDialog.show(
+                        textKonfirmasi: "Simpan hasil",
+                        title: 'Konfirmasi',
+                        content: 'Anda ingin menyimpan hasil deteksi juga?',
+                        textBatal: "tidak",
+                        onCancel: () => Get.offAllNamed('/navbar'),
+                        onConfirm: () async {
+                          await controller.simpanRiwayat(
+                            results,
+                            confidences,
+                            imageForehead,
+                            imageCheek,
+                            imageNose,
+                          );
+                        },
+                      );
                     },
                     hasOutline: true,
                   ),
                   const Gap(16),
-                  CustomButton(
-                    text: 'Simpan Hasil Analisis',
-                    onPressed: () {
-                      controller.simpanRiwayat(
-                        results,
-                        confidences,
-                        imageForehead,
-                        imageCheek,
-                        imageNose,
-                      );
-                    },
-                    hasOutline: false,
-                  ),
                 ],
               ),
             ],

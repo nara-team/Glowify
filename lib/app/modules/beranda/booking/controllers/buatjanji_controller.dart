@@ -9,6 +9,7 @@ class BuatjanjiController extends GetxController {
   final selectedSchedule = Rx<Timestamp?>(null);
   final noteController = ''.obs;
   String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  RxBool isLoading = true.obs;
 
   @override
   void onInit() {
@@ -25,6 +26,7 @@ class BuatjanjiController extends GetxController {
   Future<void> saveBooking() async {
     if (selectedSchedule.value != null) {
       try {
+        isLoading.value = true;
         await FirebaseFirestore.instance.collection('bookings').add({
           'doctorId': doctor.value.doctorId,
           'booking_time': selectedSchedule.value,
@@ -33,15 +35,17 @@ class BuatjanjiController extends GetxController {
           'userId': currentUserId,
           'bookingAt': Timestamp.now(),
         });
+      } catch (e) {
+        Get.snackbar('Error', 'Gagal membuat booking: $e');
+      } finally {
+        isLoading.value = false;
+        Get.offAllNamed('/navbar');
         const SnackBarCustom(
           judul: 'Sukses',
           pesan: 'Booking berhasil dibuat',
           isHasIcon: true,
           iconType: SnackBarIconType.sukses,
         ).show();
-        Get.offNamed('/navbar');
-      } catch (e) {
-        Get.snackbar('Error', 'Gagal membuat booking: $e');
       }
     } else {
       Get.snackbar('Error', 'Silakan pilih jadwal terlebih dahulu');

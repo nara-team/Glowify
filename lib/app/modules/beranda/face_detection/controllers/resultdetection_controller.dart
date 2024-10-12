@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:glowify/data/models/condition_model.dart';
 import 'package:glowify/data/models/facehistory_model.dart';
 import 'package:glowify/data/models/product_model.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 
 class ResultDetectionController extends GetxController {
   var condition = ConditionModel(productId: [], todo: '').obs;
@@ -77,6 +78,7 @@ class ResultDetectionController extends GetxController {
     File? imageNose,
   ) async {
     try {
+      loading.value = true;
       final userId = FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
 
       final docRef =
@@ -153,19 +155,25 @@ class ResultDetectionController extends GetxController {
       };
 
       await docRef.set(dataToSave);
-
-      Get.snackbar(
-        'Berhasil',
-        'Hasil analisis berhasil disimpan!',
-        snackPosition: SnackPosition.BOTTOM,
-      );
     } catch (e) {
       debugPrint('Error saving data to Firestore: $e');
-      Get.snackbar(
-        'Gagal',
-        'Gagal menyimpan hasil analisis: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      const SnackBarCustom(
+        judul: "Berhasil",
+        pesan: "Gagal menyimpan hasil analisis",
+        isHasIcon: true,
+        iconType: SnackBarIconType.gagal,
+      ).show();
+    } finally {
+      loading.value = false;
+      Get.offAllNamed('/navbar');
+      Future.delayed(const Duration(milliseconds: 300), () {
+        const SnackBarCustom(
+          judul: "Berhasil",
+          pesan: "Hasil analisis berhasil disimpan",
+          isHasIcon: true,
+          iconType: SnackBarIconType.sukses,
+        ).show();
+      });
     }
   }
 

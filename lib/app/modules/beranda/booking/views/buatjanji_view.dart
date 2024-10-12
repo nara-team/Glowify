@@ -143,8 +143,8 @@ class BuatJanjiView extends GetView<BuatjanjiController> {
                           title: 'Konfirmasi',
                           content:
                               'Apakah Anda yakin ingin melanjutkan booking?',
-                          onConfirm: () {
-                            controller.saveBooking();
+                          onConfirm: () async{
+                            await controller.saveBooking();
                           },
                         );
                       } else {
