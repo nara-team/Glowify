@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/data/models/bookings_model.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
@@ -87,7 +88,12 @@ class RiwayatBookingController extends GetxController {
 
       bookingHistory.value = fetchedBookings;
     } catch (e) {
-      Get.snackbar('Error', 'Gagal mengambil data booking: $e');
+      const SnackBarCustom(
+        judul: "Gagal",
+        pesan: "Gagal mengambil data booking",
+        iconType: SnackBarIconType.gagal,
+        isHasIcon: true,
+      ).show();
     } finally {
       isLoading.value = false;
     }

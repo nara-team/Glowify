@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:glowify/widget/custom_bottomsheet.dart';
+import 'package:glowify/widget/snackbar_custom.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -115,10 +116,20 @@ class InformasiAkunController extends GetxController {
       name.value = nameController.text;
       email.value = emailController.text;
       if (downloadUrl != null) imageUrl.value = downloadUrl;
-
-      Get.snackbar("Success", "Profile updated successfully.");
     } catch (e) {
-      Get.snackbar("Error", "Failed to update profile: $e");
+      const SnackBarCustom(
+        judul: "Gagal",
+        pesan: "informasi gagal diperbarui",
+        iconType: SnackBarIconType.gagal,
+        isHasIcon: true,
+      ).show();
+    } finally {
+      const SnackBarCustom(
+        judul: "Berhasil",
+        pesan: "informasi berhasil diperbarui",
+        iconType: SnackBarIconType.sukses,
+        isHasIcon: true,
+      ).show();
     }
   }
 
@@ -126,7 +137,12 @@ class InformasiAkunController extends GetxController {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        Get.snackbar("Error", "Please log in before uploading an image.");
+        const SnackBarCustom(
+          judul: "perhatian",
+          pesan: "mohon login terlebih dahulu",
+          iconType: SnackBarIconType.warning,
+          isHasIcon: true,
+        ).show();
         return null;
       } else {
         debugPrint("User authenticated: ${user.email}");
@@ -147,7 +163,12 @@ class InformasiAkunController extends GetxController {
   Future<void> changePassword() async {
     if (oldPasswordController.text.isEmpty ||
         newPasswordController.text.isEmpty) {
-      Get.snackbar("Error", "Please enter both old and new passwords.");
+      const SnackBarCustom(
+        judul: "Gagal",
+        pesan: "mohon isikan dengan sesuai",
+        iconType: SnackBarIconType.gagal,
+        isHasIcon: true,
+      ).show();
       return;
     }
 
@@ -160,10 +181,20 @@ class InformasiAkunController extends GetxController {
       await user.reauthenticateWithCredential(credential);
 
       await user.updatePassword(newPasswordController.text);
-
-      Get.snackbar("Success", "Password updated successfully.");
     } catch (e) {
-      Get.snackbar("Error", "Failed to update password: $e");
+      const SnackBarCustom(
+        judul: "Gagal",
+        pesan: "informasi gagal diperbarui",
+        iconType: SnackBarIconType.gagal,
+        isHasIcon: true,
+      ).show();
+    } finally {
+      const SnackBarCustom(
+        judul: "Sukses",
+        pesan: "Password berhasil diperbarui",
+        iconType: SnackBarIconType.sukses,
+        isHasIcon: true,
+      ).show();
     }
   }
 

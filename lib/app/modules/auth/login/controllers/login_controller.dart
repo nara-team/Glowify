@@ -130,7 +130,11 @@ class LoginController extends GetxController {
         ).show();
       });
     } catch (e) {
-      Get.snackbar('Google Sign-In Failed', e.toString());
+      const SnackBarCustom(
+        judul: "Gagal",
+        pesan: "Gagal login menggunakan google",
+        iconType: SnackBarIconType.gagal,
+      ).show();
       debugPrint('Error during Google login: $e');
     } finally {
       isLoading.value = false;
