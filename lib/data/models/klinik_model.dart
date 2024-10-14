@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Klinik {
   String? klinikId;
-
   List<String>? idDoktor;
   String? namaKlinik;
   String? photoKlinik;
   String? operationalStart;
   String? operationalEnd;
   Map<String, String>? alamatKlinik;
+  GeoPoint? kordinat;
+  double? distance;
 
   Klinik({
     this.klinikId,
@@ -18,6 +19,8 @@ class Klinik {
     this.photoKlinik,
     this.operationalStart,
     this.operationalEnd,
+    this.kordinat,
+    this.distance,
   });
 
   factory Klinik.fromFirestore(DocumentSnapshot doc) {
@@ -32,6 +35,8 @@ class Klinik {
       photoKlinik: data['photo_klinik'] ?? 'assets/images/hospital_null.jpg',
       operationalStart: operationalData['start'] ?? 'Tidak tersedia',
       operationalEnd: operationalData['end'] ?? 'Tidak tersedia',
+      kordinat: data['kordinat'] != null ? data['kordinat'] as GeoPoint : null,
+      distance: null,
     );
   }
 }

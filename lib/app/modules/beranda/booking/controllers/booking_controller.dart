@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -11,83 +12,84 @@ class BookingController extends GetxController {
   var klinikList = <Klinik>[].obs;
   var selectedKlinik = Klinik().obs;
   var doctors = <Doctor>[].obs;
-  var isLoading = true.obs; 
+  var isLoading = true.obs;
+  Position? currentPosition;
 
   @override
   void onInit() {
     super.onInit();
     _getLocation();
+
+    _getLocationAndFetchKlinik();
+  }
+
+  Future<void> _getLocationAndFetchKlinik() async {
+    await _getLocation();
     fetchKlinikList();
   }
 
   Future<void> fetchKlinikList() async {
-    isLoading.value = true; 
+    isLoading.value = true;
     try {
       QuerySnapshot snapshot =
           await FirebaseFirestore.instance.collection('klinik').get();
 
       var klinikData = snapshot.docs.map((doc) {
-        return Klinik.fromFirestore(doc);
+        final klinik = Klinik.fromFirestore(doc);
+
+        if (klinik.kordinat != null) {
+          debugPrint(
+              "Kordinat klinik ${klinik.namaKlinik}: ${klinik.kordinat!.latitude}, ${klinik.kordinat!.longitude}");
+        } else {
+          debugPrint("Kordinat klinik ${klinik.namaKlinik} tidak tersedia");
+        }
+
+        if (currentPosition != null && klinik.kordinat != null) {
+          klinik.distance = calculateDistance(
+            currentPosition!.latitude,
+            currentPosition!.longitude,
+            klinik.kordinat!.latitude,
+            klinik.kordinat!.longitude,
+          );
+          debugPrint(
+              "Jarak ke klinik ${klinik.namaKlinik}: ${klinik.distance} meter");
+        } else {
+          klinik.distance = null;
+          debugPrint("Kordinat klinik atau posisi pengguna tidak tersedia");
+        }
+
+        return klinik;
       }).toList();
 
       klinikList.value = klinikData;
     } catch (e) {
       Get.snackbar('Error', 'Error fetching klinik data: $e');
     } finally {
-      isLoading.value = false; 
+      isLoading.value = false;
     }
   }
 
-  Future<void> fetchKlinikDetail(String klinikId) async {
-    try {
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance
-          .collection('klinik')
-          .doc(klinikId)
-          .get();
-
-      if (snapshot.exists) {
-        selectedKlinik.value = Klinik.fromFirestore(snapshot);
-
-        if (selectedKlinik.value.idDoktor != null &&
-            selectedKlinik.value.idDoktor!.isNotEmpty) {
-          fetchDoctorsForKlinik(selectedKlinik.value.idDoktor!);
-        } else {
-          Get.snackbar(
-              'Info', 'Tidak ada dokter yang terdaftar di klinik ini.');
-        }
-      } else {
-        Get.snackbar('Error', 'Klinik tidak ditemukan.');
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Error fetching klinik detail: $e');
-    }
-  }
-
-  Future<void> fetchDoctorsForKlinik(List<String> doctorIds) async {
-    try {
-      List<Doctor> doctorList = [];
-      for (var doctorId in doctorIds) {
-        DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
-            .collection('doctor')
-            .doc(doctorId)
-            .get();
-        if (docSnapshot.exists) {
-          doctorList.add(Doctor.fromFirestore(docSnapshot));
-        }
-      }
-      doctors.value = doctorList;
-    } catch (e) {
-      Get.snackbar('Error', 'Error fetching doctors: $e');
-    }
+  double calculateDistance(
+    double startLatitude,
+    double startLongitude,
+    double endLatitude,
+    double endLongitude,
+  ) {
+    return Geolocator.distanceBetween(
+        startLatitude, startLongitude, endLatitude, endLongitude);
   }
 
   Future<void> _getLocation() async {
     var status = await Permission.location.request();
     if (status.isGranted) {
       try {
-        Position position = await Geolocator.getCurrentPosition(
+        currentPosition = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
-        await _getAddressFromLatLng(position);
+
+        debugPrint(
+            "Lokasi pengguna: ${currentPosition!.latitude}, ${currentPosition!.longitude}");
+
+        await _getAddressFromLatLng(currentPosition!);
       } catch (e) {
         _currentAddress.value = "Failed to get location: $e";
       }

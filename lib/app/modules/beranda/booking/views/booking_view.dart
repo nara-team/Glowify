@@ -115,6 +115,16 @@ class BookingView extends GetView<BookingController> {
                                 final operationalEnd =
                                     klinik.operationalEnd ?? 'tidak tersedia';
 
+                                debugPrint(
+                                    "Distance for clinic ${klinik.namaKlinik}: ${klinik.distance}");
+
+                                final distanceText = klinik.distance != null &&
+                                        klinik.distance! > 0
+                                    ? (klinik.distance! >= 1000
+                                        ? '${(klinik.distance! / 1000).toStringAsFixed(2)} km'
+                                        : '${klinik.distance!.toStringAsFixed(2)} meter')
+                                    : 'tidak diketahui';
+
                                 return ClinicCard(
                                   onTap: () {
                                     Get.toNamed('/bookingdetail',
@@ -126,7 +136,7 @@ class BookingView extends GetView<BookingController> {
                                   openHours:
                                       '$operationalStart - $operationalEnd',
                                   address: addressString,
-                                  distance: 'Jarak tidak tersedia',
+                                  distance: distanceText,
                                 );
                               },
                             ),
